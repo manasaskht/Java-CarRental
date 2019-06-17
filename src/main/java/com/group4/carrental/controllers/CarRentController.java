@@ -17,6 +17,7 @@ public class CarRentController {
 
     @GetMapping("/carrent")
     public String carToRent(Model model){
+
         return "carrent";
     }
 
