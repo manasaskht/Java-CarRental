@@ -24,41 +24,28 @@ public class UpdatePasswordController {
     }
 
     @RequestMapping(value = "/update_password", method = RequestMethod.GET)
-    public String updatePassword(Model model){
-
-
+    public String updatePassword(){
         return  "updatepassword";
     }
 
-    /*@RequestMapping("/update_password/{userId}")
-    public String updatePasswordwithId(@PathVariable String userId, Model model){
-
-        String pass = updatePasswordService.getUserOldPassword(userId);
-        model.addAttribute("pass",pass);
-
-
-        return  "updatepassword";
-    }*/
 
     @RequestMapping(value = "/update_password", method = RequestMethod.POST)
-    public ModelAndView saveUserPassword(@ModelAttribute("password")Password password, HttpSession session){
+    public String saveUserPassword(@ModelAttribute("password")Password password, HttpSession session,Model model){
 
         ModelAndView modelAndView;
 
-        String isPasswordValid = updatePasswordService.validateOldPassword("1",password);
+        boolean isPasswordValid = updatePasswordService.validateOldPassword("1",password);
 
         //String isPasswordValid = updatePasswordService.validateOldPassword(String.valueOf(session.getAttribute("username")),password);
         System.out.println("message" +isPasswordValid);
 
-        if (isPasswordValid.equals("SUCCESS")) {
+        if (isPasswordValid) {
             updatePasswordService.updatePassword(password);
-            modelAndView = new ModelAndView("redirect:/carrent");
+            return  "redirect:/carrent";
 
         }else {
-            modelAndView =new ModelAndView("updatepassword");
-            modelAndView.addObject("error", "Invalid old Password");
+            model.addAttribute("error", "Invalid old Password");
+            return "updatepassword";
         }
-
-        return modelAndView;
     }
 }

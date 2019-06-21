@@ -4,27 +4,50 @@
 </head>
 <body>
 
-    <h2> Update password</h2>
-    <br>
 
-    <form action="/update_password" method="post">
+    <br><br>
+    <div class="container">
+    <form action="/update_password" method="post" class="card p-3 bg-white">
 
-        Old Password:<br>
-        <input type="text" id="oldPassword" name="oldPassword" required>
-        <br><br>
-        New Password:<br>
-        <input type="text" id="newPassword" name="newPassword" required>
-        <br><br>
-        Confirm Password:<br>
-        <input type="text" id="confirmpassword" name="confirmpassword" required>
+        <label class="h2" >Update Password</label> <br>
+        <div class="form-group">
+            <label for="oldPassword">Old Password</label> <br>
+            <input type="password" class="form-group" id="oldPassword" name="oldPassword" required>
 
-        <br><br>
-        <input type="submit" value="Submit">
+        </div>
 
+        <div class="form-group">
+            <label for="newPassword">New Password</label> <br>
+            <input type="password" class="form-group" id="newPassword" name="newPassword" required>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label> <br>
+            <input type="password" class="form-group" id="confirmPassword" name="confirmPassword" onkeyup="onTypeValidate();" required>
+            <span id="message"></span>
+        </div>
+
+        <div>
+        <button class ="btn btn-dark" onclick="return onTypeValidate();">Submit</button>
+        </div>
+
+        <br>
+        <div>
+            <span>${error}</span>
+        </div>
     </form>
-    <br>
-    ${error}
+    </div>
+
+
+
+
+
+
+
+
+
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="/js/index.js"></script>
+    <script src="/js/updatepassword.js"></script>
 </body>
 </html>

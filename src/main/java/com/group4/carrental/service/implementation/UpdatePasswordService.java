@@ -21,14 +21,22 @@ public class UpdatePasswordService implements IUpdatePasswordService {
     }
 
     @Override
-    public String validateOldPassword(String userId, Password password){
+    public boolean validateOldPassword(String userId, Password password){
 
            String oldPassword =  updatePasswordDAO.getUserOldPassword(userId);
            if(password.getOldPassword().equals(oldPassword)){
-               return "SUCCESS";
-           }else {
-               return "Invalid password";
+               return true;
            }
+
+           return false;
+    }
+
+    @Override
+    public boolean validateNewPassword(Password password) {
+        if(password.getNewPassword().equals(password.getOldPassword())){
+            return true;
+        }
+        return false;
     }
 
 
