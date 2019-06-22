@@ -23,13 +23,14 @@ public class UpdatePasswordController {
         this.updatePasswordService = updatePasswordService;
     }
 
-    @RequestMapping(value = "/update_password", method = RequestMethod.GET)
+
+    @GetMapping("/update_password")
     public String updatePassword(){
         return  "updatepassword";
     }
 
 
-    @RequestMapping(value = "/update_password", method = RequestMethod.POST)
+    @PostMapping(value ="/update_password" )
     public String saveUserPassword(@ModelAttribute("password")Password password, HttpSession session,Model model){
 
         ModelAndView modelAndView;
