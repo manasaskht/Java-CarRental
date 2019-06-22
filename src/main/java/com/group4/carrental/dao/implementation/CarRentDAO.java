@@ -4,12 +4,10 @@ import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.ICarRentDAO;
 import com.group4.carrental.model.Car;
 import com.group4.carrental.model.CarType;
-import org.apache.xmlbeans.impl.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.*;
 import java.util.ArrayList;
 
