@@ -1,50 +1,59 @@
 package com.group4.carrental.model;
 
 public class User {
-	private String name;
-	private String password;
-	private String city;
-	private String emailID;
-	 private int userID;
 
-	public String getName() {
-		return name;
-	}
+    private Integer UserId;
+    private String name;
+    private String email;
+    private Integer city_id;
+    private String password;
+    private String confirmPassword;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public int getUserId() {
+        return UserId;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setUserId(int userId) {
+        UserId = userId;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getEmailID() {
-		return emailID;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setEmailID(String emailID) {
-		this.emailID = emailID;
-	}
+    public Integer getCity_id() {
+        return city_id;
+    }
 
-	public int getUserID() {
-		return userID;
-	}
+    public void setCity_id(Integer city_id) {
+        this.city_id = city_id;
+    }
 
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
 }

@@ -24,6 +24,7 @@ public class CarRentController {
     public String carToRent(Model model){
         ArrayList<CarType> carTypeArrayList = carRentService.getCarType();
         model.addAttribute("carType",carTypeArrayList);
+
         return "carrent";
     }
 

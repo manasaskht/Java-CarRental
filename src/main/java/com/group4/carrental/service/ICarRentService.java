@@ -1,5 +1,10 @@
 package com.group4.carrental.service;
 
+
+
+public interface ICarRentService {
+
+
 import com.group4.carrental.model.Car;
 import com.group4.carrental.model.CarType;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +22,7 @@ public interface ICarRentService {
     public void addCar(Car car, MultipartFile carImage);
     public Car getCarById(int id);
     public ArrayList<CarType> getCarType();
+
 
 
 }

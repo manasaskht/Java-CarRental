@@ -1,8 +1,12 @@
 package com.group4.carrental.service.implementation;
 
 import com.group4.carrental.dao.ICarRentDAO;
+
+import com.group4.carrental.model.User;
+
 import com.group4.carrental.model.Car;
 import com.group4.carrental.model.CarType;
+
 import com.group4.carrental.service.ICarRentService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,8 @@ public class CarRentService implements ICarRentService {
     public CarRentService(@Qualifier("CarRentDao") ICarRentDAO carRentDAO) {
         this.carRentDAO = carRentDAO;
     }
+
+
 
     @Override
     public boolean validCarModel(String string) {
@@ -106,6 +112,7 @@ public class CarRentService implements ICarRentService {
     public ArrayList<CarType> getCarType() {
         return carRentDAO.getCarType();
     }
+
 
 
 }
