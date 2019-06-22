@@ -11,7 +11,7 @@
                 <div class="form-group">
                     <label for="model">Car Model</label>
                     <input type="text" class="form-control" id="model" name="model" placeholder="Enter Car Model Name"
-                           required minlength="5">
+                           required minlength="5" maxlength="50">
                     <c:if test="${modelError != null}">
                         <p style="color: red">${modelError}</p>
                     </c:if>
@@ -19,16 +19,16 @@
                 <div class="form-group">
                     <label for="description">Description</label>
                     <input type="text" class="form-control" id="description" name="description"
-                           placeholder="Enter Car Description" required minlength="10">
+                           placeholder="Enter Car Description" required minlength="10" maxlength="50">
                     <c:if test="${descriptionError != null}">
                         <p style="color: red">${descriptionError}</p>
                     </c:if>
                 </div>
                 <div class="form-group">
                     <label for="carTypeId">Select City</label>
-                    <select class="form-control" id="carCity" name="carTypeId">
-                        <c:forEach items="${carType}" var="carType">
-                            <option value="${carType.carTypeId}">${carType.carTypeName}</option>
+                    <select class="form-control" id="city" name="city">
+                        <c:forEach items="${city}" var="city">
+                            <option value="${city.cityId}">${city.cityName}</option>
                         </c:forEach>
                     </select>
                     <c:if test="${cityError != null}">

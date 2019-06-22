@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface ICarRentDAO {
 
-    public void addCar(Car car, Blob carImage);
+    public void addCar(Car car, Blob carImage, int userId);
     public Car getCarById(int id);
     public ArrayList<CarType> getCarType();
 
