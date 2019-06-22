@@ -2,11 +2,12 @@ package com.group4.carrental.model;
 
 public class User {
 
-    private int UserId;
+    private Integer UserId;
     private String name;
     private String email;
-    private String city;
+    private Integer city_id;
     private String password;
+    private String confirmPassword;
 
     public int getUserId() {
         return UserId;
@@ -32,12 +33,12 @@ public class User {
         this.email = email;
     }
 
-    public String getCity() {
-        return city;
+    public Integer getCity_id() {
+        return city_id;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCity_id(Integer city_id) {
+        this.city_id = city_id;
     }
 
     public String getPassword() {
@@ -46,5 +47,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }
