@@ -71,13 +71,8 @@ public class CarRentDAO implements ICarRentDAO {
                     String description = resultSet.getString("description");
                     car.setDescription(description);
                     Blob carImage = resultSet.getBlob("image");
-                    byte[] image = Base64.encode(carImage.getBytes(1, (int) carImage.length()));
                     String carImageData = null;
-                    try {
-                        carImageData = new String(image, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                    carImageData = new String(carImage.getBytes(1l, (int) carImage.length()));
                     car.setImageURL(carImageData);
                 }
             }

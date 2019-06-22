@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 @Controller
@@ -21,14 +22,26 @@ public class CarRentController {
     }
 
     @GetMapping("/carrent")
-    public String carToRent(Model model){
+    public String carToRent(Model model, HttpSession session){
+        int sessionId = 0;
+        try {
+            sessionId = (int) session.getAttribute("user_id");
+        }catch (NullPointerException exception){
+            return "redirect:login";
+        }
         ArrayList<CarType> carTypeArrayList = carRentService.getCarType();
         model.addAttribute("carType",carTypeArrayList);
         return "carrent";
     }
 
     @PostMapping("/carrent")
-    public String carRentDetails(Model model, @ModelAttribute("car") Car car, @RequestParam("carImage")MultipartFile carImage){
+    public String carRentDetails(Model model, @ModelAttribute("car") Car car, @RequestParam("carImage")MultipartFile carImage, HttpSession session){
+        int sessionId = 0;
+        try {
+            sessionId = (int) session.getAttribute("user_id");
+        }catch (NullPointerException exception){
+            return "redirect:login";
+        }
         boolean error = false;
         System.out.println(car.getCarTypeId());
         System.out.println(carImage.getSize());
