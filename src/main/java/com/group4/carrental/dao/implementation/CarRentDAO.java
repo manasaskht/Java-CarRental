@@ -4,12 +4,10 @@ import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.ICarRentDAO;
 import com.group4.carrental.model.Car;
 import com.group4.carrental.model.CarType;
-import org.apache.xmlbeans.impl.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -71,13 +69,8 @@ public class CarRentDAO implements ICarRentDAO {
                     String description = resultSet.getString("description");
                     car.setDescription(description);
                     Blob carImage = resultSet.getBlob("image");
-                    byte[] image = Base64.encode(carImage.getBytes(1, (int) carImage.length()));
                     String carImageData = null;
-                    try {
-                        carImageData = new String(image, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                    carImageData = new String(carImage.getBytes(1l, (int) carImage.length()));
                     car.setImageURL(carImageData);
                 }
             }
