@@ -1,10 +1,10 @@
 package com.group4.carrental.model;
 
-public class Car {
+public class Car{
 
     private String model;
     private String description;
-    private String city;
+    private int city;
     private int carTypeId;
     private double carRate;
     private String imageURL;
@@ -27,11 +27,11 @@ public class Car {
         this.description = description;
     }
 
-    public String getCity() {
+    public int getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(int city) {
         this.city = city;
     }
 
