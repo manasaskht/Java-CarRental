@@ -6,5 +6,6 @@ public interface IUpdatePasswordDAO {
 
     public String getUserOldPassword(String userId);
 
+
     public void updatePassword(Password password);
 }
