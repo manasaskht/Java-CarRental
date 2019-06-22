@@ -1,9 +1,7 @@
 package com.group4.carrental.dao.implementation;
 
 import com.group4.carrental.connection.IDatabaseConnection;
-import com.group4.carrental.connection.implementation.DatabaseConnection;
 import com.group4.carrental.dao.IUserSignUpDAO;
-import com.group4.carrental.model.Car;
 import com.group4.carrental.model.City;
 import com.group4.carrental.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,12 +121,11 @@ public class UserSignUpDAO implements IUserSignUpDAO {
         try {
 
             connection = databaseConnection.getDBConnection();
-            String updateQuery = "UPDATE User SET name=?, city_id=?, email=? WHERE user_id=?";
+            String updateQuery = "UPDATE User SET name=?, city_id=? WHERE user_id=?";
             updateStatement = connection.prepareStatement(updateQuery);
             updateStatement.setString(1, user.getName());
             updateStatement.setInt(2, user.getCity_id());
-            updateStatement.setString(3, user.getEmail());
-            updateStatement.setInt(4, 1);
+            updateStatement.setInt(3, 1);
             updateStatement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {

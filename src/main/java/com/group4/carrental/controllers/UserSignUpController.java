@@ -120,10 +120,34 @@ public class UserSignUpController
     @PostMapping("/userUpdateProfile")
     public String userUpdateProfile(@ModelAttribute("user") User user, Model model)
     {
+        boolean isValid=true;
 
-        iUserSignUpService.updateUserProfileDetails(user);
-        model.addAttribute("userData",user);
-        return "redirect:/homePage";
+        if(!iUserSignUpService.validUserName(user.getName()))
+        {
+            model.addAttribute("nameUpdateError","please enter name");
+            isValid=false;
+        }
+        if(!iUserSignUpService.validUserCity(user.getCity_id()))
+        {
+            model.addAttribute("cityUpdateError","please select city");
+            isValid=false;
+        }
+
+        if(isValid)
+        {
+            iUserSignUpService.updateUserProfileDetails(user);
+            iUserSignUpService.updateUserProfileDetails(user);
+            model.addAttribute("userData",user);
+            return "redirect:/homePage";
+        }
+        else
+        {
+            ArrayList<City> cityArrayList=iUserSignUpService.getCityList();
+            model.addAttribute("cityArrayList",cityArrayList);
+            model.addAttribute("userData",user);
+            return "userUpdateProfile";
+        }
+
     }
 
     @GetMapping("/homePage")

@@ -32,20 +32,17 @@
                     <div class="col-lg-4">
                         <br/>
                         <div class="formTitle">
-                            Sign Up
+                            Update Profile
                         </div>
                         <br/>
 
                         <br/>
                         <div class="form-group">
                             <label for="name">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name"  value="<%=user.getName()%>" required>
+                            <input type="text" class="form-control" id="name" name="name"  value="<%=user.getName()%>">
+                            <p class="error-msg">${nameUpdateError}</p>
                         </div>
-                        <div class="form-group">
-                            <label for="email">E-mail Address</label>
-                            <input type="email" name="email" id="email" class="form-control" value="<%=user.getEmail()%>" required>
 
-                        </div>
                         <div class="form-group">
                             <label for="city">City:</label>
                             <select class="form-control" name="city_id" id="city">
@@ -56,7 +53,7 @@
                                 <option value="<%=cityArrayList.get(temp).getCityId()%>"><%=cityArrayList.get(temp).getCityName()%></option>
                                 <%}}%>
                             </select>
-                            <p class="error-msg">${cityError}</p>
+                            <p class="error-msg">${cityUpdateError}</p>
 
                         </div>
                         <br/>
