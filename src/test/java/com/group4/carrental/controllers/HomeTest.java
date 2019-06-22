@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest
-public class HomeControllerTest {
+public class HomeTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -21,7 +21,7 @@ public class HomeControllerTest {
     public void testHMethod() throws Exception {
         this.mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Hello World Agian Again"));
+                .andExpect(content().string("Hello World"));
     }
 
 
