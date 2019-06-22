@@ -1,10 +1,4 @@
 package com.group4.carrental.service;
-
-
-
-public interface ICarRentService {
-
-
 import com.group4.carrental.model.Car;
 import com.group4.carrental.model.CarType;
 import org.springframework.web.multipart.MultipartFile;
