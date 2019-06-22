@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/")
-public class HomeController {
+public class Home {
 
     @GetMapping()
     public String getHome(){
-        return "Hello World Agian Again";
+        return "Hello World";
     }
 
 }
