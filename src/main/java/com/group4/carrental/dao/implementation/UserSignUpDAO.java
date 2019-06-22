@@ -43,7 +43,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
             userDetailsSaveStatement.setString(4, user.getPassword());
 
             userDetailsSaveStatement.execute();
-            databaseConnection.closeDBConnection(connection);
+
         }
         catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
@@ -71,14 +71,14 @@ public class UserSignUpDAO implements IUserSignUpDAO {
         User user = new User();
         Connection connection = null;
         ResultSet resultSet = null;
-        Statement getUserDeatailsStatement=null;
+        PreparedStatement getUserDeatailsStatement=null;
 
         try {
             connection = databaseConnection.getDBConnection();
-            String getUserQuery = "SELECT * FROM User";
-
-            getUserDeatailsStatement = connection.createStatement();
-            resultSet = getUserDeatailsStatement.executeQuery(getUserQuery);
+            String getUserQuery = "select * from User WHERE user_id=?";
+            getUserDeatailsStatement = connection.prepareStatement(getUserQuery);
+            getUserDeatailsStatement.setInt(1,userId);
+            resultSet = getUserDeatailsStatement.executeQuery();
 
             while (resultSet.next()) {
                 String name = resultSet.getString("name");
@@ -123,14 +123,14 @@ public class UserSignUpDAO implements IUserSignUpDAO {
         try {
 
             connection = databaseConnection.getDBConnection();
-            String updateQuery = "UPDATE User SET name=?, city=?, email=? WHERE user_id=?";
+            String updateQuery = "UPDATE User SET name=?, city_id=?, email=? WHERE user_id=?";
             updateStatement = connection.prepareStatement(updateQuery);
             updateStatement.setString(1, user.getName());
             updateStatement.setInt(2, user.getCity_id());
             updateStatement.setString(3, user.getEmail());
             updateStatement.setInt(4, 1);
             updateStatement.executeUpdate();
-            databaseConnection.closeDBConnection(connection);
+
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
@@ -169,7 +169,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
                 }
 
             }
-            databaseConnection.closeDBConnection(connection);
+
         }
         catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
@@ -216,7 +216,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
 
             }
 
-            databaseConnection.closeDBConnection(connection);
+
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();

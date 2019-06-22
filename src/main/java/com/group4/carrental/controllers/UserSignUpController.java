@@ -108,9 +108,10 @@ public class UserSignUpController
     }
 
     @GetMapping("/userUpdateProfile")
-    public String userUpdateProfilePage(Model model)
+    public String userUpdateProfile(Model model)
     {
-
+        ArrayList<City> cityArrayList=iUserSignUpService.getCityList();
+        model.addAttribute("cityArrayList",cityArrayList);
         User userData=iUserSignUpService.getUserDetails(1);
         model.addAttribute("userData",userData);
         return "userUpdateProfile";
@@ -122,13 +123,13 @@ public class UserSignUpController
 
         iUserSignUpService.updateUserProfileDetails(user);
         model.addAttribute("userData",user);
-        return "redirect:/HomePage";
+        return "redirect:/homePage";
     }
 
     @GetMapping("/homePage")
     public String homePage()
     {
-       return "HomePage";
+       return "homePage";
     }
 
 
