@@ -1,9 +1,7 @@
 package com.group4.carrental.dao.implementation;
 
 import com.group4.carrental.connection.IDatabaseConnection;
-import com.group4.carrental.connection.implementation.DatabaseConnection;
 import com.group4.carrental.dao.IUserSignUpDAO;
-import com.group4.carrental.model.Car;
 import com.group4.carrental.model.City;
 import com.group4.carrental.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
