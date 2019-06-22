@@ -8,17 +8,17 @@
 <div class="container">
     <h3>Login page</h3>
     <form method="post"
-          action="/home">
+          action="/login">
         <table border="0" cellpadding="2" cellspacing="2">
             <tr>
                 <td>Username</td>
-                <td><input type="text" name="emailID"></td>
-              
+                <td><input type="text" name="email"></td>
+
             </tr>
             <tr>
                 <td>Password</td>
                 <td><input type="password" name="password"></td>
-                
+
             </tr>
             <tr>
                 <td></td>
@@ -26,12 +26,12 @@
             </tr>
         </table>
     </form>
-       <c:if test="${Invalid_Email!= null}">
-                        <p style="color: red">${Invalid_Email}</p>
-                    </c:if>
-<c:if test="${Invalid_Password!= null}">
-                        <p style="color: red">${Invalid_Password}</p>
-                    </c:if>
+    <c:if test="${Invalid_Email!= null}">
+        <p style="color: red">${Invalid_Email}</p>
+    </c:if>
+    <c:if test="${Invalid_Password!= null}">
+        <p style="color: red">${Invalid_Password}</p>
+    </c:if>
 </div>
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="/js/index.js"></script>

@@ -10,10 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.ILoginDAO;
+import com.group4.carrental.model.User;
 
 @Repository("LoginDAO")
 public class LoginDAO implements ILoginDAO {
-	
+
 	@Autowired
 	private IDatabaseConnection databaseConnection;
 
@@ -29,14 +30,14 @@ public class LoginDAO implements ILoginDAO {
 			st = dbconnect.prepareStatement(query);
 			rs = st.executeQuery(query);
 			while (rs.next()) {
-				 passwordDB = rs.getString("password");
-				
+				passwordDB = rs.getString("password");
+
 			}
 
-			
-		} 
+
+		}
 		catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
+			e.printStackTrace();
 		} finally {
 			try {
 				rs.close();
@@ -44,10 +45,44 @@ public class LoginDAO implements ILoginDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		return  passwordDB;	
-		
+		return  passwordDB;
+
+	}
+
+	@Override
+	public int getUserId(User user) {
+		// TODO Auto-generated method stub
+		Connection dbconnect;
+		String query = ("select user_id from User where email='" + user.getEmail() + "';");
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		int userId = 0;
+
+		try {
+			dbconnect = databaseConnection.getDBConnection();
+			st = dbconnect.prepareStatement(query);
+			rs = st.executeQuery(query);
+			while (rs.next()) {
+				userId = rs.getInt("user_id");
+
+			}
+
+
+		}
+		catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return  userId;
 	}
 
 }

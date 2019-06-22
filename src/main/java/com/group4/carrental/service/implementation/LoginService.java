@@ -16,47 +16,56 @@ public class LoginService implements ILoginService {
 	@Autowired
 	private ILoginDAO loginDAO;
 
-		
+
 	public LoginService(@Qualifier("LoginDAO") ILoginDAO loginDAO) {
-	    this.loginDAO = loginDAO;
+		this.loginDAO = loginDAO;
 	}
-		 
-		 @Override 
-		public boolean isUserValid(User user){
-			 if (null == user.getEmailID() || null == user.getPassword()) {
-					return false;
-				} else if (user.getEmailID().isEmpty() || user.getPassword().isEmpty()) {
-					return false;
-				} else {
-			String passwordDB = loginDAO.getPassword(user.getEmailID());
+
+	@Override
+	public boolean isUserValid(User user){
+
+		if (null == user.getEmail() || null == user.getPassword()) {
+			return false;
+		} else if (user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
+			return false;
+		} else {
+			String passwordDB = loginDAO.getPassword(user.getEmail());
 			if (user.getPassword().equals(passwordDB)) {
 				return true;
 			} else {
 				return false;
 			}
-				}
-			}
-			
-		
-		
-		@Override
-		public boolean isValidUserEmail(String emailID) {
-			if (null != emailID) {
-				if (!emailID.trim().isEmpty()) {
-					if (emailID.contains("@")) {
-						return true;
-					}
-				}
-			}
-			return false;
 		}
-		@Override
-		public boolean isValidPassword(String password) {
-			if (null != password) {
-				if (!password.trim().isEmpty()) {
+	}
+
+
+
+
+
+	@Override
+	public boolean isValidUserEmail(String emailID) {
+		if (null != emailID) {
+			if (!emailID.trim().isEmpty()) {
+				if (emailID.contains("@")) {
 					return true;
 				}
 			}
-			return false;
 		}
+		return false;
 	}
+	@Override
+	public boolean isValidPassword(String password) {
+		if (null != password) {
+			if (!password.trim().isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public int getUserId(User user) {
+		// TODO Auto-generated method stub
+		return loginDAO.getUserId(user);
+	}
+}
