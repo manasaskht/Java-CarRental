@@ -5,6 +5,13 @@
 </head>
 <body>
 <div class="container">
+
+    <p>bhumi</p>
+    <button class="btn btn-primary">Hello </button>
+    <select id="select">
+        <option>Abcd</option>
+    </select>
+
     <div class="row">
         <div class="col-sm-12">
             <form method="POST" action="/carrent" enctype="multipart/form-data">
@@ -66,8 +73,9 @@
             </form>
         </div>
     </div>
+
 </div>
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="/js/index.js"></script>
 </body>
-</html>
+    </html>

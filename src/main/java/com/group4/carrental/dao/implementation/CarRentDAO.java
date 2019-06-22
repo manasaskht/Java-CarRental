@@ -24,6 +24,9 @@ public class CarRentDAO implements ICarRentDAO {
     }
 
 
+
+
+
     @Override
     public void addCar(Car car, Blob carImage) {
         String query = "insert into Car(owner_id, city, description, car_type_id, rate, image, status_id)\n" +
@@ -131,4 +134,5 @@ public class CarRentDAO implements ICarRentDAO {
 
         return carTypes;
     }
+
 }
