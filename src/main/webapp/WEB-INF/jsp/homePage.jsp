@@ -16,7 +16,7 @@
                         <a class="nav-link" href="userUpdateProfile">Update User Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="update_password">Update User Password</a>
+                        <a class="nav-link" href="update-password">Update User Password</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="carrent">Car Rent</a>
