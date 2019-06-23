@@ -8,7 +8,7 @@
 <div class="container">
     <h3>Login page</h3>
     <form method="post"
-          action="/login">
+          action="/login" >
         <table border="0" cellpadding="2" cellspacing="2">
             <tr>
                 <td>Username</td>
@@ -26,7 +26,7 @@
            
         </table>
          <input type="submit" value="Login">
-                <input type="button" value="SignUp">
+        <button onclick="location.href='/userSignUp'" type="button"> Sign Up </button>
     </form>
     <c:if test="${Invalid_Email!= null}">
         <p style="color: red">${Invalid_Email}</p>
@@ -37,5 +37,6 @@
 </div>
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="/js/index.js"></script>
+<script src="/js/updatepassword.js"></script>
 </body>
 </html>

@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.group4.carrental.model.User;
 import com.group4.carrental.service.ILoginService;
 
+import java.io.UnsupportedEncodingException;
+
 @Controller
 public class LoginController {
 	@Autowired
@@ -24,7 +26,7 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String loginProcess(Model model, @ModelAttribute("user") User user, HttpSession session) {
+	public String loginProcess(Model model, @ModelAttribute("user") User user, HttpSession session) throws UnsupportedEncodingException {
 
 		if (LoginService.isUserValid(user)) {
 			int userId = LoginService.getUserId(user);
