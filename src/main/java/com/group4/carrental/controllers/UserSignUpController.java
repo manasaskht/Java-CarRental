@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Base64;
+
 
 
 @Controller
@@ -166,13 +166,6 @@ public class UserSignUpController
             return "userUpdateProfile";
         }
 
-    }
-
-    @GetMapping("/homePage")
-    public String homePage()
-    {
-    	
-       return "homePage";
     }
 
 
