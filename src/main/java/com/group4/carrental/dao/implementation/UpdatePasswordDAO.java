@@ -29,7 +29,7 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
     }
 
     @Override
-    public String getUserOldPassword(String userId) {
+    public String getUserOldPassword(int userId) {
 
         String userPassword = null;
         Connection connection = null;
@@ -38,7 +38,7 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
         try {
             connection = databaseConnection.getDBConnection();
             getPasswordStatement =connection.prepareStatement(GET_PASSWORD_QUERY);
-            getPasswordStatement.setString(1,userId);
+            getPasswordStatement.setInt(1,userId);
             resultSet = getPasswordStatement.executeQuery();
 
             if(resultSet.next()){
@@ -65,14 +65,14 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
     }
 
     @Override
-    public void updatePassword(Password password) {
+    public void updatePassword(int userId,Password password) {
 
         Connection connection = null;
         try {
             connection = databaseConnection.getDBConnection();
             PreparedStatement updateStattement = connection.prepareStatement(UPDATE_PASSWORD_QUERY);
             updateStattement.setString(1, password.getNewPassword());
-            updateStattement.setString(2,"1");
+            updateStattement.setInt(2,userId);
             updateStattement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {

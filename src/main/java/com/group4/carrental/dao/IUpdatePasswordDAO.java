@@ -4,8 +4,8 @@ import com.group4.carrental.model.Password;
 
 public interface IUpdatePasswordDAO {
 
-    public String getUserOldPassword(String userId);
+    public String getUserOldPassword(int userId);
 
 
-    public void updatePassword(Password password);
+    public void updatePassword(int userId, Password password);
 }
