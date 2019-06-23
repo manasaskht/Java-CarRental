@@ -15,7 +15,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/signUpForm.css">
+
 
 </head>
 <body >
@@ -24,11 +24,11 @@
     <div class="container">
         <form name="signUpForm" action="userSignUp" method="post">
             <div class="row">
-                <div class="col-lg-12 reg">
+                <div class="col-lg-12">
                     <div class="col-lg-4">
                         <br/>
                         <div class="formTitle">
-                            Sign Up
+                            <h1> Sign Up</h1>
                         </div>
                         <br/>
 
