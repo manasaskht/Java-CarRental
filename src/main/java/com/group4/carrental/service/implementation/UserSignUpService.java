@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Base64;
 
 @Service("UserSignUpService")
 public class UserSignUpService implements IUserSignUpService {
@@ -150,4 +152,10 @@ public class UserSignUpService implements IUserSignUpService {
     }
 
 
+    @Override
+    public String getEncodedString(String originalString) throws UnsupportedEncodingException {
+
+        String encodedString = Base64.getEncoder().encodeToString(originalString.getBytes("UTF-8"));
+        return encodedString;
+    }
 }

@@ -96,8 +96,8 @@ public class UserSignUpController
         if(isDataValid)
         {
             String password=user.getPassword();
-            String encodedePassWord = Base64.getEncoder().encodeToString(password.getBytes("UTF-8"));
-            user.setPassword(encodedePassWord);
+            String encodedPassWord = iUserSignUpService.getEncodedString(password);
+            user.setPassword(encodedPassWord);
             iUserSignUpService.saveUserSignUpDetails(user);
             return "redirect:/homePage";
         }

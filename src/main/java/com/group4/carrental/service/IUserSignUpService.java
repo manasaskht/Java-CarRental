@@ -3,6 +3,7 @@ import com.group4.carrental.model.City;
 import com.group4.carrental.model.User;
 import org.springframework.ui.Model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public interface IUserSignUpService {
@@ -19,4 +20,5 @@ public interface IUserSignUpService {
     public boolean isPasswordMatch(String pwd,String confirmPwd);
     public boolean validPwd(String pwd);
     public boolean isConfirmPwdNull(String confirmPwd);
+    public String getEncodedString(String originalString) throws UnsupportedEncodingException;
 }
