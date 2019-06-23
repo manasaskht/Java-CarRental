@@ -1,5 +1,6 @@
 package com.group4.carrental.connection.implementation;
 
+import com.group4.carrental.config.DatabaseConfig;
 import com.group4.carrental.connection.IDatabaseConnection;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -13,17 +14,22 @@ import java.sql.SQLException;
 public class DatabaseConnection implements IDatabaseConnection {
 
     public static Connection dbConnection = null;
+    private DatabaseConfig databaseConfig;
+
+    public DatabaseConnection(){
+        this.databaseConfig = DatabaseConfig.getDatabaseConfig();
+    }
 
     @Override
     public Connection getDBConnection() throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException {
         if(dbConnection != null){
             return dbConnection;
         }else {
-            String username = "CSCI5308_4_DEVINT_USER";
-            String password = "CSCI5308_4_DEVINT_4202";
+            String username = this.databaseConfig.getUserName();
+            String password = this.databaseConfig.getPassword();
+            String databaseUrl = this.databaseConfig.getDatabaseUrl();
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            dbConnection = DriverManager.getConnection(
-                    "jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_4_DEVINT?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", username, password);
+            dbConnection = DriverManager.getConnection(databaseUrl,username,password);
             return dbConnection;
         }
     }
