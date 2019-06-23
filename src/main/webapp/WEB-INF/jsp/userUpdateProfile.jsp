@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label for="name">Name:</label>
                             <input type="text" class="form-control" id="name" name="name"  value="<%=user.getName()%>">
-                            <p class="error-msg">${nameUpdateError}</p>
+                            <p style="color: red">${nameUpdateError}</p>
                         </div>
 
                         <div class="form-group">
@@ -52,7 +52,7 @@
                                 <option value="<%=cityArrayList.get(temp).getCityId()%>"><%=cityArrayList.get(temp).getCityName()%></option>
                                 <%}}%>
                             </select>
-                            <p class="error-msg">${cityUpdateError}</p>
+                            <p style="color: red">${cityUpdateError}</p>
 
                         </div>
                         <br/>
