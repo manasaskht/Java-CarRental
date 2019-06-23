@@ -125,7 +125,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
             updateStatement = connection.prepareStatement(updateQuery);
             updateStatement.setString(1, user.getName());
             updateStatement.setInt(2, user.getCity_id());
-            updateStatement.setInt(3, 1);
+            updateStatement.setInt(3,user.getUserId());
             updateStatement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {

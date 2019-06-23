@@ -8,9 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Base64;
 
 
 @Controller
@@ -25,15 +26,17 @@ public class UserSignUpController
     @GetMapping("/userSignUp")
     public String userSignUpPage(Model model)
     {
+
         ArrayList<City> cityArrayList=iUserSignUpService.getCityList();
         model.addAttribute("cityArrayList",cityArrayList);
         return "userSignUp";
     }
 
     @PostMapping("/userSignUp")
-    public String saveUserDetails(@ModelAttribute("user") User user,Model model)
+    public String saveUserDetails(@ModelAttribute("user") User user,Model model) throws UnsupportedEncodingException
     {
         boolean isDataValid=true;
+
 
         if(!iUserSignUpService.validUserName(user.getName()))
         {
@@ -74,11 +77,9 @@ public class UserSignUpController
         }
         else if (!iUserSignUpService.validPwd(user.getPassword()))
         {
-            model.addAttribute("pwdError","Your password must be have at least\n" +
-                    "\n" +
-                    "8 characters long\n" +
-                    "1 uppercase & 1 lowercase character\n" +
-                    "1 number");
+            model.addAttribute("pwdError","Password must be atleast 8 characters long,\n" +
+                    "must include atleast 1 upperCase and 1 LowerCase character,\n" +
+                    "Password must include atleast one number and special character");
             isDataValid=false;
         }
         if(iUserSignUpService.isConfirmPwdNull(user.getConfirmPassword()))
@@ -88,12 +89,15 @@ public class UserSignUpController
         }
         else if(!iUserSignUpService.isPasswordMatch(user.getPassword(),user.getConfirmPassword()))
         {
-            model.addAttribute("confirmPwdError","passWord does not match");
+            model.addAttribute("confirmPwdError","password does not match");
             isDataValid=false;
         }
 
         if(isDataValid)
         {
+            String password=user.getPassword();
+            String encodedePassWord = Base64.getEncoder().encodeToString(password.getBytes("UTF-8"));
+            user.setPassword(encodedePassWord);
             iUserSignUpService.saveUserSignUpDetails(user);
             return "redirect:/homePage";
         }
@@ -108,20 +112,33 @@ public class UserSignUpController
     }
 
     @GetMapping("/userUpdateProfile")
-    public String userUpdateProfile(Model model)
+    public String userUpdateProfile(Model model, HttpSession httpSession)
     {
+        int user_id = 0;
+        try {
+            user_id = (int) httpSession.getAttribute("user_id");
+        }catch (NullPointerException exception){
+            return "redirect:login";
+        }
         ArrayList<City> cityArrayList=iUserSignUpService.getCityList();
         model.addAttribute("cityArrayList",cityArrayList);
-        User userData=iUserSignUpService.getUserDetails(1);
+        User userData=iUserSignUpService.getUserDetails(user_id);
+        userData.setUserId(user_id);
         model.addAttribute("userData",userData);
         return "userUpdateProfile";
     }
 
     @PostMapping("/userUpdateProfile")
-    public String userUpdateProfile(@ModelAttribute("user") User user, Model model)
+    public String userUpdateProfile(@ModelAttribute("user") User user, Model model,HttpSession httpSession)
     {
-        boolean isValid=true;
 
+        int user_id = 0;
+        try {
+            user_id = (int) httpSession.getAttribute("user_id");
+        }catch (NullPointerException exception){
+            return "redirect:login";
+        }
+        boolean isValid=true;
         if(!iUserSignUpService.validUserName(user.getName()))
         {
             model.addAttribute("nameUpdateError","please enter name");
@@ -132,9 +149,10 @@ public class UserSignUpController
             model.addAttribute("cityUpdateError","please select city");
             isValid=false;
         }
-
+        user.setUserId(user_id);
         if(isValid)
         {
+
             iUserSignUpService.updateUserProfileDetails(user);
             iUserSignUpService.updateUserProfileDetails(user);
             model.addAttribute("userData",user);
