@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.group4.carrental.model.User;
 import com.group4.carrental.service.ILoginService;
@@ -27,8 +28,8 @@ public class LoginController {
 
 		if (LoginService.isUserValid(user)) {
 			int userId = LoginService.getUserId(user);
-			session.setAttribute("user_id", userId);
-			return "redirect:carrent";
+			session.setAttribute("user_id", userId);			
+			return "redirect:homePage";
 		} else {
 			if (!LoginService.isValidUserEmail(user.getEmail())) {
 				model.addAttribute("Invalid_Email", "Please enter a valid email");

@@ -21,10 +21,12 @@
 
             </tr>
             <tr>
-                <td></td>
-                <td><input type="submit" value="Login"></td>
-            </tr>
+                <td></td>  </tr>
+               
+           
         </table>
+         <input type="submit" value="Login">
+                <input type="button" value="SignUp">
     </form>
     <c:if test="${Invalid_Email!= null}">
         <p style="color: red">${Invalid_Email}</p>
