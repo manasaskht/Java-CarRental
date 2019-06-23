@@ -33,7 +33,7 @@ public class CarRentService implements ICarRentService {
     @Override
     public boolean validCarModel(String model) {
         if (model != null && !model.isEmpty()) {
-            if ((model.length() >= 5) && model.length() <= 50) {
+            if ((model.length() >= 5) && (model.length() <= 50)) {
                 return true;
             } else {
                 return false;
@@ -78,7 +78,13 @@ public class CarRentService implements ICarRentService {
 
     @Override
     public boolean validCarCity(int cityId) {
-        return true;
+        ArrayList<City> cityArrayList = this.getCityList();
+        for(City city: cityArrayList){
+            if(city.getCityId() == cityId){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -117,6 +123,5 @@ public class CarRentService implements ICarRentService {
     public ArrayList<City> getCityList() {
         return this.userSignUpService.getCityList();
     }
-
 
 }
