@@ -2,6 +2,7 @@ package com.group4.carrental.controllers;
 
 import com.group4.carrental.model.Car;
 import com.group4.carrental.model.CarType;
+import com.group4.carrental.model.City;
 import com.group4.carrental.service.ICarRentService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -23,28 +24,28 @@ public class CarRentController {
 
     @GetMapping("/carrent")
     public String carToRent(Model model, HttpSession session){
-        int sessionId = 0;
+        int userId = 0;
         try {
-            sessionId = (int) session.getAttribute("user_id");
+            userId = (int) session.getAttribute("user_id");
         }catch (NullPointerException exception){
             return "redirect:login";
         }
-        ArrayList<CarType> carTypeArrayList = carRentService.getCarType();
+        ArrayList<CarType> carTypeArrayList = carRentService.getCarTypeList();
         model.addAttribute("carType",carTypeArrayList);
+        ArrayList<City> cityArrayList = carRentService.getCityList();
+        model.addAttribute("city",cityArrayList);
         return "carrent";
     }
 
     @PostMapping("/carrent")
     public String carRentDetails(Model model, @ModelAttribute("car") Car car, @RequestParam("carImage")MultipartFile carImage, HttpSession session){
-        int sessionId = 0;
+        int userId = 0;
         try {
-            sessionId = (int) session.getAttribute("user_id");
+            userId = (int) session.getAttribute("user_id");
         }catch (NullPointerException exception){
             return "redirect:login";
         }
         boolean error = false;
-        System.out.println(car.getCarTypeId());
-        System.out.println(carImage.getSize());
         if(!carRentService.validCarModel(car.getModel())){
             model.addAttribute("modelError","Please enter valid car model");
             error = true;
@@ -70,15 +71,15 @@ public class CarRentController {
             error = true;
         }
         if(error){
-            ArrayList<CarType> carTypeArrayList = carRentService.getCarType();
+            ArrayList<CarType> carTypeArrayList = carRentService.getCarTypeList();
             model.addAttribute("carType",carTypeArrayList);
+            ArrayList<City> cityArrayList = carRentService.getCityList();
+            model.addAttribute("city",cityArrayList);
             return "carrent";
         }else{
-            carRentService.addCar(car,carImage);
-            return "test";
+            carRentService.addCar(car,carImage,userId);
+            return "redirect:homePage";
         }
-
-
     }
 
 }

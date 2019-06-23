@@ -21,24 +21,20 @@ public class CarRentDAO implements ICarRentDAO {
         this.databaseConnection = databaseConnection;
     }
 
-
-
-
-
     @Override
-    public void addCar(Car car, Blob carImage) {
-        String query = "insert into Car(owner_id, city, description, car_type_id, rate, image, status_id)\n" +
+    public void addCar(Car car, Blob carImage, int userId) {
+        String query = "insert into Car(owner_id, car_city, car_description, car_type_id, car_rate, car_image,car_model)\n" +
                 "values (?,?,?,?,?,?,?);";
         try {
             Connection connection = this.databaseConnection.getDBConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, 1);
-            preparedStatement.setString(2, "City");
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, car.getCity());
             preparedStatement.setString(3, car.getDescription());
             preparedStatement.setInt(4, car.getCarTypeId());
-            preparedStatement.setString(5, String.valueOf(car.getCarRate()));
+            preparedStatement.setDouble(5, car.getCarRate());
             preparedStatement.setBinaryStream(6, carImage.getBinaryStream());
-            preparedStatement.setString(7, "12");
+            preparedStatement.setString(7, car.getModel());
 
             preparedStatement.execute();
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
