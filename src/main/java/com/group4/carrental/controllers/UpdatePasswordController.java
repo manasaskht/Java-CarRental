@@ -91,7 +91,7 @@ public class UpdatePasswordController {
             password.setNewPassword(encodeNewPassword);
             password.setConfirmPassword(encodeConfirmPassword);
             updatePasswordService.updatePassword(userId,password);
-            return  "redirect:homePage";
+            return  "redirect:/homePage";
 
         }else {
             model.addAttribute("error", "Invalid old Password");
