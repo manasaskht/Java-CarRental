@@ -58,7 +58,7 @@ private IUserSignUpService signUpService;
 		return false;
 	}
 	@Override
-	public boolean isValidPassword(String password) {
+	public boolean isEmptyPassword(String password) {
 		if (null != password) {
 			if (!password.trim().isEmpty()) {
 				return true;
@@ -69,7 +69,6 @@ private IUserSignUpService signUpService;
 
 	@Override
 	public int getUserId(User user) {
-		// TODO Auto-generated method stub
 		return loginDAO.getUserId(user);
 	}
 }

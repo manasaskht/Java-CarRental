@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.group4.carrental.model.User;
 import com.group4.carrental.service.ILoginService;
@@ -21,10 +20,12 @@ public class LoginController {
 	private ILoginService LoginService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String Login(Model model) {
-		return "login";
+	public String Login(Model model,HttpSession session) {
+		if (null == session.getAttribute("user_id")){
+			return "login";
+		}
+		return "redirect:homePage";
 	}
-
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String loginProcess(Model model, @ModelAttribute("user") User user, HttpSession session) throws UnsupportedEncodingException {
 
@@ -37,7 +38,7 @@ public class LoginController {
 				model.addAttribute("Invalid_Email", "Please enter a valid email");
 				return "login";
 			} else {
-				LoginService.isValidPassword(user.getPassword());
+				LoginService.isEmptyPassword(user.getPassword());
 				model.addAttribute("Invalid_Password", "Username/Password incorrect!!");
 				return "login";
 			}
