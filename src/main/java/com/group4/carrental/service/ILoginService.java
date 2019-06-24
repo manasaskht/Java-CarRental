@@ -6,14 +6,9 @@ import java.io.UnsupportedEncodingException;
 
 public interface ILoginService {
 
-	public boolean isValidPassword(String string);
+	public boolean isEmptyPassword(String string);
 
 	public boolean isValidUserEmail(String string);
-
-
-
-
-	//boolean isUserValid(String emailID, String password);
 
 	public int getUserId(User user);
 
