@@ -86,6 +86,6 @@ public class UserListedCarController {
         model.addAttribute("carDetails",carDetails);
 
 
-        return "editCarDetails";
+        return "carEdit";
     }
 }
