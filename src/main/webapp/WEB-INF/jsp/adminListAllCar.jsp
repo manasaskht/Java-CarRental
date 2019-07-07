@@ -16,14 +16,14 @@
                             <div class="row">
                                 <div class="col-sm-5">
                                     <img style="width:100%;height:250px"
-                                         src="data:image/jpeg;base64,${car.imageURL}"
+                                         src="data:image/jpeg;base64,${car.carImage}"
                                          border="0"/>
                                 </div>
                                 <div class="col-sm-7">
-                                    <h3>${car.model}</h3>
-                                    <p>${car.description}</p>
+                                    <h3>${car.carModel}</h3>
+                                    <p>${car.carDescription}</p>
                                     <p>${car.carRate}</p>
-                                    <p>Car Owner</p>
+                                    <p>${car.carOwnerName}</p>
                                 </div>
                             </div>
                             <div style="margin-top:25px" class="col-sm-3 offset-sm-5">

@@ -1,5 +1,6 @@
 package com.group4.carrental.controllers;
 
+import com.group4.carrental.model.AdminCar;
 import com.group4.carrental.model.Car;
 import com.group4.carrental.service.IAdminService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,7 +22,7 @@ public class AdminListCarController {
 
     @GetMapping("/admin/list-all-car")
     public String listAllCar(Model model){
-        ArrayList<Car> carArrayList = this.adminService.getAllCars();
+        ArrayList<AdminCar> carArrayList = this.adminService.getAllCars();
         model.addAttribute("carList",carArrayList);
         return "adminListAllCar";
     }
