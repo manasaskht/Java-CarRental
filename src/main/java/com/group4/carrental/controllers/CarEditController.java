@@ -69,7 +69,7 @@ public class CarEditController {
             model.addAttribute("carType",carTypeArrayList);
             ArrayList<City> cityArrayList = carEditService.getCityList();
             model.addAttribute("city",cityArrayList);
-            return "carrent";
+            return "carEdit";
         }else{
             System.out.println("car details-"+car.getDescription()+car.getCarId());
             car.setCarId(carId);
