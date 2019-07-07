@@ -7,52 +7,51 @@
 <body>
 
 
-<br><br>
-<div class="container">
+<br>
 
 
 
 
+    <div class="container" style="margin-top:10px">
 
+        <div class="row">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-8">
+                <c:forEach items="${bookedCars}" var="car">
+                    <div class="card" style="margin-top:10px">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <img style="width:100%;height:270px"
+                                     src="data:image/jpeg;base64,${car.imageURL}"
+                                     border="0"/>
+                            </div>
+                            <div class="col-sm-7">
+                                <h4>${car.carModel}</h4>
+                                <p>Car Type : ${car.carTypeName}</p>
+                                <p>Car City : ${car.cityName}</p>
+                                <p>Car Rate : ${car.carRate}</p>
+                                <p>Car Description : ${car.description}</p>
+                                <form action="/user-booked-cars" method="post">
+                                    <div>
+                                    <button class ="btn btn-dark" id="carId" name="carId" value="${car.carId}" type="submit" >Remove</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
+                </c:forEach>
 
-
-    <c:forEach items="${bookedCars}" var="car">
-
-        <div class="card p-3 bg-white">
-            <tr>
-                <td>Car Model : ${car.carModel}</td>
-                <br>
-
-                <td> Car Type : ${car.carTypeName}</td>
-                <br>
-                <td>Car City : ${car.cityName}</td>
-
-                <br>
-                <td>Car Rate : ${car.carRate}</td>
-
-                <br>
-                <td>Car Description : ${car.description}</td>
-
-            </tr>
-
-            <br>
-            <form action="/user-booked-cars" method="post">
-
-                <div>
-                    <button class ="btn btn-dark" id="carId" name="carId" value="${car.carId}" type="submit" >Remove</button>
-                </div>
-            </form>
-
+            </div>
         </div>
+    </div>
 
 
 
 
-    </c:forEach>
 
-</div>
-
+<br>
 
 
 </body>

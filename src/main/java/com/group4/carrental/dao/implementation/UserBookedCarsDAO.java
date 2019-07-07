@@ -3,14 +3,12 @@ package com.group4.carrental.dao.implementation;
 import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.IUserBookedCarsDAO;
 import com.group4.carrental.model.CarList;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 @Repository("UserBookedCarsDAO")
@@ -53,6 +51,12 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
                 car.setCityName(resultSet.getString("city_name"));
                 car.setDescription(resultSet.getString("car_description"));
                 car.setCarModel(resultSet.getString("car_model"));
+
+                Blob carImage = resultSet.getBlob("car_image");
+                String carImageData = null;
+                byte[] imageBytes = carImage.getBytes(1, (int) carImage.length());
+                carImageData = Base64.encodeBase64String(imageBytes);
+                car.setImageURL(carImageData);
 
                 carArrayList.add(car);
 
