@@ -13,7 +13,6 @@
                         <div class="formTitle">
                             <h1> Admin Page</h1>
                         </div>
-                        <hr>
                         <div>
 
                             <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/admin/list-all-car'" value="List of Cars">
@@ -23,7 +22,7 @@
                         </div>
                         <br/>
                         <div>
-                            <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/adminBlackListCars'" value="pending Request">
+                            <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/adminListPendingRequests'" value="pending Request">
                         </div><br/>
                         <div>
                             <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/adminBlackListCars'" value="Blacklist cars">

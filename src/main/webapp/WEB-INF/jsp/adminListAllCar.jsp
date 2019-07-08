@@ -7,7 +7,21 @@
     <div class="container" style="margin-top:10px">
         <div class="row">
             <div class="col-sm-4">
-
+                <br/>
+                <div class="formTitle">
+                    <h1> Admin Page</h1>
+                </div>
+                <div>
+                    <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/admin/list-all-car'" value="List of Cars">
+                </div>
+                <br/>
+                <div>
+                    <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/adminListPendingRequests'" value="pending Request">
+                </div><br/>
+                <div>
+                    <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/adminBlackListCars'" value="Blacklist cars">
+                </div><br/>
+                <br/>
             </div>
             <div class="col-sm-8">
                 <c:forEach items="${carList}" var="car">

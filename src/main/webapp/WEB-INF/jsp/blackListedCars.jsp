@@ -39,7 +39,7 @@
                             <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/admin/list-all-car'" value="List of Cars">
                         </div><br/>
                         <div>
-                            <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/adminBlackListCars'" value="pending Request">
+                            <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/adminListPendingRequests'" value="pending Request">
                         </div><br/>
                         <div>
                             <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/adminBlackListCars'" value="Blacklist cars">
@@ -67,7 +67,7 @@
                                         <p class="card-text">Description: <%=carArrayList.get(i).getCarDescription()%></p>
 
                                 <p class="card-text"></p>
-                                <input type="submit"  class="btn btn-primary   text-uppercase" onclick="removeFromBlackList(<%=carArrayList.get(i).getCarId()%>,'<%=carArrayList.get(i).getCarOwnerMail()%>')" value="Blacklist cars">
+                                <input type="submit"  class="btn btn-primary   text-uppercase" onclick="removeFromBlackList(<%=carArrayList.get(i).getCarId()%>,'<%=carArrayList.get(i).getCarOwnerMail()%>')" value="Remove">
                                     </div>
                             </div>
 
