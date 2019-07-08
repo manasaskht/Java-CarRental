@@ -36,7 +36,7 @@ public class AdminLoginController {
         Admin adminData = this.adminLoginService.validateLogin(admin);
         if(adminData != null){
             session.setAttribute("admin",adminData.getAdminId());
-            return "redirect:/admin/list-all-car";
+            return "redirect:/admin/adminPage";
         }else{
             model.addAttribute("loginError","Login Error");
             return "adminLogin";
