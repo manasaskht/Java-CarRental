@@ -6,11 +6,11 @@ import java.io.UnsupportedEncodingException;
 
 public interface ILoginService {
 
-	public boolean isEmptyPassword(String string);
+	boolean isEmptyPassword(String string);
 
-	public boolean isValidUserEmail(String string);
+	boolean isValidUserEmail(String string);
 
-	public int getUserId(User user);
+	int getUserId(User user);
 
 	boolean isUserValid(User user) throws UnsupportedEncodingException;
 

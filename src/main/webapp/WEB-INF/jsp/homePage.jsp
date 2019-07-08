@@ -2,7 +2,6 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/signUpForm.css">
 </head>
 <body>
 
@@ -13,13 +12,17 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="userUpdateProfile">Update User Profile</a>
+                        <a class="nav-link" href="carrent">Rent a Car</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="update-password">Update User Password</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="carrent">Car Rent</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">User Profile</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="user-listed-cars">Listed Cars</a>
+                            <a class="dropdown-item" href="user-booked-cars">Booked Cars </a>
+                            <a class="dropdown-item" href="userUpdateProfile">Update User Profile</a>
+                            <a class="dropdown-item" href="update-password">Update User Password</a>
+                        </div>
                     </li>
                 </ul>
                 <form class="form-inline" action="/logout" method="post">
@@ -29,6 +32,7 @@
         </nav>
     </div>
 </div>
-
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
