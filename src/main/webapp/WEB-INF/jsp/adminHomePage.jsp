@@ -15,7 +15,11 @@
                         </div>
                         <hr>
                         <div>
+
                             <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/admin/list-all-car'" value="List of Cars">
+
+                          
+
                         </div>
                         <br/>
                         <div>
