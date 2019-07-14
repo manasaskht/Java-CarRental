@@ -4,6 +4,7 @@ import com.group4.carrental.dao.CarRentDAOMock;
 import com.group4.carrental.dao.ICarRentDAO;
 import com.group4.carrental.model.Car;
 import com.group4.carrental.service.implementation.CarRentService;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import com.group4.carrental.service.implementation.UserSignUpService;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class CarRentServiceTest {
     @Before
     public void setUp(){
         this.carRentDAO = new CarRentDAOMock();
-        this.carRentService = new CarRentService(carRentDAO,mock(UserSignUpService.class));
+        this.carRentService = new CarRentService(carRentDAO,mock(UserSignUpService.class),mock(LoggerInstance.class));
     }
 
     @Test

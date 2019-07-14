@@ -24,10 +24,12 @@ public class CarRentService implements ICarRentService {
 
     private ICarRentDAO carRentDAO;
     private IUserSignUpService userSignUpService;
+    private LoggerInstance loggerInstance;
 
-    public CarRentService(@Qualifier("CarRentDao") ICarRentDAO carRentDAO, @Qualifier("UserSignUpService") IUserSignUpService userSignUpService) {
+    public CarRentService(@Qualifier("CarRentDao") ICarRentDAO carRentDAO, @Qualifier("UserSignUpService") IUserSignUpService userSignUpService, LoggerInstance loggerInstance) {
         this.carRentDAO = carRentDAO;
         this.userSignUpService = userSignUpService;
+        this.loggerInstance = loggerInstance;
     }
 
     @Override
@@ -98,6 +100,7 @@ public class CarRentService implements ICarRentService {
 
     @Override
     public void addCar(Car car, MultipartFile carImage,int userId) {
+        loggerInstance.log(0,"Car Rent Service Add Car: Called");
         byte[] image;
         try {
             image = carImage.getBytes();
@@ -111,11 +114,13 @@ public class CarRentService implements ICarRentService {
 
     @Override
     public Car getCarById(int id) {
+        loggerInstance.log(0,"Car Rent Service Get Car: Called");
         return carRentDAO.getCarById(id);
     }
 
     @Override
     public ArrayList<CarType> getCarTypeList() {
+        loggerInstance.log(0,"Car Rent Service Get Car List: Called");
         return carRentDAO.getCarType();
     }
 
