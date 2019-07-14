@@ -5,6 +5,7 @@ import com.group4.carrental.dao.IAdminBlacklistCarsDAO;
 import com.group4.carrental.model.AdminCar;
 import com.group4.carrental.model.Car;
 import com.group4.carrental.model.City;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 public class AdminBlacklistCarsDAO implements IAdminBlacklistCarsDAO {
 
     private IDatabaseConnection databaseConnection;
+    @Autowired
+    private LoggerInstance log;
 
     @Autowired
     public AdminBlacklistCarsDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection) {
@@ -26,6 +29,7 @@ public class AdminBlacklistCarsDAO implements IAdminBlacklistCarsDAO {
     @Override
     public ArrayList<AdminCar> getBlacklistCars() {
 
+        log.log(0,"In DAO:get blacklist cars list from database");
         ArrayList<AdminCar> carArrayList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement ps = null;
@@ -67,6 +71,7 @@ public class AdminBlacklistCarsDAO implements IAdminBlacklistCarsDAO {
             }
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            log.log(2,"exception in getBlacklistCars method"+e.getMessage());
             e.printStackTrace();
         }finally {
             try {
@@ -87,6 +92,7 @@ public class AdminBlacklistCarsDAO implements IAdminBlacklistCarsDAO {
     @Override
     public void updateCarStatus(int carId,int carStatus) {
 
+        log.log(0,"updateCarStatus method to update status of car in database");
         Connection connection=null;
         PreparedStatement updateCarStatement=null;
         try {
@@ -99,6 +105,7 @@ public class AdminBlacklistCarsDAO implements IAdminBlacklistCarsDAO {
             updateCarStatement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            log.log(2,"exception in updateCarStatus method"+e.getMessage());
             e.printStackTrace();
         }
         finally {
@@ -108,6 +115,7 @@ public class AdminBlacklistCarsDAO implements IAdminBlacklistCarsDAO {
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
+                log.log(2,"exception in updateCarStatus method"+e.getMessage());
                 e.printStackTrace();
             }
         }
