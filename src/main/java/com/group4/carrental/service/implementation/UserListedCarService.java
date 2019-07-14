@@ -20,37 +20,43 @@ public class UserListedCarService implements IUserListedCarService {
 
     private IUserListedCarsDAO userListedCarsDAO;
     private ICarRentService carRentService;
+    private LoggerInstance loggerInstance;
 
     @Autowired
     public UserListedCarService(@Qualifier("UserListedCarsDAO") IUserListedCarsDAO userListedCarsDAO,
-                                @Qualifier("CarRentService") ICarRentService carRentService){
+                                @Qualifier("CarRentService") ICarRentService carRentService,LoggerInstance loggerInstance){
         this.userListedCarsDAO = userListedCarsDAO;
         this.carRentService = carRentService;
+        this.loggerInstance = loggerInstance;
     }
 
     @Override
     public ArrayList<CarList> getUserListedCars(int userID) {
+        loggerInstance.log(0,"User Service Get All Listed Cars: Called");
         return userListedCarsDAO.getListedCars(userID);
     }
 
     @Override
     public void removeCarById(int carId) {
+        loggerInstance.log(0,"User Service Remove Car By Id: Called");
         userListedCarsDAO.removeCarById(carId);
     }
 
     @Override
     public CarList getCarDetailsById(int carId) {
-
+        loggerInstance.log(0,"User Get Car Details By Id: Called");
         return userListedCarsDAO.getCarDetailsById(carId);
     }
 
     @Override
     public ArrayList<CarType> getCarTypeList() {
+        loggerInstance.log(0,"User Get All Car Type List: Called");
         return carRentService.getCarTypeList();
     }
 
     @Override
     public ArrayList<City> getCityList() {
+        loggerInstance.log(0,"User Service Get All City Type List: Called");
         return carRentService.getCityList();
     }
 

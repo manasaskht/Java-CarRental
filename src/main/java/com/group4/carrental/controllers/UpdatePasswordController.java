@@ -4,6 +4,8 @@ package com.group4.carrental.controllers;
 import ch.qos.logback.core.net.SyslogOutputStream;
 import com.group4.carrental.model.Password;
 import com.group4.carrental.service.IUpdatePasswordService;
+import com.group4.carrental.service.implementation.LoggerInstance;
+import com.group4.carrental.service.implementation.LoggerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -23,18 +25,20 @@ public class UpdatePasswordController {
     private static final String PASSWORD_NOTMATCHED_ERROR = "password does not match";
     private static final String OLD_PASSWORD_ERROR = "Old Password does not matched";
 
-    @Autowired
-    IUpdatePasswordService  updatePasswordService;
 
+    private IUpdatePasswordService  updatePasswordService;
+    private LoggerInstance loggerInstance;
 
-    public  UpdatePasswordController(@Qualifier("UpdatePasswordService") IUpdatePasswordService updatePasswordService){
+    public  UpdatePasswordController(@Qualifier("UpdatePasswordService") IUpdatePasswordService updatePasswordService,
+                                     LoggerInstance loggerInstance){
         this.updatePasswordService = updatePasswordService;
+        this.loggerInstance = loggerInstance;
     }
 
 
     @GetMapping("/update-password")
     public String updatePassword(HttpSession session){
-
+        loggerInstance.log(0,"User update password: Called");
         int userId = 0;
         try {
            userId = (int) session.getAttribute("user_id");
@@ -47,7 +51,7 @@ public class UpdatePasswordController {
     }
     @PostMapping(value ="/update-password" )
     public String saveUserPassword(@ModelAttribute("password")Password password, HttpSession session,Model model) throws UnsupportedEncodingException {
-
+        loggerInstance.log(0,"User new password submit : called");
         int userId =0;
         try {
             userId = (int) session.getAttribute("user_id");

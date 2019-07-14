@@ -4,6 +4,7 @@ package com.group4.carrental.controllers;
 import com.group4.carrental.model.CarList;
 import com.group4.carrental.service.IUserBookedCarService;
 import com.group4.carrental.service.IUserListedCarService;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,15 +19,20 @@ import java.util.ArrayList;
 public class UserBookedCarController {
 
     private IUserBookedCarService  userBookedCarService;
+    private LoggerInstance loggerInstance;
 
-    public UserBookedCarController(@Qualifier("UserBookedCarService") IUserBookedCarService  userBookedCarService){
+    public UserBookedCarController(@Qualifier("UserBookedCarService") IUserBookedCarService  userBookedCarService,
+                                   LoggerInstance loggerInstance){
 
         this.userBookedCarService = userBookedCarService;
+        this.loggerInstance = loggerInstance;
     }
 
 
     @GetMapping("/user-booked-cars")
     public String userBookedCars(Model model, HttpSession session){
+        loggerInstance.log(0,"User Booked car: Called");
+
         int userId = 0;
 
         try {
@@ -43,7 +49,7 @@ public class UserBookedCarController {
 
     @PostMapping("/user-booked-cars")
     public String removeCarFromBookedCar(@RequestParam("carId") int carId, Model model, HttpSession session){
-
+        loggerInstance.log(0,"User Removed Car From Booked Car: Called");
         int userId = 0;
         try {
             userId = (int) session.getAttribute("user_id");

@@ -4,6 +4,7 @@ import com.group4.carrental.model.CarList;
 import com.group4.carrental.model.CarType;
 import com.group4.carrental.model.City;
 import com.group4.carrental.service.IUserListedCarService;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -19,17 +20,19 @@ import java.util.ArrayList;
 public class UserListedCarController {
 
     private IUserListedCarService userListedCarService;
+    private LoggerInstance loggerInstance;
 
     @Autowired
-    public UserListedCarController(@Qualifier("UserListedCarService") IUserListedCarService userListedCarService){
+    public UserListedCarController(@Qualifier("UserListedCarService") IUserListedCarService userListedCarService,
+                                   LoggerInstance loggerInstance){
         this.userListedCarService = userListedCarService;
-
+        this.loggerInstance = loggerInstance;
     }
 
 
     @GetMapping("/user-listed-cars")
     public String userListedCars(Model model, HttpSession session){
-
+        loggerInstance.log(0,"User Listed Cars: Called");
         int userId = 0;
 
         try {
@@ -49,7 +52,7 @@ public class UserListedCarController {
 
     @PostMapping("/user-listed-cars")
     public String removeCarFromListedCar(@RequestParam("carId") int carId, Model model, HttpSession session){
-
+        loggerInstance.log(0,"User Remove Car From Listed Car: Called");
         int userId = 0;
         try {
             userId = (int) session.getAttribute("user_id");
@@ -67,7 +70,7 @@ public class UserListedCarController {
 
     @GetMapping("edit-car-details")
     public String editCarDetails(@RequestParam("carIdEdit") int carId,HttpSession session, Model model){
-
+        loggerInstance.log(0,"User Car Edit Details: Called");
         int userId = 0;
         try {
             userId = (int) session.getAttribute("user_id");

@@ -3,6 +3,7 @@ package com.group4.carrental.dao.implementation;
 import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.IUpdatePasswordDAO;
 import com.group4.carrental.model.Password;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 public class UpdatePasswordDAO implements IUpdatePasswordDAO {
 
     private IDatabaseConnection databaseConnection;
+    private LoggerInstance loggerInstance;
 
     private static final String USER_TABLE = "User";
     private static final String PASSWORD_FIELD = "password";
@@ -24,8 +26,10 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
 
 
     @Autowired
-    public UpdatePasswordDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection){
+    public UpdatePasswordDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection,
+                             LoggerInstance loggerInstance){
         this.databaseConnection = databaseConnection;
+        this.loggerInstance = loggerInstance;
     }
 
     @Override
@@ -46,6 +50,7 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
             }
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            loggerInstance.log(2,"Get user Old password DAO Error :"+e.toString());
             e.printStackTrace();
         } finally {
             try {
@@ -57,10 +62,11 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
+                loggerInstance.log(2,"Get user Old password DAO Error :"+e.toString());
                 e.printStackTrace();
             }
         }
-
+        loggerInstance.log(0,"Get user Old password DAO : Success");
         return userPassword;
     }
 
@@ -76,14 +82,20 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
             updateStattement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            loggerInstance.log(2,"User update password DAO Error :"+e.toString());
             e.printStackTrace();
+
+
         } finally {
             try {
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
+                loggerInstance.log(2,"User update password DAO Error :"+e.toString());
                 e.printStackTrace();
             }
         }
+
+        loggerInstance.log(0,"User update password DAO: Success");
 
     }
 }
