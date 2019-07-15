@@ -15,12 +15,13 @@ import java.util.Base64;
 
 @Service("UserSignUpService")
 public class UserSignUpService implements IUserSignUpService {
-    @Autowired
+
     private LoggerInstance log;
     private IUserSignUpDAO iUserSignUpDAO;
 
-    public UserSignUpService(@Qualifier("UserSignUpDAO") IUserSignUpDAO userSignUpDAO){
+    public UserSignUpService(@Qualifier("UserSignUpDAO") IUserSignUpDAO userSignUpDAO,LoggerInstance loggerInstance){
         this.iUserSignUpDAO = userSignUpDAO;
+        this.log = loggerInstance;
     }
 
 

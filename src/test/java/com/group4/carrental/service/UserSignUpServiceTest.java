@@ -9,8 +9,8 @@ import java.io.UnsupportedEncodingException;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
-
-
+import com.group4.carrental.service.implementation.LoggerInstance;
+import static org.mockito.Mockito.mock;
 public class UserSignUpServiceTest {
 
     private IUserSignUpService userSignUpService;
@@ -20,7 +20,7 @@ public class UserSignUpServiceTest {
     @Before
     public void setUp(){
         this.userSignUpDAO = new UserSignUpDAOMock();
-        this.userSignUpService = new UserSignUpService(userSignUpDAO);
+        this.userSignUpService = new UserSignUpService(userSignUpDAO,mock(LoggerInstance.class));
     }
 
 
