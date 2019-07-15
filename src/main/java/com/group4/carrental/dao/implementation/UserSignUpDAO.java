@@ -4,6 +4,7 @@ import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.IUserSignUpDAO;
 import com.group4.carrental.model.City;
 import com.group4.carrental.model.User;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 public class UserSignUpDAO implements IUserSignUpDAO {
 
     private IDatabaseConnection databaseConnection;
+    @Autowired
+    private LoggerInstance log;
 
     @Autowired
     public UserSignUpDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection) {
@@ -23,6 +26,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
 
     @Override
     public void saveUserSignUpDetails(User user) {
+        log.log(0,"In Dao:save user details in database");
 
         Connection connection = null;
         ResultSet resultSet = null;
@@ -44,6 +48,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
 
         }
         catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            log.log(2,"In Dao: saveUserSignUpDetails"+e.getMessage());
             e.printStackTrace();
         }
         finally {
@@ -57,6 +62,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
+                log.log(2,"In Dao:saveUserSignUpDetails"+e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -66,6 +72,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
     @Override
     public User getUserDetails(Integer userId) {
 
+        log.log(0,"In Dao:getUserDetails from database");
         User user = new User();
         Connection connection = null;
         ResultSet resultSet = null;
@@ -93,6 +100,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
 
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            log.log(2,"In Dao:getUserDetails"+e.getMessage());
             e.printStackTrace();
         }
         finally {
@@ -106,6 +114,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
+                log.log(2,"In Dao:getUserDetails"+e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -115,6 +124,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
 
     @Override
     public void updateUserProfileDetails(User user) {
+
 
         Connection connection=null;
         PreparedStatement updateStatement=null;
@@ -129,6 +139,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
             updateStatement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            log.log(2,"In Dao:updateUserProfileDetails"+e.getMessage());
             e.printStackTrace();
         }
         finally {
@@ -138,6 +149,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
+                log.log(2,"In Dao:updateUserProfileDetails"+e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -169,6 +181,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
 
         }
         catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            log.log(2,"In Dao:isEmailExist"+e.getMessage());
             e.printStackTrace();
         }
         finally {
@@ -182,6 +195,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
+                log.log(2,"In Dao:isEmailExist"+e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -216,6 +230,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
 
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            log.log(2,"In Dao:getCityList"+e.getMessage());
             e.printStackTrace();
         }finally {
             try {
@@ -229,6 +244,7 @@ public class UserSignUpDAO implements IUserSignUpDAO {
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
                 e.printStackTrace();
+                log.log(2,"In Dao:getCityList"+e.getMessage());
             }
         }
 
