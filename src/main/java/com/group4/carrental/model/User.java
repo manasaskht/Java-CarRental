@@ -8,6 +8,25 @@ public class User {
     private Integer city_id;
     private String password;
     private String confirmPassword;
+    private String tokenID;
+    private boolean isEnabled;
+
+   public String getTokenID() {
+		return tokenID;
+	}
+
+	public void setTokenID(String tokenID) {
+		this.tokenID = tokenID;
+	}
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+
 
     public int getUserId() {
         return UserId;

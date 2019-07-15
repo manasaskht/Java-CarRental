@@ -2,15 +2,15 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <title>Login page</title>
+    <title>Reset Password page</title>
 </head>
 <body>
 <div class="container">
     <div>
 
-        <h3 style="color:blue;" class="card-title">Login</h3>
+        <h3 style="color:blue;" class="card-title">Reset Password</h3>
     <form method="post"
-          action="/login" >
+          action="/reset-password" >
         <div >
             <h5>Email address</h5>
         <input type="text" name="email"  placeholder="Email address">
@@ -21,20 +21,20 @@
             <h5>Password</h5>
             <input type="password" name="password"  placeholder="password">
      </div>
+      
 <br>
     <div>
 
-        <button class="btn btn-sm btn-primary  text-uppercase" type="submit" value="login">Login</button>
-        <button class="btn btn-sm btn-google  text-uppercase" onclick="location.href='/userSignUp'" type="button"> Sign Up </button>
-        <a href="/forgot-password">Forgot Password? Click Me</a>
+        <button class="btn btn-sm btn-primary  text-uppercase" type="submit" value="reset">Reset</button>
     </div>
     </form>
-    <c:if test="${Invalid_Email!= null}">
-        <p style="color: red">${Invalid_Email}</p>
+    <c:if test="${errorMessage!= null}">
+        <p style="color: red">${errorMessage}</p>
     </c:if>
-    <c:if test="${Invalid_Password!= null}">
-        <p style="color: red">${Invalid_Password}</p>
+     <c:if test="${error!= null}">
+        <p style="color: red">${error}</p>
     </c:if>
+     
     
 </div></div>
 

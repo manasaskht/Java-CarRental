@@ -3,7 +3,7 @@ package com.group4.carrental.service.implementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
+import javax.servlet.http.HttpServletRequest;
 import com.group4.carrental.dao.implementation.AdminResponseDAO;
 import com.group4.carrental.model.Email;
 import com.group4.carrental.service.IEmailApproveReject;
@@ -41,4 +41,16 @@ public class EmailApproveReject implements IEmailApproveReject{
 		 loggerInstance.log(0,"Admin service to send email with status as reject : Called");
 	        this.sendMailService.sendEmail(email);
 	    }
+
+ public void sendToken(String EmailID,String TokenID,HttpServletRequest request)
+	 {
+		 
+		 String Url = request.getScheme() + "://" + request.getServerName();
+		 Email email = new Email();
+	        email.setReceiver(EmailID);
+	        email.setEmailText("To confirm your account, please click here : " + 
+	        		"http://localhost:8000"+"/reset?TokenID="+ TokenID);
+	        email.setSubject("Password Reset Request");
+	        this.sendMailService.sendEmail(email);
+	 }
 }
