@@ -3,6 +3,7 @@ package com.group4.carrental.dao.implementation;
 import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.IAdminDAO;
 import com.group4.carrental.model.AdminCar;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,10 +16,12 @@ import java.util.ArrayList;
 public class AdminDAO implements IAdminDAO {
 
     private IDatabaseConnection databaseConnection;
+    private LoggerInstance loggerInstance;
 
     @Autowired
-    public AdminDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection) {
+    public AdminDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection, LoggerInstance loggerInstance) {
         this.databaseConnection = databaseConnection;
+        this.loggerInstance = loggerInstance;
     }
 
     @Override
@@ -61,6 +64,7 @@ public class AdminDAO implements IAdminDAO {
             }
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            loggerInstance.log(2,"Admin DAO Error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
@@ -72,9 +76,11 @@ public class AdminDAO implements IAdminDAO {
                     resultSet.close();
                 }
             } catch (SQLException e) {
+                loggerInstance.log(2,"Admin DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         }
+        loggerInstance.log(0,"Admin DAO fetch Cars Success");
         return carArrayList;
     }
 
@@ -88,7 +94,9 @@ public class AdminDAO implements IAdminDAO {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1,id);
             preparedStatement.execute();
+            loggerInstance.log(0,"Admin DAO BlackList Car Success");
         }catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            loggerInstance.log(2,"Admin DAO Error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
@@ -97,6 +105,7 @@ public class AdminDAO implements IAdminDAO {
                     preparedStatement.close();
                 }
             } catch (SQLException e) {
+                loggerInstance.log(2,"Admin DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         }
@@ -122,6 +131,7 @@ public class AdminDAO implements IAdminDAO {
             }
 
         }catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            loggerInstance.log(2,"Admin DAO Error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
@@ -133,9 +143,11 @@ public class AdminDAO implements IAdminDAO {
                     resultSet.close();
                 }
             } catch (SQLException e) {
+                loggerInstance.log(2,"Admin DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         }
+        loggerInstance.log(0,"Admin DAO Email Success");
         return email;
     }
 }

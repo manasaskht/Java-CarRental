@@ -4,6 +4,7 @@ import com.group4.carrental.model.Car;
 import com.group4.carrental.model.CarType;
 import com.group4.carrental.model.City;
 import com.group4.carrental.service.ICarRentService;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +18,16 @@ import java.util.ArrayList;
 public class CarRentController {
 
     private ICarRentService carRentService;
+    private LoggerInstance loggerInstance;
 
-    public CarRentController(@Qualifier("CarRentService") ICarRentService carRentService){
+    public CarRentController(@Qualifier("CarRentService") ICarRentService carRentService, LoggerInstance loggerInstance){
+        this.loggerInstance = loggerInstance;
         this.carRentService = carRentService;
     }
 
     @GetMapping("/carrent")
     public String carToRent(Model model, HttpSession session){
+        loggerInstance.log(0,"Car Rent: Called");
         int userId = 0;
         try {
             userId = (int) session.getAttribute("user_id");
@@ -39,6 +43,7 @@ public class CarRentController {
 
     @PostMapping("/carrent")
     public String carRentDetails(Model model, @ModelAttribute("car") Car car, @RequestParam("carImage")MultipartFile carImage, HttpSession session){
+        loggerInstance.log(0,"Car Rent Post: Called");
         int userId = 0;
         try {
             userId = (int) session.getAttribute("user_id");

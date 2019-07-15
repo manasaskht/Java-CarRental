@@ -3,6 +3,7 @@ package com.group4.carrental.dao.implementation;
 import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.IAdminLoginDAO;
 import com.group4.carrental.model.Admin;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -16,9 +17,11 @@ import java.sql.SQLException;
 public class AdminLoginDAO implements IAdminLoginDAO {
 
     private IDatabaseConnection databaseConnection;
+    private LoggerInstance loggerInstance;
 
     @Autowired
-    public AdminLoginDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection) {
+    public AdminLoginDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection, LoggerInstance loggerInstance) {
+        this.loggerInstance = loggerInstance;
         this.databaseConnection = databaseConnection;
     }
 
@@ -47,6 +50,7 @@ public class AdminLoginDAO implements IAdminLoginDAO {
             }
 
         }catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            loggerInstance.log(2,"Admin Login DAO Error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
@@ -58,10 +62,11 @@ public class AdminLoginDAO implements IAdminLoginDAO {
                     resultSet.close();
                 }
             } catch (SQLException e) {
+                loggerInstance.log(2,"Admin DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         }
-
+        loggerInstance.log(0,"Admin Login DAO Success");
         return adminData;
     }
 }
