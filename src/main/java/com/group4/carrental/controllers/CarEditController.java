@@ -4,6 +4,7 @@ import com.group4.carrental.model.Car;
 import com.group4.carrental.model.CarType;
 import com.group4.carrental.model.City;
 import com.group4.carrental.service.ICarEditService;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -21,10 +22,12 @@ import java.util.ArrayList;
 public class CarEditController {
 
     private ICarEditService carEditService;
+    private LoggerInstance loggerInstance;
 
     @Autowired
-    public CarEditController(@Qualifier("CarEditService") ICarEditService carEditService){
+    public CarEditController(@Qualifier("CarEditService") ICarEditService carEditService,LoggerInstance loggerInstance){
         this.carEditService = carEditService;
+        this.loggerInstance = loggerInstance;
     }
 
     @PostMapping("edit-car-details")
@@ -32,6 +35,7 @@ public class CarEditController {
                                  @RequestParam("carImage") MultipartFile carImage,
                                  @RequestParam("carId") int carId, HttpSession session){
 
+        loggerInstance.log(0,"User Edit Car Details: Called");
         int userId = 0;
         try {
             userId = (int) session.getAttribute("user_id");

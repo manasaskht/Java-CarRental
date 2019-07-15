@@ -2,6 +2,8 @@ package com.group4.carrental.controllers;
 import com.group4.carrental.model.City;
 import com.group4.carrental.model.User;
 import com.group4.carrental.service.IUserSignUpService;
+import com.group4.carrental.service.implementation.LoggerInstance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,9 @@ import java.util.ArrayList;
 public class UserSignUpController
 {
 
+    @Autowired
+    private LoggerInstance log;
+
     private IUserSignUpService iUserSignUpService;
     public UserSignUpController(@Qualifier("UserSignUpService") IUserSignUpService userSignUpService){
         this.iUserSignUpService = userSignUpService;
@@ -26,7 +31,7 @@ public class UserSignUpController
     @GetMapping("/userSignUp")
     public String userSignUpPage(Model model)
     {
-
+        log.log(0,"In controller:load userSign up page");
         ArrayList<City> cityArrayList=iUserSignUpService.getCityList();
         model.addAttribute("cityArrayList",cityArrayList);
         return "userSignUp";
@@ -36,7 +41,7 @@ public class UserSignUpController
     public String saveUserDetails(@ModelAttribute("user") User user,Model model) throws UnsupportedEncodingException
     {
         boolean isDataValid=true;
-
+        log.log(0,"In controller:saveUserDetails method");
 
         if(!iUserSignUpService.validUserName(user.getName()))
         {
@@ -95,6 +100,7 @@ public class UserSignUpController
 
         if(isDataValid)
         {
+            log.log(0,"In controller:check all user data in valid in saveUserDetails method and redirect to home page");
             String password=user.getPassword();
             String encodedPassWord = iUserSignUpService.getEncodedString(password);
             user.setPassword(encodedPassWord);
@@ -103,6 +109,7 @@ public class UserSignUpController
         }
         else
         {
+            log.log(0,"In controller:invalid user details redirect user to signUp page");
             ArrayList<City> cityArrayList=iUserSignUpService.getCityList();
             model.addAttribute("cityArrayList",cityArrayList);
             model.addAttribute("userData",user);
@@ -114,10 +121,12 @@ public class UserSignUpController
     @GetMapping("/userUpdateProfile")
     public String userUpdateProfile(Model model, HttpSession httpSession)
     {
+        log.log(0,"In controller:saveUserDetails method");
         int user_id = 0;
         try {
             user_id = (int) httpSession.getAttribute("user_id");
         }catch (NullPointerException exception){
+            log.log(2,"In controller:user is not logged in and redirect to login page");
             return "redirect:login";
         }
         ArrayList<City> cityArrayList=iUserSignUpService.getCityList();
@@ -136,6 +145,7 @@ public class UserSignUpController
         try {
             user_id = (int) httpSession.getAttribute("user_id");
         }catch (NullPointerException exception){
+            log.log(2,"In controller:user is not logged in and redirect to login page");
             return "redirect:login";
         }
         boolean isValid=true;
@@ -160,6 +170,7 @@ public class UserSignUpController
         }
         else
         {
+            log.log(0,"In controller:redirect to update profile page due to invalid information");
             ArrayList<City> cityArrayList=iUserSignUpService.getCityList();
             model.addAttribute("cityArrayList",cityArrayList);
             model.addAttribute("userData",user);

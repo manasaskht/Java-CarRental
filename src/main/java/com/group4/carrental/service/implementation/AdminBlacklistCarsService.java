@@ -8,7 +8,9 @@ import com.group4.carrental.model.User;
 import com.group4.carrental.service.IAdminBlacklistCarsService;
 import com.group4.carrental.service.ISendMailService;
 import com.group4.carrental.service.IUserSignUpService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
@@ -16,6 +18,9 @@ import java.util.ArrayList;
 
 
 public class AdminBlacklistCarsService implements IAdminBlacklistCarsService {
+
+    @Autowired
+    private LoggerInstance log;
 
     private IAdminBlacklistCarsDAO  iAdminBlacklistCarsDAO;
     private ISendMailService  iSendMailService;
@@ -31,11 +36,14 @@ public class AdminBlacklistCarsService implements IAdminBlacklistCarsService {
     @Override
     public ArrayList<AdminCar> getBlacklistCars() {
 
+        log.log(0,"In service: getBlacklistCars ");
         return iAdminBlacklistCarsDAO.getBlacklistCars();
     }
 
     @Override
     public void sendEmail(Email email) {
+
+        log.log(0,"In service: sendEmail to the owner");
 
         email.setSubject("Removed from Blacklist");
         email.setEmailText("Hello,\n" +
@@ -44,19 +52,33 @@ public class AdminBlacklistCarsService implements IAdminBlacklistCarsService {
                 "\n" +
                 "Thanks and Regards\n" +
                 "carrental037@gmail.com");
-        iSendMailService.sendEmail(email);
+        try{
+            iSendMailService.sendEmail(email);
+
+        }catch (MailException m)
+        {
+            log.log(2,"In service: Please provide all mail details");
+        }
+        catch(Exception e)
+        {
+            log.log(2,"In service: Please provide all mail details");
+        }
+
 
     }
 
     @Override
     public void updateCarStatus(int carId,int carStatus) {
 
+        log.log(0,"In service: updateCarStatus");
         iAdminBlacklistCarsDAO.updateCarStatus(carId,carStatus);
 
     }
 
     @Override
     public User getUserDetails(int userId) {
+
+        log.log(0,"In service: getUserDetails");
         return iUserSignUpService.getUserDetails(userId);
     }
 }

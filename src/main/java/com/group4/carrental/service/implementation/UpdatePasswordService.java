@@ -16,43 +16,46 @@ public class UpdatePasswordService implements IUpdatePasswordService {
 
     private IUpdatePasswordDAO updatePasswordDAO;
     private IUserSignUpService userSignUpService;
+    private LoggerInstance loggerInstance;
 
     @Autowired
     public UpdatePasswordService(@Qualifier("UpdatePasswordDAO") IUpdatePasswordDAO updatePasswordDAO,
-                                 @Qualifier("UserSignUpService") IUserSignUpService userSignUpService){
+                                 @Qualifier("UserSignUpService") IUserSignUpService userSignUpService,LoggerInstance loggerInstance){
         this.updatePasswordDAO = updatePasswordDAO;
         this.userSignUpService = userSignUpService;
+        this.loggerInstance = loggerInstance;
     }
 
 
     @Override
     public void updatePassword(int userId, Password password) {
-            updatePasswordDAO.updatePassword(userId,password);
+        loggerInstance.log(0,"User Service Password Update: Called");
+        updatePasswordDAO.updatePassword(userId,password);
     }
 
     @Override
     public boolean isPasswordNull(String password) {
-
+        loggerInstance.log(0,"User Service Password Null Check: Called");
         return  userSignUpService.ispwdNull(password);
     }
 
 
     @Override
     public boolean isPasswordMatch(String password, String confirmPassword){
-
+        loggerInstance.log(0,"User Service Password Match: Called");
         return  userSignUpService.isPasswordMatch(password,confirmPassword);
 
     }
 
     @Override
     public String getEncodedString(String originalString) throws UnsupportedEncodingException {
-
+        loggerInstance.log(0,"User Service Get Encoded String: Called");
         return userSignUpService.getEncodedString(originalString);
     }
 
     @Override
     public boolean isOldPasswordValid(int userId, Password password) throws UnsupportedEncodingException {
-
+            loggerInstance.log(0,"User Service Old Password Validator: Called");
            String passwordFromDb =  updatePasswordDAO.getUserOldPassword(userId);
            System.out.println("old password" + passwordFromDb);
            String getUserOldPassword = password.getOldPassword();
@@ -68,7 +71,7 @@ public class UpdatePasswordService implements IUpdatePasswordService {
 
     @Override
     public boolean validatePassword(String password) {
-
+        loggerInstance.log(0,"User Service Password Validator: Called");
         return userSignUpService.validPwd(password);
 
     }

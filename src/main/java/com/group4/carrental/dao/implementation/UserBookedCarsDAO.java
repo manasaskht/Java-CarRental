@@ -3,6 +3,7 @@ package com.group4.carrental.dao.implementation;
 import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.IUserBookedCarsDAO;
 import com.group4.carrental.model.CarList;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class UserBookedCarsDAO implements IUserBookedCarsDAO {
 
     private IDatabaseConnection databaseConnection;
+    private LoggerInstance loggerInstance;
 
     private static final String GET_BOOKEDCAR_QUERY = "select Car.*,Car_Type.car_type_name,City_Name.city_name from Car INNER JOIN User ON Car.owner_id=User.user_id" +
             " INNER JOIN City_Name ON Car.car_city = City_Name.city_id"+
@@ -23,8 +25,10 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
     private static final String REMOVE_BOOKEDCAR_QUERY = "update Car SET car_status_id = 2 where car_id = ?";
 
     @Autowired
-    public UserBookedCarsDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection) {
+    public UserBookedCarsDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection,
+                             LoggerInstance loggerInstance) {
         this.databaseConnection = databaseConnection;
+        this.loggerInstance = loggerInstance;
     }
     @Override
     public ArrayList<CarList> getBookedCars(int userId) {
@@ -63,6 +67,7 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
             }
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            loggerInstance.log(2,"Get Booked Car DAO Error: "+e.toString());
             e.printStackTrace();
         } finally {
             try {
@@ -75,11 +80,12 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
+                loggerInstance.log(2,"Get Booked Car DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         }
 
-
+        loggerInstance.log(0,"Get Booked Car DAO: Success");
         return carArrayList;
     }
 
@@ -96,6 +102,7 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
             preparedStatement.setInt(1, carId);
             preparedStatement.executeUpdate();
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            loggerInstance.log(2,"User Remove Bokked Car DAO Error: "+e.toString());
             e.printStackTrace();
         } finally {
             try {
@@ -107,11 +114,12 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
+                loggerInstance.log(2,"User Remove Bokked Car DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         }
 
-
+        loggerInstance.log(0,"User Remove Bokked Car DAO: Success");
     }
 
 }

@@ -4,6 +4,7 @@ import com.group4.carrental.dao.IUserListedCarsDAO;
 import com.group4.carrental.dao.UserListedCarDAOMock;
 import com.group4.carrental.model.CarList;
 import com.group4.carrental.service.implementation.CarRentService;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import com.group4.carrental.service.implementation.UserListedCarService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,7 +28,8 @@ public class UserListedCarServiceTest {
     @Before
     public void setUp(){
         this.userListedCarsDAO = new UserListedCarDAOMock();
-        this.userListedCarService = new UserListedCarService(userListedCarsDAO,mock(CarRentService.class));
+        this.userListedCarService = new UserListedCarService(userListedCarsDAO,mock(CarRentService.class),
+                mock(LoggerInstance.class));
     }
 
 

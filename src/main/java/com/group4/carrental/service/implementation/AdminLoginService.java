@@ -10,13 +10,17 @@ import org.springframework.stereotype.Service;
 public class AdminLoginService implements IAdminLoginService {
 
     private IAdminLoginDAO adminLoginDAO;
+    private LoggerInstance loggerInstance;
 
-    public AdminLoginService(@Qualifier("AdminLoginDao") IAdminLoginDAO adminLoginDAO){
+    public AdminLoginService(@Qualifier("AdminLoginDao") IAdminLoginDAO adminLoginDAO, LoggerInstance loggerInstance){
+        this.loggerInstance = loggerInstance;
         this.adminLoginDAO = adminLoginDAO;
     }
 
     @Override
-    public Admin validateLogin(Admin admin) {
+    public Admin validateLogin(Admin admin)
+    {
+        loggerInstance.log(0,"Admin Service Validate Login: Called");
         return this.adminLoginDAO.validateLogin(admin);
     }
 }
