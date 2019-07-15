@@ -11,6 +11,7 @@ public class Car{
     private int carOwner;
     private int carId;
 
+
     public String getModel() {
         return model;
     }

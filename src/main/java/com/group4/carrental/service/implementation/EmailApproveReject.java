@@ -13,10 +13,12 @@ import com.group4.carrental.service.ISendMailService;
 public class EmailApproveReject implements IEmailApproveReject{
 	private ISendMailService sendMailService;
 	private AdminResponseDAO adminresponsedao ;
+	private LoggerInstance loggerInstance;
 	@Autowired
-    public EmailApproveReject(@Qualifier("AdminResponseDAO")AdminResponseDAO adminresponsedao, @Qualifier("SendMailService") ISendMailService sendMailService ){
+    public EmailApproveReject(@Qualifier("AdminResponseDAO")AdminResponseDAO adminresponsedao, @Qualifier("SendMailService") ISendMailService sendMailService,LoggerInstance loggerInstance ){
         this.sendMailService = sendMailService;
         this.adminresponsedao = adminresponsedao;
+		this.loggerInstance = loggerInstance;
     
     }
 	
@@ -26,6 +28,7 @@ public class EmailApproveReject implements IEmailApproveReject{
         email.setReceiver(emailID);
         email.setEmailText("your car has been approved");
         email.setSubject("Car Approved to rent");
+		loggerInstance.log(0,"Admin service to send email with status as approved : Called");
         this.sendMailService.sendEmail(email);
     }
 	
@@ -35,6 +38,7 @@ public class EmailApproveReject implements IEmailApproveReject{
 	        email.setReceiver(emailID);
 	        email.setEmailText("your car has been rejected");
 	        email.setSubject("Car rejected to rent");
+		 loggerInstance.log(0,"Admin service to send email with status as reject : Called");
 	        this.sendMailService.sendEmail(email);
 	    }
 }

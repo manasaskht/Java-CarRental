@@ -13,20 +13,22 @@ import com.group4.carrental.service.IEmailApproveReject;
 public class AdminCarApproveService implements IAdminCarApproveService{
 		private IAdminResponseDAO adminresponsedao ;
 		 private IEmailApproveReject sendMail;
-		 
+	private LoggerInstance loggerInstance;
 		 @Autowired
-		    public AdminCarApproveService(@Qualifier("AdminResponseDAO")IAdminResponseDAO adminresponsedao, @Qualifier("EmailApproveReject") IEmailApproveReject sendMail ){
+		    public AdminCarApproveService(@Qualifier("AdminResponseDAO")IAdminResponseDAO adminresponsedao, @Qualifier("EmailApproveReject") IEmailApproveReject sendMail,LoggerInstance loggerInstance ){
 		        this.adminresponsedao = adminresponsedao;
 		        this.sendMail = sendMail;
-		    
+			 this.loggerInstance = loggerInstance;
 		    }
 		 @Override
 		    public ArrayList<AdminCar> getAllPendingRequests() {
-		        return adminresponsedao.getAllPendingRequests(4);
+			 loggerInstance.log(0,"Admin Service get all pending status cars: Called");
+		 	return adminresponsedao.getAllPendingRequests(4);
 		    }
 
 		    @Override
 		    public void carApproval(int id) {
+				loggerInstance.log(0,"Admin email service with status as approved: Called");
 		    	adminresponsedao.carApproval(id);
 		    	this.sendMail.sendApproveEmail(id);
 		        
@@ -34,6 +36,7 @@ public class AdminCarApproveService implements IAdminCarApproveService{
 		
 			@Override
 			public void carReject(int id) {
+				loggerInstance.log(0,"Admin email service with status as approved: Called");
 				adminresponsedao.carReject(id);
 				this.sendMail.sendRejectEmail(id);
 			}
