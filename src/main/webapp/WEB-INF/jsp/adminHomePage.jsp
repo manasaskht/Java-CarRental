@@ -1,47 +1,41 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
-<body >
-<header class="header">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <br/>
-                        <div class="formTitle">
-                            <h1> Admin Page</h1>
+<body>
+<div class="container" style="margin-top:10px">
+    <div class="row">
+        <div class="col">
+            <div class="card-body">
+                <h5>PendingCarRequestsList</h5>
+                <c:forEach items="${pendingCarRequests}" var="car">
+                    <div class="card" style="margin-top:10px">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    Model: <p> ${car.carModel}</p>
+                                    Description: <p> ${car.carDescription}</p>
+                                    Rate:  <p>${car.carRate}</p>
+                                    Owner Name:<p>${car.carOwnerName}</p>
+                                    Mail: <p>${car.carOwnerMail }
+                                </div>
+                            </div>
+                            <div style="margin-top:25px" >
+                                <form action="/admin/Approve/${car.carId}" method="get">
+                                    <div>
+                                        <button class="btn btn-sm btn-primary  text-uppercase" type="submit" >Approve</button>
+                                        <button class="btn btn-sm btn-google  text-uppercase" onclick="location.href='/admin/Reject/${car.carId}'" type="button"> Reject </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div>
-
-                            <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/admin/list-all-car'" value="List of Cars">
-
-                          
-
-                        </div>
-                        <br/>
-                        <div>
-                            <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/admin/ListPendingRequests'" value="pending Request">
-                        </div><br/>
-                        <div>
-                            <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/adminBlackListCars'" value="Blacklist cars">
-                        </div><br/>
-                        <br/>
                     </div>
-                    <div class="col-lg-8">
-
-                    </div>
-                </div>
-
-                <br/>
+                </c:forEach>
             </div>
         </div>
     </div>
-    </form>
-    </div>
-</header>
-<script src="/js/jquery-3.4.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+</div>
 </body>
+
 </html>
