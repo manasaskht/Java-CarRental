@@ -3,6 +3,7 @@ package com.group4.carrental.dao.implementation;
 import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.ICarEditDAO;
 import com.group4.carrental.model.Car;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -19,11 +20,13 @@ public class CarEditDAO implements ICarEditDAO {
     private static final String UPDATE_CAR_IMAGE = "update Car SET car_image = ? where car_id = ?";
 
     private IDatabaseConnection databaseConnection;
+    private LoggerInstance loggerInstance;
 
 
     @Autowired
-    public CarEditDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection) {
+    public CarEditDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection,LoggerInstance loggerInstance) {
         this.databaseConnection = databaseConnection;
+        this.loggerInstance = loggerInstance;
     }
     @Override
     public void updateCar(Car car) {
@@ -48,6 +51,7 @@ public class CarEditDAO implements ICarEditDAO {
                 preparedStatement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            loggerInstance.log(2,"Car Update DAO Error: "+e.toString());
             e.printStackTrace();
         } finally {
             try {
@@ -59,12 +63,13 @@ public class CarEditDAO implements ICarEditDAO {
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
+                loggerInstance.log(2,"Car Update DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         }
 
 
-
+        loggerInstance.log(0,"Car Update DAO: Success");
 
     }
 
@@ -82,6 +87,7 @@ public class CarEditDAO implements ICarEditDAO {
             preparedStatement.setInt(2,carID);
             preparedStatement.executeUpdate();
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            loggerInstance.log(2,"Car Image Update DAO Error: "+e.toString());
             e.printStackTrace();
         } finally {
             try {
@@ -93,9 +99,10 @@ public class CarEditDAO implements ICarEditDAO {
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
+                loggerInstance.log(2,"Car Image Update DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         }
-
+        loggerInstance.log(0,"Car Image Update DAO: Success");
     }
 }
