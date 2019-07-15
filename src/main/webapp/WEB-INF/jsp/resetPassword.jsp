@@ -21,6 +21,10 @@
             <h5>Password</h5>
             <input type="password" name="password"  placeholder="password">
      </div>
+        <div>
+            <h5>Confirm Password</h5>
+            <input type="password" name="confirmPassword"  placeholder="confirmPassword">
+        </div>
       
 <br>
     <div>
@@ -28,13 +32,24 @@
         <button class="btn btn-sm btn-primary  text-uppercase" type="submit" value="reset">Reset</button>
     </div>
     </form>
-    <c:if test="${errorMessage!= null}">
-        <p style="color: red">${errorMessage}</p>
+        <c:if test="${Invalid_Email!= null}">
+            <p style="color: red">${Invalid_Email}</p>
+        </c:if>
+        <c:if test="${Unregistered_Email!= null}">
+            <p style="color: red">${Unregistered_Email}</p>
+        </c:if>
+    <c:if test="${error_confirm_password!= null}">
+        <p style="color: red">${error_confirm_password}</p>
     </c:if>
-     <c:if test="${error!= null}">
-        <p style="color: red">${error}</p>
+        <c:if test="${successMessage!= null}">
+            <p style="color: red">${successMessage}</p>
+        </c:if>
+     <c:if test="${error_password!= null}">
+        <p style="color: red">${error_password}</p>
     </c:if>
-     
+        <c:if test="${error!= null}">
+            <p style="color: red">${error}</p>
+        </c:if>
     
 </div></div>
 

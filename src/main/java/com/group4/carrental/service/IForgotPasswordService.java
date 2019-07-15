@@ -13,6 +13,9 @@ public interface IForgotPasswordService {
 	String getEncodedString(String originalString) throws UnsupportedEncodingException;
 	boolean validatePassword(String password);
 	public void updatePassword(User user);
+	public boolean isPasswordMatch(String password,String confirm_password);
+	public boolean isConfirmPwdNull(String confirm_password);
+	public boolean isValidUserEmail(String email);
 
 	
 	

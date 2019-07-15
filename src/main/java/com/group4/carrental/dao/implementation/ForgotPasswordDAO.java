@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -17,11 +19,13 @@ import com.group4.carrental.dao.IForgotPasswordDAO;
 
 @Repository("ForgotPasswordDAO")
 public class ForgotPasswordDAO implements IForgotPasswordDAO{
-	
+	private LoggerInstance loggerInstance;
 	 private IDatabaseConnection databaseConnection;
-	  @Autowired
-	    public ForgotPasswordDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection){
+
+	 @Autowired
+	    public ForgotPasswordDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection, LoggerInstance loggerInstance){
 	        this.databaseConnection = databaseConnection;
+		 this.loggerInstance = loggerInstance;
 	    }
 
 
@@ -44,6 +48,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
 				 emailDB = rs.getString("email");
 			}
 		}catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			loggerInstance.log(2,"ForgotPassword DAO Error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
@@ -55,6 +60,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
                     rs.close();
                 }
             } catch (SQLException e) {
+				loggerInstance.log(2,"ForgotPassword DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         
@@ -76,6 +82,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
 			 st.execute();
 	
 		}catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			loggerInstance.log(2,"ForgotPassword DAO Error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
@@ -85,6 +92,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
                 }
                 
             } catch (SQLException e) {
+				loggerInstance.log(2,"ForgotPassword DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         
@@ -112,6 +120,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
 				TokenDB = rs.getString("Token_ID");
 			}
 		}catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			loggerInstance.log(2,"ForgotPassword DAO Error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
@@ -123,6 +132,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
                     rs.close();
                 }
             } catch (SQLException e) {
+				loggerInstance.log(2,"ForgotPassword DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         
@@ -150,6 +160,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
 				TokenDB = rs.getString("Token_ID");
 			}
 		}catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			loggerInstance.log(2,"ForgotPassword DAO Error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
@@ -161,6 +172,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
                     rs.close();
                 }
             } catch (SQLException e) {
+				loggerInstance.log(2,"ForgotPassword DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         
@@ -182,6 +194,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
 			 st.execute();
 	
 		}catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			loggerInstance.log(2,"ForgotPassword DAO Error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
@@ -191,6 +204,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
                 }
                 
             } catch (SQLException e) {
+				loggerInstance.log(2,"ForgotPassword DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         
