@@ -21,17 +21,24 @@
                 <c:forEach items="${bookedCars}" var="car">
                     <div class="card" style="margin-top:10px">
                         <div class="row">
-                            <div class="col-sm-5">
-                                <img style="width:100%;height:270px"
+                            <div class="col-sm-4">
+                                <img style="width:100%;height:200px"
                                      src="data:image/jpeg;base64,${car.imageURL}"
                                      border="0"/>
                             </div>
                             <div class="col-sm-7">
                                 <h4>${car.carModel}</h4>
-                                <p>Car Type : ${car.carTypeName}</p>
-                                <p>Car City : ${car.cityName}</p>
+                                <p>Vehicle Type : ${car.carTypeName}</p>
+                                <%--<p>Car City : ${car.cityName}</p>
                                 <p>Car Rate : ${car.carRate}</p>
-                                <p>Car Description : ${car.description}</p>
+                                <p>Car Description : ${car.description}</p>--%>
+
+                                <form action="/car-details" method="get">
+
+                                    <button class ="btn btn-dark" id="carDetails" name="carDetails" value="${car.carId}" type="submit" >View more</button>
+                                </form>
+
+
                                 <form action="/user-booked-cars" method="post">
                                     <div>
                                     <button class ="btn btn-dark" id="carId" name="carId" value="${car.carId}" type="submit" >Remove</button>
@@ -46,6 +53,11 @@
             </div>
         </div>
     </div>
+
+
+
+
+
 
 
 
