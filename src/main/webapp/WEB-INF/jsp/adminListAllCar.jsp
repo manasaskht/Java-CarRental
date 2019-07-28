@@ -12,7 +12,7 @@
                     <h1> Admin Page</h1>
                 </div>
                 <div>
-                    <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/admin/list-all-car'" value="List of Cars">
+                    <input type="button"  class="btn btn-primary   text-uppercase" onclick="location.href='/admin/listAllCar'" value="List of Cars">
                 </div>
                 <br/>
                 <div>

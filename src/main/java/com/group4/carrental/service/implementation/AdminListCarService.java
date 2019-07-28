@@ -1,10 +1,9 @@
 package com.group4.carrental.service.implementation;
 
-import com.group4.carrental.dao.IAdminDAO;
+import com.group4.carrental.dao.IAdminListCarDAO;
 import com.group4.carrental.model.AdminCar;
-import com.group4.carrental.model.Car;
 import com.group4.carrental.model.Email;
-import com.group4.carrental.service.IAdminService;
+import com.group4.carrental.service.IAdminListCarService;
 import com.group4.carrental.service.ISendMailService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -12,13 +11,13 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service("AdminService")
-public class AdminService implements IAdminService {
+public class AdminListCarService implements IAdminListCarService {
 
-    private IAdminDAO adminDAO;
+    private IAdminListCarDAO adminDAO;
     private ISendMailService sendMailService;
     private LoggerInstance loggerInstance;
 
-    public AdminService(@Qualifier("AdminDao") IAdminDAO adminDAO, @Qualifier("SendMailService") ISendMailService sendMailService, LoggerInstance loggerInstance) {
+    public AdminListCarService(@Qualifier("AdminDao") IAdminListCarDAO adminDAO, @Qualifier("SendMailService") ISendMailService sendMailService, LoggerInstance loggerInstance) {
         this.adminDAO = adminDAO;
         this.sendMailService = sendMailService;
         this.loggerInstance = loggerInstance;
@@ -28,7 +27,7 @@ public class AdminService implements IAdminService {
     public ArrayList<AdminCar> getAllCars()
     {
         loggerInstance.log(0,"Admin Service All Cars: Called");
-        return adminDAO.getAllCars(2);
+        return adminDAO.getAllCars();
     }
 
     @Override

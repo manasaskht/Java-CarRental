@@ -8,16 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Repository("AdminLoginDao")
 public class AdminLoginDAO implements IAdminLoginDAO {
 
     private IDatabaseConnection databaseConnection;
     private LoggerInstance loggerInstance;
+
+    private final String VALIDATE_ADMIN = "{call validateAdmin(?,?)}";
 
     @Autowired
     public AdminLoginDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection, LoggerInstance loggerInstance) {
@@ -27,17 +26,17 @@ public class AdminLoginDAO implements IAdminLoginDAO {
 
     @Override
     public Admin validateLogin(Admin admin) {
-        String query = "select * from Admin where admin_username=? and admin_password=?";
-        Connection connection = null;
         Admin adminData = null;
-        PreparedStatement preparedStatement = null;
+        Connection connection = null;
+        CallableStatement callableStatement = null;
         ResultSet resultSet = null;
+
         try{
             connection = databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,admin.getUsername());
-            preparedStatement.setString(2,admin.getPassword());
-            resultSet = preparedStatement.executeQuery();
+            callableStatement = connection.prepareCall(VALIDATE_ADMIN);
+            callableStatement.setString(1,admin.getUsername());
+            callableStatement.setString(2,admin.getPassword());
+            resultSet = callableStatement.executeQuery();
 
             if(resultSet != null){
                 while (resultSet.next()){
@@ -45,7 +44,6 @@ public class AdminLoginDAO implements IAdminLoginDAO {
                     adminData = new Admin();
                     adminData.setAdminId(id);
                     adminData.setUsername(admin.getUsername());
-                    adminData.setPassword(admin.getPassword());
                 }
             }
 
@@ -55,8 +53,8 @@ public class AdminLoginDAO implements IAdminLoginDAO {
         }finally {
             try {
                 databaseConnection.closeDBConnection(connection);
-                if(preparedStatement != null) {
-                    preparedStatement.close();
+                if(callableStatement != null) {
+                    callableStatement.close();
                 }
                 if(resultSet != null) {
                     resultSet.close();
@@ -69,4 +67,5 @@ public class AdminLoginDAO implements IAdminLoginDAO {
         loggerInstance.log(0,"Admin Login DAO Success");
         return adminData;
     }
+
 }
