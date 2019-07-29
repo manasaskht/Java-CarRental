@@ -11,15 +11,6 @@ public class AdminCar {
     private String carImage;
     private String carCity;
 
-    public int getOwner_id() {
-        return owner_id;
-    }
-
-    public void setOwner_id(int owner_id) {
-        this.owner_id = owner_id;
-    }
-
-    private int owner_id;
     public String getCarModel() {
         return carModel;
     }
