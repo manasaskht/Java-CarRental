@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -25,7 +24,7 @@ public class PaymentController {
 
     }
 
-    @GetMapping("/paymentPage")
+    @PostMapping("/paymentPage")
     public String paymentPage(HttpSession httpSession, Model model,@ModelAttribute("CarBooking") CarBooking carBooking)
     {
         int user_id = 0;
@@ -38,23 +37,26 @@ public class PaymentController {
 
         User userData= iBookCarService.getUserDetails(user_id);
         //Car carData= iBookCarService.getCarDetailsbyId();
-
+        carBooking.setUserId(user_id);
         model.addAttribute("userData",userData);
         //model.addAttribute("carData",carData);
         model.addAttribute("bookingData",carBooking);
         return "paymentPage";
     }
 
-    @PostMapping("/paymentPage")
+    @PostMapping("/bookCar")
     public String bookCarDetails(@ModelAttribute("PaymentClass") PaymentClass payment, @ModelAttribute("CarBooking") CarBooking carBooking, HttpSession httpSession,Model model)
     {
 
         boolean isCardNumberValid= iBookCarService.isValidCreditCardNumber(payment.getCardNumber());
-
+        User userData= iBookCarService.getUserDetails(carBooking.getUserId());
+        model.addAttribute("bookingData",carBooking);
+        model.addAttribute("userData",userData);
+        model.addAttribute("paymentDetails",payment);
         if(isCardNumberValid)
         {
             iBookCarService.saveCarBookingDetails(carBooking);
-            return "userSignUp";
+            return "redirect:homePage";
         }
         else
         {
