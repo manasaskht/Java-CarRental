@@ -6,51 +6,41 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <style>
-        a.custom-card,
-        a.custom-card:hover {
-            color: inherit;
-        }
-
-        .topnav {
-            background-color: #333;
-            overflow: hidden;
-            width:100%;
-            margin-bottom: 50px;
-        }
-
-        .topnav a {
-            float: left;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-        }
-
-
-        .topnav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-
-
-        .topnav a.active {
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/navBar.css">
 </head>
 <body >
 
     <div class="container-fluid">
-        <div class="topnav">
-            <a class="active" href="#home">Home</a>
-            <a href="#news">News</a>
-            <a href="#contact">Contact</a>
-            <a href="#about">About</a>
-        </div>
-        <form name="paymentForm" action="paymentPage" method="post">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary w-100">
+            <a class="navbar-brand">Car Rent</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link linkClass" href="carrent">Rent a Car</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">User Profile</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="user-listed-cars">Listed Cars</a>
+                            <a class="dropdown-item" href="user-booked-cars">Booked Cars </a>
+                            <a class="dropdown-item" href="userUpdateProfile">Update User Profile</a>
+                            <a class="dropdown-item" href="update-password">Update User Password</a>
+                        </div>
+                    </li>
+                </ul>
+                <br/>
+                <form class="form-inline" action="/logout" method="post">
+                    <button class="btn btn-danger" type="submit">Logout</button>
+                </form>
+            </div>
+        </nav>
+        <form name="paymentForm" action="bookCar" method="post">
+            <input type="hidden" name="fromDate" value=${bookingData.fromDate}>
+            <input type="hidden" name="toDate" value=${bookingData.toDate}>
+            <input type="hidden" name="userId" value=${bookingData.userId}>
+            <input type="hidden" name="carId" value=${bookingData.carId}>
+
             <h1 style="text-align: center">Payment Page</h1><hr>
             <br/>
             <div class="row ">
@@ -72,7 +62,7 @@
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label for="customerName">Customer Name</label>
-                                <input type="text" class="form-control" id="customerName" name="customerName"  required>
+                                <input type="text" class="form-control" id="customerName" name="customerName" value="${paymentDetails.customerName}" required>
                             </div>
                             <div class="form-group">
                                 <label for="cardType">Card Type:</label>
@@ -128,7 +118,7 @@
 
                             <div class="form-group">
                                 <label for="cardNumber">Card Number:</label>
-                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" maxlength="16" required>
+                                <input type="number" class="form-control" id="cardNumber" name="cardNumber" value="${paymentDetails.cardNumber}" maxlength="16" required>
                             </div>
                             <p style="color: red">${cardNumberError}</p>
                             <div>
@@ -143,7 +133,12 @@
 
         </form>
     </div>
-
+    <div class="footer tempClass" style="margin-top:190px;">
+        <h6 class="text-center">Car Rent</h6>
+        <div class="footer-copyright text-center py-3">© 2019 Copyright:
+            <a action="/homePage"> CarRent.com</a>
+        </div>
+    </div>
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript">
