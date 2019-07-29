@@ -18,8 +18,8 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <input type="text" class="form-control" id="description" name="description"
-                           placeholder="Enter Car Description" required minlength="10" maxlength="50">
+                    <textarea type="text" class="form-control" id="description" name="description"
+                              placeholder="Enter Car Description" required minlength="10" maxlength="300" rows="3"></textarea>
                     <c:if test="${descriptionError != null}">
                         <p style="color: red">${descriptionError}</p>
                     </c:if>

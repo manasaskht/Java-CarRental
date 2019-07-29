@@ -32,7 +32,8 @@
             </div>
         </nav>
     </div>
-    <div class="container card" style="margin-top:30px; padding:40px">
+    <div class="container card"
+         style="margin-top:30px; padding-top:40px; padding-left: 40px; padding-right: 40px; padding-bottom: 20px">
         <form action="/homePage" id="form" method="post">
             <div class="row">
 
@@ -56,51 +57,70 @@
             <div class="row justify-content-md-center">
                 <div class="col-sm-4">
                     <label for="dateFrom">From Date</label>
-                    <input id="dateFrom" name="dateFrom" value="${fromDate}" data-toggle="datepicker">
+                    <input id="dateFrom" name="dateFrom" value="${fromDate}" data-toggle="datepicker"/>
                 </div>
                 <div class="col-sm-4">
                     <label for="dateTo">To Date</label>
-                    <input id="dateTo" name="dateTo" value="${toDate}" data-toggle="datepicker">
+                    <input id="dateTo" name="dateTo" value="${toDate}" data-toggle="datepicker"/>
                 </div>
             </div>
             <div class="row justify-content-md-center">
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <button type="submit" style="width: 100%; margin-top: 20px; margin-bottom: -20px"
+                                class="btn btn-primary">Submit
+                        </button>
+                    </div>
                 </div>
-
             </div>
         </form>
     </div>
 
-    <div>
-        <c:forEach items="${cars}" var="car">
-            <div class="card" style="margin-top:10px">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-5">
-                            <img style="width:100%;height:250px"
-                                 src="data:image/jpeg;base64,${car.imageURL}"
-                                 border="0"/>
+    <c:if test="${cars.size() > 0}">
+        <div>
+            <c:forEach items="${cars}" var="car">
+                <div class="card" style="margin-top:10px">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <img style="width:100%;height:200px"
+                                     src="data:image/jpeg;base64,${car.imageURL}"
+                                     border="0"/>
+                            </div>
+                            <div class="col-sm-7">
+                                <h3>${car.model}</h3>
+                                <p>${car.description}</p>
+                                <p>${car.carRate}</p>
+                            </div>
                         </div>
-                        <div class="col-sm-7">
-                            <h3>${car.model}</h3>
-                            <p>${car.description}</p>
-                            <p>${car.carRate}</p>
+                        <div class="row">
+                            <div style="margin-top:25px" class="col-sm-3 offset-sm-3">
+                                <form action="/paymentPage" method="post">
+                                    <input type="hidden" name="carId" value="${car.carId}"/>
+                                    <input type="hidden" name="fromDate" value="${fromDate}"/>
+                                    <input type="hidden" name="toDate" value="${toDate}"/>
+                                    <button type="submit" style="width:100%" class="btn btn-danger">Book Now</button>
+                                </form>
+                            </div>
+                            <div style="margin-top:25px" class="col-sm-3">
+                                <form action="/carDetails" method="post">
+                                    <input type="hidden" name="carId" value="${car.carId}"/>
+                                    <input type="hidden" name="fromDate" value="${fromDate}"/>
+                                    <input type="hidden" name="toDate" value="${toDate}"/>
+                                    <button type="submit" style="width:100%" class="btn btn-info">View More</button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                    <div style="margin-top:25px" class="col-sm-3 offset-sm-5">
-                        <form action="/paymentPage" method="post">
-                            <input type="hidden" name="carId" value="${car.carId}"/>
-                            <input type="hidden" name="fromDate" value="${fromDate}"/>
-                            <input type="hidden" name="toDate" value="${toDate}"/>
-                            <button type="submit" style="width:100%" class="btn btn-danger">Book Now</button>
-                        </form>
                     </div>
                 </div>
-            </div>
-        </c:forEach>
-    </div>
+            </c:forEach>
+        </div>
+    </c:if>
+    <c:if test="${cars.size() == 0}">
+        <div class="row justify-content-md-center" style="margin:20px; font-size: 40px">
+            <p>No Cars are available</p>
+        </div>
+    </c:if>
 </div>
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
