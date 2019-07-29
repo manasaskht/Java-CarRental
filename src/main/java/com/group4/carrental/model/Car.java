@@ -10,8 +10,6 @@ public class Car{
     private String imageURL;
     private int carOwner;
     private int carId;
-
-
     public String getModel() {
         return model;
     }
