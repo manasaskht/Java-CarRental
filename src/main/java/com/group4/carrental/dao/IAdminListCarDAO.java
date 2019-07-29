@@ -4,9 +4,9 @@ import com.group4.carrental.model.AdminCar;
 
 import java.util.ArrayList;
 
-public interface IAdminDAO {
+public interface IAdminListCarDAO {
 
-    public ArrayList<AdminCar> getAllCars(int status);
+    public ArrayList<AdminCar> getAllCars();
     public void blackListCar(int id);
     public String getEmail(int carId);
 }

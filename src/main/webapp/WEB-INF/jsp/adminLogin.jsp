@@ -9,7 +9,7 @@
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-body">
-                    <form action="/admin/validate" method="post">
+                    <form action="/admin/login" method="post">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" id="username" name="username" placeholder="Enter Admin username"

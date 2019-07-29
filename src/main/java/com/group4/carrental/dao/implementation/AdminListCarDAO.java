@@ -1,7 +1,7 @@
 package com.group4.carrental.dao.implementation;
 
 import com.group4.carrental.connection.IDatabaseConnection;
-import com.group4.carrental.dao.IAdminDAO;
+import com.group4.carrental.dao.IAdminListCarDAO;
 import com.group4.carrental.model.AdminCar;
 import com.group4.carrental.service.implementation.LoggerInstance;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -13,29 +13,32 @@ import java.sql.*;
 import java.util.ArrayList;
 
 @Repository("AdminDao")
-public class AdminDAO implements IAdminDAO {
+public class AdminListCarDAO implements IAdminListCarDAO {
 
     private IDatabaseConnection databaseConnection;
     private LoggerInstance loggerInstance;
 
+    private final String LIST_ALL_CAR = "{call listAllCarsAdmin()}";
+    private final String BLACKLIST_CAR = "{call blackListCar(?)}";
+    private final String GET_OWNER_EMAIL = "{call getOwnerEmail(?)}";
+
     @Autowired
-    public AdminDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection, LoggerInstance loggerInstance) {
+    public AdminListCarDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection, LoggerInstance loggerInstance) {
         this.databaseConnection = databaseConnection;
         this.loggerInstance = loggerInstance;
     }
 
     @Override
-    public ArrayList<AdminCar> getAllCars(int status) {
-        String query = "select car_id,car_model,car_description,car_rate,(select city_name from City_Name where city_id = car_city) as car_city,(select name from User where user_id = owner_id) as owner_name, (select email from User where user_id = owner_id) as owner_email, car_image from Car where car_status_id=?";
+    public ArrayList<AdminCar> getAllCars() {
         ArrayList<AdminCar> carArrayList = new ArrayList<>();
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
         ResultSet resultSet = null;
+
         try {
             connection = databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1,status);
-            resultSet = preparedStatement.executeQuery();
+            callableStatement = connection.prepareCall(LIST_ALL_CAR);
+            resultSet = callableStatement.executeQuery();
 
             if (resultSet != null) {
                 while (resultSet.next()) {
@@ -69,8 +72,8 @@ public class AdminDAO implements IAdminDAO {
         }finally {
             try {
                 databaseConnection.closeDBConnection(connection);
-                if(preparedStatement != null) {
-                    preparedStatement.close();
+                if(callableStatement != null) {
+                    callableStatement.close();
                 }
                 if(resultSet != null) {
                     resultSet.close();
@@ -80,29 +83,31 @@ public class AdminDAO implements IAdminDAO {
                 e.printStackTrace();
             }
         }
-        loggerInstance.log(0,"Admin DAO fetch Cars Success");
+        loggerInstance.log(0,"Admin List Car DAO fetch Cars Success");
         return carArrayList;
     }
 
     @Override
     public void blackListCar(int id) {
-        String query = "update Car set car_status_id = 3 where car_id=?";
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
+
         try {
             connection = databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1,id);
-            preparedStatement.execute();
+            callableStatement = connection.prepareCall(BLACKLIST_CAR);
+            callableStatement.setInt(1,id);
+            callableStatement.execute();
+
             loggerInstance.log(0,"Admin DAO BlackList Car Success");
+
         }catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             loggerInstance.log(2,"Admin DAO Error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
                 databaseConnection.closeDBConnection(connection);
-                if(preparedStatement != null) {
-                    preparedStatement.close();
+                if(callableStatement != null) {
+                    callableStatement.close();
                 }
             } catch (SQLException e) {
                 loggerInstance.log(2,"Admin DAO Error: "+e.toString());
@@ -113,16 +118,16 @@ public class AdminDAO implements IAdminDAO {
 
     @Override
     public String getEmail(int carId) {
-        String query = "select (select email from User where user_id = owner_id) from Car where car_id =?";
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
         ResultSet resultSet = null;
         String email="";
+
         try{
             connection = databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1,carId);
-            resultSet = preparedStatement.executeQuery();
+            callableStatement =connection.prepareCall(GET_OWNER_EMAIL);
+            callableStatement.setInt(1,carId);
+            resultSet = callableStatement.executeQuery();
 
             if(resultSet != null){
                 while (resultSet.next()){
@@ -136,8 +141,8 @@ public class AdminDAO implements IAdminDAO {
         }finally {
             try {
                 databaseConnection.closeDBConnection(connection);
-                if(preparedStatement != null) {
-                    preparedStatement.close();
+                if(callableStatement != null) {
+                    callableStatement.close();
                 }
                 if(resultSet != null) {
                     resultSet.close();
@@ -150,4 +155,5 @@ public class AdminDAO implements IAdminDAO {
         loggerInstance.log(0,"Admin DAO Email Success");
         return email;
     }
+
 }
