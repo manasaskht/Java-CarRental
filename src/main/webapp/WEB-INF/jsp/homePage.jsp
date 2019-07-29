@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="/css/datepicker.css" rel="stylesheet">
 </head>
 <body>
 
@@ -31,8 +32,122 @@
             </div>
         </nav>
     </div>
+    <div class="container card" style="margin-top:30px; padding:40px">
+        <form action="/homePage" id="form" method="post">
+            <div class="row">
+
+                <div class="form-group col-sm-6">
+                    <label for="cityId">Select a city</label>
+                    <select class="form-control" id="cityId" name="cityId">
+                        <c:forEach items="${city}" var="city">
+                            <option value="${city.cityId}">${city.cityName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="carType">Select a vehicle</label>
+                    <select class="form-control" id="carType" name="carType">
+                        <c:forEach items="${carType}" var="carType">
+                            <option value="${carType.carTypeId}">${carType.carTypeName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-sm-4">
+                    <label for="dateFrom">From Date</label>
+                    <input id="dateFrom" name="dateFrom" value="${fromDate}" data-toggle="datepicker">
+                </div>
+                <div class="col-sm-4">
+                    <label for="dateTo">To Date</label>
+                    <input id="dateTo" name="dateTo" value="${toDate}" data-toggle="datepicker">
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <c:forEach items="${cars}" var="car">
+            <div class="card" style="margin-top:10px">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <img style="width:100%;height:250px"
+                                 src="data:image/jpeg;base64,${car.imageURL}"
+                                 border="0"/>
+                        </div>
+                        <div class="col-sm-7">
+                            <h3>${car.model}</h3>
+                            <p>${car.description}</p>
+                            <p>${car.carRate}</p>
+                        </div>
+                    </div>
+                    <div style="margin-top:25px" class="col-sm-3 offset-sm-5">
+                        <form action="/paymentPage" method="post">
+                            <input type="hidden" name="carId" value="${car.carId}"/>
+                            <input type="hidden" name="fromDate" value="${fromDate}"/>
+                            <input type="hidden" name="toDate" value="${toDate}"/>
+                            <button type="submit" style="width:100%" class="btn btn-danger">Book Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
 </div>
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="/js/datepicker.js"></script>
+<script>
+    Date.prototype.addDays = function (days) {
+        var date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+    };
+
+    var currentDate = new Date();
+    var selectableDate = currentDate.addDays(30);
+
+    console.log(currentDate);
+
+    $('#dateFrom').datepicker({
+        format: 'yyyy-mm-dd',
+        startDate: currentDate,
+        endDate: selectableDate
+    });
+
+    $('#dateTo').datepicker({
+        format: 'yyyy-mm-dd',
+        startDate: currentDate,
+        endDate: selectableDate
+    });
+
+
+    document.querySelector("#form").addEventListener("submit", function (e) {
+        var fromD = $("#dateFrom").val();
+        var to = $("#dateTo").val();
+        console.log(fromD);
+        console.log(to);
+        if (to == "" || fromD == "") {
+            alert("Please select a proper from and to date");
+            e.preventDefault();
+        }
+        var fromDate = new Date(fromD);
+        var toDate = new Date(to);
+        console.log(fromDate);
+        console.log(toDate);
+        if (toDate - fromDate < 0) {
+            alert("Please select a proper from and to date");
+            e.preventDefault();
+        }
+    });
+</script>
 </body>
 </html>
