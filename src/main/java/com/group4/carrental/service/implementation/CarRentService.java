@@ -48,7 +48,7 @@ public class CarRentService implements ICarRentService {
     @Override
     public boolean validCarDescription(String description) {
         if (description != null && !description.isEmpty()) {
-            if ((description.length() >= 10) && (description.length() <= 50)) {
+            if ((description.length() >= 10) && (description.length() <= 300)) {
                 return true;
             } else {
                 return false;
