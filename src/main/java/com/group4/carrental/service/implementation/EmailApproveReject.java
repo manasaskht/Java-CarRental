@@ -44,12 +44,13 @@ public class EmailApproveReject implements IEmailApproveReject{
 
  public void sendToken(String EmailID,String TokenID,HttpServletRequest request)
 	 {
-		 
-		 String Url = request.getScheme() + "://" + request.getServerName();
+		 String Scheme = request.getScheme();
+		 String ServerName=request.getServerName();
+		 String Port=String.valueOf(request.getServerPort());
 		 Email email = new Email();
 	        email.setReceiver(EmailID);
-	        email.setEmailText("To confirm your account, please click here : " + 
-	        		"http://localhost:8000"+"/reset?TokenID="+ TokenID);
+	        email.setEmailText("To confirm your account, please click here : " +Scheme+"://"+ServerName+":"+
+	        		Port+"/reset?TokenID="+ TokenID);
 	        email.setSubject("Password Reset Request");
 		 loggerInstance.log(0," service to send email with token to reset password : Called");
 	        this.sendMailService.sendEmail(email);
