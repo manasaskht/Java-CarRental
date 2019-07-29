@@ -18,7 +18,7 @@ public interface IUserSignUpService {
     public boolean isEmailNull(String email);
     public boolean ispwdNull(String pwd);
     public boolean isPasswordMatch(String pwd,String confirmPwd);
-    public boolean validPwd(String pwd);
+    public String validPwd(String pwd);
     public boolean isConfirmPwdNull(String confirmPwd);
     public String getEncodedString(String originalString) throws UnsupportedEncodingException;
 }
