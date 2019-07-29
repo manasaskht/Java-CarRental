@@ -33,7 +33,7 @@
                                 <p>Car Rate : ${car.carRate}</p>
                                 <p>Car Description : ${car.description}</p>--%>
 
-                                <form action="/car-details" method="get">
+                                <form action="/booked-car-details" method="get">
 
                                     <button class ="btn btn-dark" id="carDetails" name="carDetails" value="${car.carId}" type="submit" >View more</button>
                                 </form>

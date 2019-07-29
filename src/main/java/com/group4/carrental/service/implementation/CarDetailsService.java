@@ -20,4 +20,9 @@ public class CarDetailsService implements ICarDetailsService {
     public CarList getCarById(int carId) {
         return carDetailsDAO.getCarById(carId);
     }
+
+    @Override
+    public CarList getBookedCarById(int carId) {
+        return carDetailsDAO.getBookedCarById(carId);
+    }
 }

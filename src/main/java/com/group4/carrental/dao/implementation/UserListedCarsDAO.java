@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Logger;
 
 @Repository("UserListedCarsDAO")
@@ -19,15 +24,14 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
     private IDatabaseConnection databaseConnection;
     private LoggerInstance loggerInstance;
 
-    private static final String GET_LISTEDCAR_QUERY = "select Car.*,Car_Type.*,City_Name.* from Car INNER JOIN User ON Car.owner_id=User.user_id" +
-            " INNER JOIN City_Name ON Car.car_city = City_Name.city_id"+
-            " INNER JOIN Car_Type ON Car.car_type_id = Car_Type.car_type_id where User.user_id = ? AND car_status_id = 2 ";
+    private static final String GET_LISTEDCAR_QUERY = "select Car.*,Car_Type.*,City_Name.* from Car INNER JOIN City_Name ON Car.car_city = City_Name.city_id"+
+            " INNER JOIN Car_Type ON Car.car_type_id = Car_Type.car_type_id where Car.owner_id = ? AND Car.car_status_id = 2 ";
 
     private static final String REMOVE_CAR_QUERY = "DELETE from Car where car_id = ?";
     ArrayList<CarList> carArrayList ;
 
 
-
+    private static final String GET_BOOKED_CAR = "select * from Booking where car_id = ?";
 
 
 
@@ -54,10 +58,12 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
             preparedStatement.setInt(1,userId);
             resultSet = preparedStatement.executeQuery();
 
+            System.out.println("Resultset ");
 
 
             while(resultSet.next()){
 
+                System.out.println("in to listed car ");
                 CarList car = new CarList();
                 car.setCarId(resultSet.getInt("car_id"));
                 car.setCarOwner(resultSet.getInt("owner_id"));
@@ -101,6 +107,8 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
         }
 
         loggerInstance.log(0,"User Get All Listed Car DAO: Success");
+
+        System.out.println("listed car - array "+carArrayList.size());
         return carArrayList;
     }
 
@@ -150,6 +158,57 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
         loggerInstance.log(0,"Get Car Details By Id DAO: Success");
         return carList;
 
+    }
+
+    @Override
+    public boolean isCarBooked(int carId) {
+
+        Connection connection = null;
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement=null;
+        boolean isBooked = false;
+
+        try {
+            connection = databaseConnection.getDBConnection();
+            preparedStatement = connection.prepareStatement(GET_BOOKED_CAR);
+            preparedStatement.setInt(1,carId);
+            resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()){
+                String dateString = resultSet.getString("from_date");
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+                Date fromDate = format.parse(dateString);
+                Date currentDate = new Date();
+                if(fromDate.after(currentDate)){
+                    isBooked = true;
+                }
+
+
+            }
+
+        } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException | ParseException e) {
+
+            e.printStackTrace();
+        } finally {
+            try {
+                if(resultSet != null){
+                    resultSet.close();
+                }
+                if(preparedStatement!=null)
+                {
+                    preparedStatement.close();
+                }
+                databaseConnection.closeDBConnection(connection);
+            } catch (SQLException e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("is Car Booked -" + isBooked);
+
+        return isBooked;
     }
 
 

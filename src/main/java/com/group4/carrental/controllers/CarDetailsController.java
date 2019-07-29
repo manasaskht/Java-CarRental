@@ -1,5 +1,6 @@
 package com.group4.carrental.controllers;
 
+import com.group4.carrental.authentication.Authentication;
 import com.group4.carrental.model.CarList;
 import com.group4.carrental.service.ICarDetailsService;
 import com.group4.carrental.service.implementation.LoggerInstance;
@@ -17,6 +18,7 @@ public class CarDetailsController {
 
     private ICarDetailsService carDetailsService;
     private LoggerInstance loggerInstance;
+    private Authentication authentication = Authentication.getInstance();
 
     @Autowired
     public CarDetailsController(@Qualifier("CarDetailsService") ICarDetailsService carDetailsService,LoggerInstance loggerInstance){
@@ -24,20 +26,36 @@ public class CarDetailsController {
         this.loggerInstance = loggerInstance;
     }
 
-    @GetMapping("car-details")
-    public String carDetails(@RequestParam("carDetails")int carId, HttpSession session, Model model){
-        int userId = 0;
-        try {
-            userId = (int) session.getAttribute("user_id");
-        }catch (NullPointerException exception){
+
+    @GetMapping("listed-car-details")
+    public String listedCarDetails(@RequestParam("carDetails")int carId, HttpSession session, Model model){
+
+        if(authentication.isValidUserSession(session)){
+            CarList carDetails =  carDetailsService.getCarById(carId);
+            model.addAttribute("carDetails",carDetails);
+
+            return "carDetails";
+
+        }else {
             return "redirect:login";
         }
 
-        CarList carDetails = new CarList();
-        carDetails = carDetailsService.getCarById(carId);
-        model.addAttribute("carDetails",carDetails);
+    }
 
-        return "carDetails";
+    @GetMapping("booked-car-details")
+    public String bookedCarDetails(@RequestParam("carDetails")int carId, HttpSession session, Model model){
+
+        if(authentication.isValidUserSession(session)){
+            CarList carDetails = carDetailsService.getBookedCarById(carId);
+            model.addAttribute("carDetails",carDetails);
+
+            return "carDetails";
+        }else {
+            return "redirect:login";
+        }
+
+
+
     }
 
 }

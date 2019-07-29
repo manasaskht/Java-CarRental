@@ -18,11 +18,13 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
     private IDatabaseConnection databaseConnection;
     private LoggerInstance loggerInstance;
 
-    private static final String GET_BOOKEDCAR_QUERY = "select Car.*,Car_Type.car_type_name,City_Name.city_name from Car INNER JOIN User ON Car.owner_id=User.user_id" +
-            " INNER JOIN City_Name ON Car.car_city = City_Name.city_id"+
-            " INNER JOIN Car_Type ON Car.car_type_id = Car_Type.car_type_id where User.user_id = ? AND car_status_id = 1 ";
+    private static final String GET_BOOKEDCAR_QUERY = "select  Car.*,Car_Type.*,City_Name.*,Booking.* from Car INNER JOIN Booking ON Car.car_id = Booking.car_id "+
+            "INNER  JOIN  City_Name ON Car.car_city = City_Name.city_id" +
+            " INNER JOIN Car_Type ON Car.car_type_id = Car_Type.car_type_id where Booking.customer_id = ? ";
 
-    private static final String REMOVE_BOOKEDCAR_QUERY = "update Car SET car_status_id = 2 where car_id = ?";
+
+
+    private static final String REMOVE_BOOKEDCAR_QUERY = "DELETE  from  Booking where car_id = ?";
 
     @Autowired
     public UserBookedCarsDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection,
@@ -55,6 +57,10 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
                 car.setCityName(resultSet.getString("city_name"));
                 car.setDescription(resultSet.getString("car_description"));
                 car.setCarModel(resultSet.getString("car_model"));
+                car.setBookingId(resultSet.getInt("booking_id"));
+                car.setBookedDate(resultSet.getString("booked_date")+"");
+                car.setFromDate(resultSet.getString("from_date"));
+                car.setToDate(resultSet.getString("to_date"));
 
                 Blob carImage = resultSet.getBlob("car_image");
                 String carImageData = null;

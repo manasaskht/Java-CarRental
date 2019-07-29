@@ -29,6 +29,11 @@
                         <p>Car City : ${carDetails.cityName}</p>
                         <p>Car Rate : ${carDetails.carRate}</p>
                         <p>Car Description : ${carDetails.description}</p>
+                        <c:if test="${not empty carDetails.bookedDate}">
+                            <p>Booked On : ${carDetails.bookedDate}</p>
+                            <p>Booked From : ${carDetails.fromDate}</p>
+                            <p>Booked To : ${carDetails.toDate} </p>
+                        </c:if>
                     </div>
                 </div>
 

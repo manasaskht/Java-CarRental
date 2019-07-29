@@ -15,6 +15,7 @@
         </div>
 
         <div class="col-sm-8">
+            <span style="color: red">${error}</span>
             <c:forEach items="${listedCars}" var="car">
                 <div class="card" style="margin-top:10px">
                     <div class="row">
@@ -30,7 +31,7 @@
                          <%--   <p>Car Rate : ${car.carRate}</p>  --%>
                          <%--   <p>Car Description : ${car.description}</p> --%>
 
-                            <form action="/car-details" method="get">
+                            <form action="/listed-car-details" method="get">
 
                                 <button class ="btn btn-dark" id="carDetails" name="carDetails" value="${car.carId}" type="submit" >View more</button>
                             </form>
@@ -57,6 +58,8 @@
 
                     </div>
                 </div>
+
+
 
             </c:forEach>
 
