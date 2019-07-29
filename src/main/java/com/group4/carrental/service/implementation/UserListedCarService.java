@@ -60,4 +60,10 @@ public class UserListedCarService implements IUserListedCarService {
         return carRentService.getCityList();
     }
 
+    @Override
+    public boolean isCarBooked(int carId) {
+        boolean isBooked = userListedCarsDAO.isCarBooked(carId);
+        return isBooked;
+    }
+
 }

@@ -15,4 +15,5 @@ public interface IUserListedCarService {
     public CarList getCarDetailsById(int carId);
     public ArrayList<CarType> getCarTypeList();
     public ArrayList<City> getCityList();
+    public boolean isCarBooked(int carId);
 }

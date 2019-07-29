@@ -6,45 +6,60 @@
 </head>
 <body>
 
+
 <br>
 <div class="container" style="margin-top:10px">
 
     <div class="row">
         <div class="col-sm-2">
         </div>
+
         <div class="col-sm-8">
+            <span style="color: red">${error}</span>
             <c:forEach items="${listedCars}" var="car">
                 <div class="card" style="margin-top:10px">
                     <div class="row">
-                        <div class="col-sm-5">
-                            <img style="width:100%;height:270px"
+                        <div class="col-sm-4">
+                            <img style="width:100%;height:200px"
                                  src="data:image/jpeg;base64,${car.imageURL}"
                                  border="0"/>
                         </div>
                         <div class="col-sm-7">
                             <h4>${car.carModel}</h4>
-                            <p>Car Type : ${car.carTypeName}</p>
-                            <p>Car City : ${car.cityName}</p>
-                            <p>Car Rate : ${car.carRate}</p>
-                            <p>Car Description : ${car.description}</p>
+                            <p>Vehicle Type : ${car.carTypeName}</p>
+                         <%--   <p>Car City : ${car.cityName}</p> --%>
+                         <%--   <p>Car Rate : ${car.carRate}</p>  --%>
+                         <%--   <p>Car Description : ${car.description}</p> --%>
 
-                            <form action="/edit-car-details" method="get">
+                            <form action="/listed-car-details" method="get">
 
-                                <div>
-                                    <button class ="btn btn-dark" id="carIdEdit" name="carIdEdit" value="${car.carId}" type="submit" >Edit</button>
-                                </div>
+                                <button class ="btn btn-dark" id="carDetails" name="carDetails" value="${car.carId}" type="submit" >View more</button>
                             </form>
 
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <form action="/edit-car-details" method="get">
 
-                            <form action="/user-listed-cars" method="post">
-
-                                <div>
-                                    <button class ="btn btn-dark" id="carId" name="carId" value="${car.carId}" type="submit" >Remove</button>
+                                        <button class ="btn btn-dark" id="carIdEdit" name="carIdEdit" value="${car.carId}" type="submit" >Edit</button>
+                                    </form>
                                 </div>
-                            </form>
+                                <div class="col-sm-2">
+                                    <form action="/user-listed-cars" method="post">
+                                        <button class ="btn btn-dark" id="carId" name="carId" value="${car.carId}" type="submit" >Remove</button>
+
+                                    </form>
+                                </div>
+                            </div>
+
+
+
                         </div>
+
+
                     </div>
                 </div>
+
+
 
             </c:forEach>
 
