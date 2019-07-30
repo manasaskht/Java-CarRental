@@ -108,8 +108,8 @@
                             </div>
                             <div class="col-sm-7">
                                 <h3>${car.model}</h3>
-                                <p>${car.description}</p>
-                                <p>${car.carRate}</p>
+                                <p>Description: ${car.description}</p>
+                                <p>Rate: ${car.carRate}</p>
                             </div>
                         </div>
                         <div class="row">

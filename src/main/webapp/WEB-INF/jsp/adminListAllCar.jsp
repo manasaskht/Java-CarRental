@@ -45,9 +45,9 @@
                             </div>
                             <div class="col-sm-7">
                                 <h3>${car.carModel}</h3>
-                                <p>${car.carDescription}</p>
-                                <p>${car.carRate}</p>
-                                <p>${car.carOwnerName}</p>
+                                <p>Description: ${car.carDescription}</p>
+                                <p>Rate: ${car.carRate}</p>
+                                <p>Owner Name: ${car.carOwnerName}</p>
                             </div>
                         </div>
                         <div style="margin-top:25px" class="col-sm-3 offset-sm-5">
