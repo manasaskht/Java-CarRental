@@ -41,7 +41,7 @@ public class AdminLoginController {
         loggerInstance.log(0,"Admin Login Validate: Called");
         if(adminData != null){
             session.setAttribute("admin",adminData.getAdminId());
-            return "redirect:/admin/adminPage";
+            return "redirect:/admin/listAllCar";
         }else{
             model.addAttribute("loginError","Login Error");
             return "adminLogin";

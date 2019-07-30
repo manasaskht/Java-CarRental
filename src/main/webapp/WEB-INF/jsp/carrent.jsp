@@ -2,8 +2,37 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg navClass w-100">
+    <a class="navbar-brand">Car Rent</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link linkClass active" href="homePage">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link linkClass" href="#">Rent a Car</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">User Profile</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="userListedCars">Listed Cars</a>
+                    <a class="dropdown-item" href="userBookedCars">Booked Cars </a>
+                    <a class="dropdown-item" href="userUpdateProfile">Update User Profile</a>
+                    <a class="dropdown-item" href="updatePassword">Update User Password</a>
+                </div>
+            </li>
+        </ul>
+        <br/>
+        <form class="form-inline" action="/logout" method="post">
+            <button class="btn btn-danger" type="submit">Logout</button>
+        </form>
+    </div>
+</nav>
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
@@ -11,15 +40,16 @@
                 <div class="form-group">
                     <label for="model">Car Model</label>
                     <input type="text" class="form-control" id="model" name="model" placeholder="Enter Car Model Name"
-                           required minlength="5" maxlength="50">
+                           required minlength="5" maxlength="50"/>
                     <c:if test="${modelError != null}">
                         <p style="color: red">${modelError}</p>
                     </c:if>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea type="text" class="form-control" id="description" name="description"
-                              placeholder="Enter Car Description" required minlength="10" maxlength="300" rows="3"></textarea>
+                    <input type="text" class="form-control" id="description" name="description"
+                              placeholder="Enter Car Description" required minlength="10" maxlength="300"
+                              rows="3"/>
                     <c:if test="${descriptionError != null}">
                         <p style="color: red">${descriptionError}</p>
                     </c:if>
@@ -66,9 +96,8 @@
             </form>
         </div>
     </div>
-
 </div>
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="/js/index.js"></script>
 </body>
-    </html>
+</html>
