@@ -5,7 +5,7 @@ import javax.servlet.http.HttpSession;
 public interface IAuthentication {
 
     public boolean isValidUserSession(HttpSession session);
-    public boolean isValidAdminSession();
+    public boolean isValidAdminSession(HttpSession session);
     public int getUserId();
     public int getAdminId();
 }

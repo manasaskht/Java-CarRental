@@ -34,7 +34,7 @@ public class UserListedCarController {
     }
 
 
-    @GetMapping("/user-listed-cars")
+    @GetMapping("/userListedCars")
     public String userListedCars(Model model, HttpSession session) {
         loggerInstance.log(0, "User Listed Cars: Called");
 
@@ -50,7 +50,7 @@ public class UserListedCarController {
 
     }
 
-    @PostMapping("/user-listed-cars")
+    @PostMapping("/userListedCars")
     public String removeCarFromListedCar(@RequestParam("carId") int carId, Model model, HttpSession session){
         loggerInstance.log(0,"User Remove Car From Listed Car: Called");
         if(authentication.isValidUserSession(session)){
@@ -72,7 +72,7 @@ public class UserListedCarController {
 
     }
 
-    @GetMapping("edit-car-details")
+    @GetMapping("editCarDetails")
     public String editCarDetails(@RequestParam("carIdEdit") int carId,HttpSession session, Model model){
         loggerInstance.log(0,"User Car Edit Details: Called");
         if(authentication.isValidUserSession(session)){

@@ -26,25 +26,19 @@
                         </div>
                         <div class="col-sm-7">
                             <h4>${car.carModel}</h4>
-                            <p>Vehicle Type : ${car.carTypeName}</p>
-                         <%--   <p>Car City : ${car.cityName}</p> --%>
-                         <%--   <p>Car Rate : ${car.carRate}</p>  --%>
-                         <%--   <p>Car Description : ${car.description}</p> --%>
+                            <p>Car Rate : ${car.carRate}</p>
+                            <p>Car Description : ${car.description}</p>
 
-                            <form action="/listed-car-details" method="get">
-
-                                <button class ="btn btn-dark" id="carDetails" name="carDetails" value="${car.carId}" type="submit" >View more</button>
-                            </form>
 
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <form action="/edit-car-details" method="get">
+                                    <form action="/editCarDetails" method="get">
 
                                         <button class ="btn btn-dark" id="carIdEdit" name="carIdEdit" value="${car.carId}" type="submit" >Edit</button>
                                     </form>
                                 </div>
                                 <div class="col-sm-2">
-                                    <form action="/user-listed-cars" method="post">
+                                    <form action="/userListedCars" method="post">
                                         <button class ="btn btn-dark" id="carId" name="carId" value="${car.carId}" type="submit" >Remove</button>
 
                                     </form>

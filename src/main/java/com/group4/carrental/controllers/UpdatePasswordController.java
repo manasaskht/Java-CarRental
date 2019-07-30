@@ -40,7 +40,7 @@ public class UpdatePasswordController {
     }
 
 
-    @GetMapping("/update-password")
+    @GetMapping("/updatePassword")
     public String updatePassword(HttpSession session){
         loggerInstance.log(0,"User update password: Called");
 
@@ -51,7 +51,7 @@ public class UpdatePasswordController {
         }
 
     }
-    @PostMapping(value ="/update-password" )
+    @PostMapping(value ="/updatePassword" )
     public String saveUserPassword(@ModelAttribute("password")Password password, HttpSession session,Model model) throws UnsupportedEncodingException {
         loggerInstance.log(0,"User new password submit : called");
 
