@@ -7,7 +7,7 @@ public class CarBooking {
     private int carId;
     private String fromDate;
     private String toDate;
-    private String bookedDate;
+
 
     public int getBookingId() {
         return bookingId;
@@ -49,11 +49,5 @@ public class CarBooking {
         this.toDate = toDate;
     }
 
-    public String getBookedDate() {
-        return bookedDate;
-    }
 
-    public void setBookedDate(String bookedDate) {
-        this.bookedDate = bookedDate;
-    }
 }

@@ -32,8 +32,8 @@ public class BookCarDAO implements IBookCarDAO {
         try {
             connection = databaseConnection.getDBConnection();
 
-            String query = "insert into Booking (customer_id, car_id, from_date, to_date,booked_date)"
-                    + " values (?, ?, ?, ?,?)";
+            String query = "insert into Booking (customer_id, car_id, from_date, to_date)"
+                    + " values (?, ?, ?, ?)";
 
 
             saveCarDetailsStmt = connection.prepareStatement(query);
@@ -41,7 +41,7 @@ public class BookCarDAO implements IBookCarDAO {
             saveCarDetailsStmt.setInt(2, carBooking.getCarId());
             saveCarDetailsStmt.setString(3, carBooking.getFromDate());
             saveCarDetailsStmt.setString(4, carBooking.getToDate());
-            saveCarDetailsStmt.setString(5,carBooking.getBookedDate());
+
 
             saveCarDetailsStmt.execute();
 
