@@ -138,12 +138,7 @@
 
         </form>
     </div>
-    <div class="footer tempClass" style="margin-top:65px;">
-        <h6 class="text-center">Car Rent</h6>
-        <div class="footer-copyright text-center py-3">© 2019 Copyright:
-            <a action="/homePage"> CarRent.com</a>
-        </div>
-    </div>
+
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript">
