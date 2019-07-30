@@ -7,17 +7,23 @@ import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
+import com.group4.carrental.service.implementation.LoggerInstance;
 import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.ILoginDAO;
 import com.group4.carrental.model.User;
-
+import org.springframework.beans.factory.annotation.Qualifier;
 @Repository("LoginDAO")
 public class LoginDAO implements ILoginDAO {
 
-	@Autowired
 	private IDatabaseConnection databaseConnection;
+	private LoggerInstance loggerInstance;
 
+	@Autowired
+
+    public LoginDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection, LoggerInstance loggerInstance) {
+			this.databaseConnection = databaseConnection;
+			this.loggerInstance = loggerInstance;
+		}
 	public String getPassword(String email) {
 		Connection dbconnect;
 		String query = ("select password from User where email='" + email + "';");
@@ -26,6 +32,7 @@ public class LoginDAO implements ILoginDAO {
 		String passwordDB = null;
 
 		try {
+			loggerInstance.log(0,"Login DAO Error: ");
 			dbconnect = databaseConnection.getDBConnection();
 			st = dbconnect.prepareStatement(query);
 			rs = st.executeQuery(query);
@@ -37,12 +44,14 @@ public class LoginDAO implements ILoginDAO {
 
 		}
 		catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			loggerInstance.log(2,"Login DAO Error: "+e.toString());
 			e.printStackTrace();
 		} finally {
 			try {
 				rs.close();
 				st.close();
 			} catch (SQLException e) {
+				loggerInstance.log(2,"Login DAO Error: "+e.toString());
 				e.printStackTrace();
 			}
 
@@ -61,6 +70,7 @@ public class LoginDAO implements ILoginDAO {
 		int userId = 0;
 
 		try {
+			loggerInstance.log(0,"Login DAO Error: ");
 			dbconnect = databaseConnection.getDBConnection();
 			st = dbconnect.prepareStatement(query);
 			rs = st.executeQuery(query);
@@ -72,12 +82,14 @@ public class LoginDAO implements ILoginDAO {
 
 		}
 		catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			loggerInstance.log(2,"Login DAO Error: "+e.toString());
 			e.printStackTrace();
 		} finally {
 			try {
 				rs.close();
 				st.close();
 			} catch (SQLException e) {
+				loggerInstance.log(2,"Login DAO Error: "+e.toString());
 				e.printStackTrace();
 			}
 

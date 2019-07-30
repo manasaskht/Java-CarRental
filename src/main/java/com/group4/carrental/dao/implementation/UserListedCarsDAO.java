@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Logger;
 
 @Repository("UserListedCarsDAO")
@@ -19,15 +24,13 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
     private IDatabaseConnection databaseConnection;
     private LoggerInstance loggerInstance;
 
-    private static final String GET_LISTEDCAR_QUERY = "select Car.*,Car_Type.*,City_Name.* from Car INNER JOIN User ON Car.owner_id=User.user_id" +
-            " INNER JOIN City_Name ON Car.car_city = City_Name.city_id"+
-            " INNER JOIN Car_Type ON Car.car_type_id = Car_Type.car_type_id where User.user_id = ? AND car_status_id = 2 ";
+    private final String GET_LISTED_CAR = "{call getListedCar(?)}";
 
-    private static final String REMOVE_CAR_QUERY = "DELETE from Car where car_id = ?";
+    private static final String REMOVE_CAR_QUERY = "{call removeCarById(?)}";
     ArrayList<CarList> carArrayList ;
 
 
-
+    private static final String GET_BOOKED_CAR = "{call getBookedCarDetails(?)}";
 
 
 
@@ -45,19 +48,19 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
 
         Connection connection = null;
         ResultSet resultSet = null;
-        PreparedStatement preparedStatement=null;
+        CallableStatement callableStatement=null;
         carArrayList = new ArrayList<>();
 
         try {
             connection = databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(GET_LISTEDCAR_QUERY);
-            preparedStatement.setInt(1,userId);
-            resultSet = preparedStatement.executeQuery();
-
+            callableStatement = connection.prepareCall(GET_LISTED_CAR);
+            callableStatement.setInt(1,userId);
+            resultSet = callableStatement.executeQuery();
 
 
             while(resultSet.next()){
 
+                System.out.println("in to listed car ");
                 CarList car = new CarList();
                 car.setCarId(resultSet.getInt("car_id"));
                 car.setCarOwner(resultSet.getInt("owner_id"));
@@ -89,9 +92,9 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
                 if(resultSet != null){
                     resultSet.close();
                 }
-                if(preparedStatement!=null)
+                if(callableStatement!=null)
                 {
-                    preparedStatement.close();
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e){
@@ -101,6 +104,7 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
         }
 
         loggerInstance.log(0,"User Get All Listed Car DAO: Success");
+
         return carArrayList;
     }
 
@@ -109,13 +113,13 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
 
         Connection connection = null;
         ResultSet resultSet = null;
-        PreparedStatement preparedStatement=null;
+        CallableStatement callableStatement=null;
 
         try {
             connection = databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(REMOVE_CAR_QUERY);
-            preparedStatement.setInt(1,carId);
-            preparedStatement.executeUpdate();
+            callableStatement = connection.prepareCall(REMOVE_CAR_QUERY);
+            callableStatement.setInt(1,carId);
+            callableStatement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             loggerInstance.log(2,"Remove Car By ID DAO Error: "+e.toString());
@@ -125,9 +129,9 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
                 if(resultSet != null){
                     resultSet.close();
                 }
-                if(preparedStatement!=null)
+                if(callableStatement!=null)
                 {
-                    preparedStatement.close();
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
@@ -150,6 +154,60 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
         loggerInstance.log(0,"Get Car Details By Id DAO: Success");
         return carList;
 
+    }
+
+    @Override
+    public boolean isCarBooked(int carId) {
+
+        Connection connection = null;
+        ResultSet resultSet = null;
+        CallableStatement callableStatement=null;
+        boolean isBooked = false;
+
+        try {
+            connection = databaseConnection.getDBConnection();
+            callableStatement = connection.prepareCall(GET_BOOKED_CAR);
+            callableStatement.setInt(1,carId);
+            resultSet = callableStatement.executeQuery();
+
+            while (resultSet.next()){
+                String dateString = resultSet.getString("from_date");
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+
+                Date fromDate = format.parse(dateString);
+                Date currentDate = new Date();
+                System.out.println("from date - "+format.format(fromDate));
+                System.out.println("from date - "+format.format(currentDate));
+                if(fromDate.after(currentDate)){
+                    isBooked = true;
+                    System.out.println("is Car booked -"+isBooked);
+                }
+
+
+            }
+
+        } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException | ParseException e) {
+            loggerInstance.log(2,"IS BOOKED CAR DAO Error: "+e.toString());
+            e.printStackTrace();
+        } finally {
+            try {
+                if(resultSet != null){
+                    resultSet.close();
+                }
+                if(callableStatement!=null)
+                {
+                    callableStatement.close();
+                }
+                databaseConnection.closeDBConnection(connection);
+            } catch (SQLException e) {
+                loggerInstance.log(2,"IS BOOKED CAR DAO Error: "+e.toString());
+                e.printStackTrace();
+            }
+        }
+
+        loggerInstance.log(0,"IS BOOKED CAR DAO SUCCESS: ");
+        return isBooked;
     }
 
 

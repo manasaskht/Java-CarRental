@@ -5,6 +5,7 @@ import com.group4.carrental.dao.ICarRentDAO;
 import com.group4.carrental.model.Car;
 import com.group4.carrental.model.CarType;
 import com.group4.carrental.service.implementation.LoggerInstance;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,10 @@ public class CarRentDAO implements ICarRentDAO {
     private IDatabaseConnection databaseConnection;
     private LoggerInstance loggerInstance;
 
+    private final String GET_CAR_TYPE="{call getCarType()}";
+    private final String ADD_CAR="{call addCar(?,?,?,?,?,?,?)}";
+    private final String GET_CAR_BY_ID="{call getCarById(?)}";
+
     @Autowired
     public CarRentDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection, LoggerInstance loggerInstance) {
         this.databaseConnection = databaseConnection;
@@ -26,32 +31,29 @@ public class CarRentDAO implements ICarRentDAO {
 
     @Override
     public void addCar(Car car, Blob carImage, int userId) {
-        String query = "insert into Car(owner_id, car_city, car_description, car_type_id, car_rate, car_image,car_model)\n" +
-                "values (?,?,?,?,?,?,?);";
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
+
         try {
             connection = this.databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, car.getCity());
-            preparedStatement.setString(3, car.getDescription());
-            preparedStatement.setInt(4, car.getCarTypeId());
-            preparedStatement.setDouble(5, car.getCarRate());
-            preparedStatement.setBinaryStream(6, carImage.getBinaryStream());
-            preparedStatement.setString(7, car.getModel());
+            callableStatement = connection.prepareCall(ADD_CAR);
+            callableStatement.setInt(1,userId);
+            callableStatement.setInt(2,car.getCity());
+            callableStatement.setString(3, car.getDescription());
+            callableStatement.setInt(4, car.getCarTypeId());
+            callableStatement.setDouble(5, car.getCarRate());
+            callableStatement.setBinaryStream(6, carImage.getBinaryStream());
+            callableStatement.setString(7, car.getModel());
 
-            preparedStatement.execute();
+            callableStatement.execute();
             loggerInstance.log(0,"Car Rent DAO Add Car: Called");
+
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             loggerInstance.log(2,"Car Rent DAO Error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
-                databaseConnection.closeDBConnection(connection);
-                if(preparedStatement != null) {
-                    preparedStatement.close();
-                }
+                databaseConnection.closeStatementAndConnection(callableStatement,null);
             } catch (SQLException e) {
                 loggerInstance.log(2,"Car Rent DAO Error: "+e.toString());
                 e.printStackTrace();
@@ -61,30 +63,38 @@ public class CarRentDAO implements ICarRentDAO {
 
     @Override
     public Car getCarById(int id) {
-        String query = "select * from Car where car_id = ?";
         Car car = new Car();
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
         ResultSet resultSet = null;
+
         try {
             connection = databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
-
-            resultSet = preparedStatement.executeQuery();
+            callableStatement = connection.prepareCall(GET_CAR_BY_ID);
+            callableStatement.setInt(1,id);
+            resultSet = callableStatement.executeQuery();
 
             if (resultSet != null) {
                 while (resultSet.next()) {
+                    int carId = resultSet.getInt("car_id");
+                    car.setCarId(carId);
                     int ownerId = resultSet.getInt("owner_id");
                     car.setCarOwner(ownerId);
-                    int city = resultSet.getInt("city");
+                    int city = resultSet.getInt("car_city");
                     car.setCity(city);
-                    String description = resultSet.getString("description");
+                    String description = resultSet.getString("car_description");
                     car.setDescription(description);
-                    Blob carImage = resultSet.getBlob("image");
+                    double carRate = resultSet.getDouble("car_rate");
+                    car.setCarRate(carRate);
+                    Blob carImage = resultSet.getBlob("car_image");
                     String carImageData = null;
-                    carImageData = new String(carImage.getBytes(1l, (int) carImage.length()));
+                    byte[] imageBytes = carImage.getBytes(1, (int) carImage.length());
+                    carImageData = Base64.encodeBase64String(imageBytes);
                     car.setImageURL(carImageData);
+                    String carModel = resultSet.getString("car_model");
+                    car.setModel(carModel);
+                    int carTypeId = resultSet.getInt("car_type_id");
+                    car.setCarTypeId(carTypeId);
                 }
             }
 
@@ -93,13 +103,7 @@ public class CarRentDAO implements ICarRentDAO {
             e.printStackTrace();
         }finally {
             try {
-                databaseConnection.closeDBConnection(connection);
-                if(preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if(resultSet != null) {
-                    resultSet.close();
-                }
+                databaseConnection.closeStatementAndConnection(callableStatement,resultSet);
             } catch (SQLException e) {
                 loggerInstance.log(2,"Car Rent DAO Error: "+e.toString());
                 e.printStackTrace();
@@ -111,16 +115,15 @@ public class CarRentDAO implements ICarRentDAO {
 
     @Override
     public ArrayList<CarType> getCarType() {
-        String query = "select * from Car_Type";
         ArrayList<CarType> carTypes = new ArrayList<>();
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
         ResultSet resultSet = null;
 
         try {
             connection = databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
+            callableStatement = connection.prepareCall(GET_CAR_TYPE);
+            resultSet = callableStatement.executeQuery();
 
             if(resultSet != null){
                 while (resultSet.next()){
@@ -140,13 +143,7 @@ public class CarRentDAO implements ICarRentDAO {
             e.printStackTrace();
         }finally {
             try {
-                databaseConnection.closeDBConnection(connection);
-                if(preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if(resultSet != null) {
-                    resultSet.close();
-                }
+                databaseConnection.closeStatementAndConnection(callableStatement,resultSet);
             } catch (SQLException e) {
                 loggerInstance.log(2,"Car Rent DAO Error: "+e.toString());
                 e.printStackTrace();

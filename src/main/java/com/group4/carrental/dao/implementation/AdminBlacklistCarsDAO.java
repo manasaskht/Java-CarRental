@@ -26,22 +26,24 @@ public class AdminBlacklistCarsDAO implements IAdminBlacklistCarsDAO {
         this.databaseConnection = databaseConnection;
     }
 
+    private final String blackList_cars="{call getBlacklistCars(?)}";
+    private final String update_carStatus="{call updateCarStatus(?,?)}";
+
     @Override
     public ArrayList<AdminCar> getBlacklistCars() {
 
         log.log(0,"In DAO:get blacklist cars list from database");
         ArrayList<AdminCar> carArrayList = new ArrayList<>();
         Connection connection = null;
-        PreparedStatement ps = null;
+        CallableStatement callableStatement = null;
         ResultSet rs = null;
         int status=3;
-        String getCarListQuery = "select car_id,car_model,car_description,car_rate,(select city_name from City_Name where city_id = car_city) as car_city,(select name from User where user_id = owner_id) as owner_name, (select email from User where user_id = owner_id) as owner_email, car_image from Car where car_status_id=?";
 
         try {
             connection = databaseConnection.getDBConnection();
-            ps = connection.prepareStatement(getCarListQuery);
-            ps.setInt(1,status);
-            rs = ps.executeQuery();
+            callableStatement = connection.prepareCall(blackList_cars);
+            callableStatement.setInt(1,status);
+            rs = callableStatement.executeQuery();
 
             if (rs != null) {
                 while (rs.next()) {
@@ -76,8 +78,8 @@ public class AdminBlacklistCarsDAO implements IAdminBlacklistCarsDAO {
         }finally {
             try {
                 databaseConnection.closeDBConnection(connection);
-                if(ps != null) {
-                    ps.close();
+                if(callableStatement != null) {
+                    callableStatement.close();
                 }
                 if(rs != null) {
                     rs.close();
@@ -94,15 +96,15 @@ public class AdminBlacklistCarsDAO implements IAdminBlacklistCarsDAO {
 
         log.log(0,"updateCarStatus method to update status of car in database");
         Connection connection=null;
-        PreparedStatement updateCarStatement=null;
+        CallableStatement callableStatement = null;
         try {
 
             connection = databaseConnection.getDBConnection();
-            String updateQuery = "UPDATE Car SET car_status_id=? WHERE car_id=?";
-            updateCarStatement = connection.prepareStatement(updateQuery);
-            updateCarStatement.setInt(1,carStatus);
-            updateCarStatement.setInt(2,carId);
-            updateCarStatement.executeUpdate();
+            callableStatement = connection.prepareCall(update_carStatus);
+            callableStatement.setInt(1,carId);
+            callableStatement.setInt(2,carStatus);
+
+            callableStatement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             log.log(2,"exception in updateCarStatus method"+e.getMessage());
@@ -110,8 +112,8 @@ public class AdminBlacklistCarsDAO implements IAdminBlacklistCarsDAO {
         }
         finally {
             try {
-                if(updateCarStatement != null){
-                    updateCarStatement.close();
+                if(callableStatement != null){
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {

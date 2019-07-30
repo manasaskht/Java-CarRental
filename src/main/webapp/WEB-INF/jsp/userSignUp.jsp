@@ -16,7 +16,6 @@
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
-
 </head>
 <body >
 <input type="hidden" name="selectedCity" id="selectedCity" value="<%=user!=null?user.getCity_id():0%>">
@@ -24,13 +23,12 @@
     <div class="container">
         <form name="signUpForm" action="userSignUp" method="post">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="col-lg-4">
+                    <div class="col-sm-6 offset-sm-3 card">
                         <br/>
                         <div class="formTitle">
-                            <h1> Sign Up</h1>
+                            <h1 style="text-align: center"> SIGN UP</h1>
                         </div>
-                        <br/>
+                       <hr>
 
                         <br/>
                         <div class="form-group">
@@ -76,7 +74,7 @@
                         <br/>
                     </div>
                 </div>
-            </div>
+
         </form>
     </div>
 </header>

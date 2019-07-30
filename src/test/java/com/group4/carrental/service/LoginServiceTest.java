@@ -7,7 +7,7 @@ import com.group4.carrental.dao.LoginDAOMock;
 import com.group4.carrental.service.implementation.UserSignUpService;
 import org.junit.Before;
 import org.junit.Test;
-
+import com.group4.carrental.service.implementation.LoggerInstance;
 import com.group4.carrental.service.implementation.LoginService;
 import static junit.framework.TestCase.assertTrue;
 
@@ -23,7 +23,7 @@ public class LoginServiceTest {
     @Before
     public void setUp(){
       this.LoginDAO=new LoginDAOMock();
-        this.LoginService = new LoginService(LoginDAO);
+      this.LoginService = new LoginService(LoginDAO,mock(UserSignUpService.class),mock(LoggerInstance.class));
     }
     @Test
     public void isValidUserEmailTest()
@@ -52,7 +52,7 @@ public class LoginServiceTest {
     }
     @Test
     public void isUserValidTest()
-    { int userId = 1;
+    { 
         String userEmail="abc@gmail.com";
         String userPassword="Dec@0307";
         String getPassword= LoginDAO.getPassword(userEmail);
@@ -61,8 +61,7 @@ public class LoginServiceTest {
         userPassword="Mon@0306";
         getPassword= LoginDAO.getPassword(userEmail);
         assertFalse(getPassword.equals(userPassword));
-
-
+        
 
     }
 

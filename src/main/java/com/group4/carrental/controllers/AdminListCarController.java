@@ -1,8 +1,7 @@
 package com.group4.carrental.controllers;
 
 import com.group4.carrental.model.AdminCar;
-import com.group4.carrental.model.Car;
-import com.group4.carrental.service.IAdminService;
+import com.group4.carrental.service.IAdminListCarService;
 import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -16,15 +15,15 @@ import java.util.ArrayList;
 @Controller
 public class AdminListCarController {
 
-    private IAdminService adminService;
+    private IAdminListCarService adminService;
     private LoggerInstance loggerInstance;
 
-    public AdminListCarController(@Qualifier("AdminService")IAdminService adminService, LoggerInstance loggerInstance){
+    public AdminListCarController(@Qualifier("AdminService") IAdminListCarService adminService, LoggerInstance loggerInstance){
         this.adminService = adminService;
         this.loggerInstance = loggerInstance;
     }
 
-    @GetMapping("/admin/list-all-car")
+    @GetMapping("/admin/listAllCar")
     public String listAllCar(Model model, HttpSession session){
         loggerInstance.log(0,"Admin List All Car: Called");
         int adminId = 0;
@@ -47,8 +46,18 @@ public class AdminListCarController {
         }catch(NullPointerException exception){
             return "redirect:/admin/login";
         }
-        this.adminService.blackListCar(id);
-        return "redirect:/admin/list-all-car";
+        if(this.adminService.isCarBooked(id)){
+            model.addAttribute("carBookedError","The car is booked");
+            ArrayList<AdminCar> carArrayList = this.adminService.getAllCars();
+            model.addAttribute("carList",carArrayList);
+            System.out.println("Car Booked");
+            return "adminListAllCar";
+        }else {
+            this.adminService.blackListCar(id);
+            System.out.println("Car Not Booked");
+            return "redirect:/admin/listAllCar";
+        }
+
     }
 
 }

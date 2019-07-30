@@ -1,5 +1,7 @@
 package com.group4.carrental.model;
 
+import java.util.Date;
+
 public class CarList {
 
     private String model;
@@ -13,6 +15,10 @@ public class CarList {
     private String carTypeName;
     private String carModel;
     private Integer cityId;
+    private int bookingId;
+    private String fromDate;
+    private String toDate;
+    private String bookedDate;
 
     public String getModel() {
         return model;
@@ -100,5 +106,37 @@ public class CarList {
 
     public void setCityId(Integer cityId) {
         this.cityId = cityId;
+    }
+
+    public int getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public String getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(String fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public String getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(String toDate) {
+        this.toDate = toDate;
+    }
+
+    public String getBookedDate() {
+        return bookedDate;
+    }
+
+    public void setBookedDate(String bookedDate) {
+        this.bookedDate = bookedDate;
     }
 }

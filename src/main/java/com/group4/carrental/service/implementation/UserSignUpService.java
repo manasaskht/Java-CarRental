@@ -3,8 +3,8 @@ package com.group4.carrental.service.implementation;
 import com.group4.carrental.dao.IUserSignUpDAO;
 import com.group4.carrental.model.City;
 import com.group4.carrental.model.User;
+import com.group4.carrental.service.ISignUpformRuleService;
 import com.group4.carrental.service.IUserSignUpService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +12,21 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service("UserSignUpService")
 public class UserSignUpService implements IUserSignUpService {
 
     private LoggerInstance log;
     private IUserSignUpDAO iUserSignUpDAO;
+    private ISignUpformRuleService iSignUpformRuleService;
 
-    public UserSignUpService(@Qualifier("UserSignUpDAO") IUserSignUpDAO userSignUpDAO,LoggerInstance loggerInstance){
+    public UserSignUpService(@Qualifier("UserSignUpDAO") IUserSignUpDAO userSignUpDAO,
+                             @Qualifier("SignUpformRuleService") ISignUpformRuleService signUpformRuleService,
+                             LoggerInstance loggerInstance){
         this.iUserSignUpDAO = userSignUpDAO;
+        this.iSignUpformRuleService=signUpformRuleService;
         this.log = loggerInstance;
     }
 
@@ -133,11 +139,63 @@ public class UserSignUpService implements IUserSignUpService {
     }
 
     @Override
-    public boolean validPwd(String pwd) {
+    public String passwordValidation(String pwd) {
 
-        log.log(0,"In service:validate Password");
-        String password_patter = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@#$%!]).{8,40})";
-        return pwd.matches(password_patter);
+        String errorMessage="";
+        boolean isValid;
+        HashMap<String,Integer> rulesList= iSignUpformRuleService.getRules();
+
+        for (Map.Entry<String, Integer> entry : rulesList.entrySet()) {
+            if(entry.getKey().equals("password_length"))
+            {
+                isValid=pwd.length()>=entry.getValue();
+                if(!isValid)
+                {
+                    errorMessage=errorMessage+"password length should atLeast 8 characters,";
+                }
+            }
+            if (entry.getKey().equals("special_character"))
+            {
+                if(entry.getValue()==1)
+                {
+                    String specialCharacter = "[a-zA-Z0-9 ]*";
+                    isValid =pwd.matches(specialCharacter);
+                    if(isValid)
+                    {
+                        errorMessage=errorMessage+"password should contain atLeast one special character,";
+                    }
+
+                }
+            }
+            if (entry.getKey().equals("capital_letter"))
+            {
+                if(entry.getValue()==1)
+                {
+                    String specialCharacter = ".*[A-Z].*";
+                    isValid =pwd.matches(specialCharacter);
+                    if(!isValid)
+                    {
+                        errorMessage=errorMessage+"password should contain atLeast one upperCase character,";
+                    }
+                }
+
+            }
+            if (entry.getKey().equals("small_letter"))
+            {
+                if(entry.getValue()==1)
+                {
+                    String specialCharacter = ".*[a-z].*";
+                    isValid =pwd.matches(specialCharacter);
+                    if(!isValid)
+                    {
+                        errorMessage=errorMessage+"password should contain atLeast one LowerCase character,";
+                    }
+                }
+            }
+        }
+        //log.log(0,"In service:validate Password");
+        //String password_patter = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@#$%!]).{8,40})";
+        return errorMessage;
 
     }
 
@@ -171,5 +229,13 @@ public class UserSignUpService implements IUserSignUpService {
         log.log(0,"In service:get encodedString");
         String encodedString = Base64.getEncoder().encodeToString(originalString.getBytes("UTF-8"));
         return encodedString;
+    }
+
+    @Override
+    public boolean validPwd(String pwd) {
+
+        log.log(0,"In service:validate Password");
+        String password_patter = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@#$%!]).{8,40})";
+        return pwd.matches(password_patter);
     }
 }

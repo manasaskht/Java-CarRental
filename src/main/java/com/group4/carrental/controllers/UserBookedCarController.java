@@ -1,6 +1,7 @@
 package com.group4.carrental.controllers;
 
 
+import com.group4.carrental.authentication.Authentication;
 import com.group4.carrental.model.CarList;
 import com.group4.carrental.service.IUserBookedCarService;
 import com.group4.carrental.service.IUserListedCarService;
@@ -20,6 +21,7 @@ public class UserBookedCarController {
 
     private IUserBookedCarService  userBookedCarService;
     private LoggerInstance loggerInstance;
+    private Authentication authentication = Authentication.getInstance();
 
     public UserBookedCarController(@Qualifier("UserBookedCarService") IUserBookedCarService  userBookedCarService,
                                    LoggerInstance loggerInstance){
@@ -29,38 +31,40 @@ public class UserBookedCarController {
     }
 
 
-    @GetMapping("/user-booked-cars")
+    @GetMapping("/userBookedCars")
     public String userBookedCars(Model model, HttpSession session){
         loggerInstance.log(0,"User Booked car: Called");
 
-        int userId = 0;
+        if(authentication.isValidUserSession(session)){
+            int userId = authentication.getUserId();
+            ArrayList<CarList> bookedCars = userBookedCarService.getUserBookedCars(userId);
+            for(CarList carList : bookedCars){
+                System.out.println("book date -"+carList.getBookedDate());
+            }
+            model.addAttribute("bookedCars",bookedCars);
 
-        try {
-            userId = (int) session.getAttribute("user_id");
-        }catch (NullPointerException exception){
+            return "userBookedcar";
+        }else {
             return "redirect:login";
         }
 
-        ArrayList<CarList> bookedCars = userBookedCarService.getUserBookedCars(userId);
-        model.addAttribute("bookedCars",bookedCars);
-
-        return "userBookedcar";
     }
 
-    @PostMapping("/user-booked-cars")
-    public String removeCarFromBookedCar(@RequestParam("carId") int carId, Model model, HttpSession session){
+    @PostMapping("/userBookedCars")
+    public String removeCarFromBookedCar(@RequestParam("bookingId") int bookingId, Model model, HttpSession session){
         loggerInstance.log(0,"User Removed Car From Booked Car: Called");
-        int userId = 0;
-        try {
-            userId = (int) session.getAttribute("user_id");
-        }catch (NullPointerException exception){
+
+        if(authentication.isValidUserSession(session)){
+            int userId = authentication.getUserId();
+            userBookedCarService.removeBookedCar(bookingId);
+            ArrayList<CarList> bookedCars = userBookedCarService.getUserBookedCars(userId);
+            model.addAttribute("bookedCars",bookedCars);
+
+            return "userBookedcar";
+        }else {
             return "redirect:login";
         }
-        userBookedCarService.removeBookedCar(carId);
-        ArrayList<CarList> bookedCars = userBookedCarService.getUserBookedCars(userId);
-        model.addAttribute("bookedCars",bookedCars);
 
-        return "userBookedcar";
     }
 
 

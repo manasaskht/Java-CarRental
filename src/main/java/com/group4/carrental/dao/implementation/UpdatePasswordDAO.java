@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Repository("UpdatePasswordDAO")
 public class UpdatePasswordDAO implements IUpdatePasswordDAO {
@@ -19,10 +16,9 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
     private IDatabaseConnection databaseConnection;
     private LoggerInstance loggerInstance;
 
-    private static final String USER_TABLE = "User";
-    private static final String PASSWORD_FIELD = "password";
-    private static final String GET_PASSWORD_QUERY = "select password from "+USER_TABLE+" where user_id = ?";
-    private static final String UPDATE_PASSWORD_QUERY = "update "+USER_TABLE + " SET password = ? where user_id = ?";
+
+    private final String GET_PASSWORD = "{call getUserPassword(?)}";
+    private static final String UPDATE_PASSWORD_QUERY = "update User SET password = ? where user_id = ?";
 
 
     @Autowired
@@ -38,15 +34,15 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
         String userPassword = null;
         Connection connection = null;
         ResultSet resultSet = null;
-        PreparedStatement getPasswordStatement = null;
+        CallableStatement callableStatement = null;
         try {
             connection = databaseConnection.getDBConnection();
-            getPasswordStatement =connection.prepareStatement(GET_PASSWORD_QUERY);
-            getPasswordStatement.setInt(1,userId);
-            resultSet = getPasswordStatement.executeQuery();
+            callableStatement =connection.prepareCall(GET_PASSWORD);
+            callableStatement.setInt(1,userId);
+            resultSet = callableStatement.executeQuery();
 
             if(resultSet.next()){
-                userPassword = resultSet.getString(PASSWORD_FIELD);
+                userPassword = resultSet.getString("password");
             }
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
@@ -57,8 +53,8 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
                 if(resultSet != null){
                     resultSet.close();
                 }
-                if(getPasswordStatement != null){
-                    getPasswordStatement.close();
+                if(callableStatement != null){
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
@@ -74,12 +70,13 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
     public void updatePassword(int userId,Password password) {
 
         Connection connection = null;
+        CallableStatement callableStatement = null;
         try {
             connection = databaseConnection.getDBConnection();
-            PreparedStatement updateStattement = connection.prepareStatement(UPDATE_PASSWORD_QUERY);
-            updateStattement.setString(1, password.getNewPassword());
-            updateStattement.setInt(2,userId);
-            updateStattement.executeUpdate();
+            callableStatement = connection.prepareCall(UPDATE_PASSWORD_QUERY);
+            callableStatement.setString(1, password.getNewPassword());
+            callableStatement.setInt(2,userId);
+            callableStatement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             loggerInstance.log(2,"User update password DAO Error :"+e.toString());
@@ -88,6 +85,10 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
 
         } finally {
             try {
+
+                if (callableStatement != null) {
+                    callableStatement.close();
+                }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
                 loggerInstance.log(2,"User update password DAO Error :"+e.toString());

@@ -9,4 +9,6 @@ public interface IUserListedCarsDAO {
     ArrayList<CarList> getListedCars(int userId);
     public void removeCarById(int carId);
     public CarList getCarDetailsById(int carId);
+    public boolean isCarBooked(int carId);
+
 }

@@ -1,0 +1,44 @@
+.navClass {
+    background-color:#BDBDBD!important;
+    margin-bottom: 20px;
+}
+
+.headerNav{
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.linkClass{
+    color: black;
+}
+
+.headerNav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+
+.headerNav a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+* {
+    margin: 0;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: 100%;
+    margin: 0 auto -100px;
+}
+.footer, .push {
+    height: 80px;
+    background-color:#BDBDBD!important;
+    font-size: 15px;
+    font-family: 'Times New Roman', Times, serif;
+
+}

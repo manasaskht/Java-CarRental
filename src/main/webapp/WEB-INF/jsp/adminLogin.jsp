@@ -2,14 +2,20 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
 </head>
 <body>
-<div class="container" style="margin-top:10px">
+<div class="container" style="margin-top:100px">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6 offset-sm-3">
+            <h3>Login Page Admin</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3">
             <div class="card">
                 <div class="card-body">
-                    <form action="/admin/validate" method="post">
+                    <form action="/admin/login" method="post">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" id="username" name="username" placeholder="Enter Admin username"

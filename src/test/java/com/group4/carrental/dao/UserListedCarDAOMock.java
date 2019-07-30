@@ -83,4 +83,11 @@ public class UserListedCarDAOMock implements IUserListedCarsDAO {
         }
         return car;
     }
+
+    @Override
+    public boolean isCarBooked(int carId) {
+        return false;
+    }
+
+
 }
