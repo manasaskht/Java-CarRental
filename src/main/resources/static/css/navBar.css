@@ -1,5 +1,6 @@
-.tempClass {
+.navClass {
     background-color:#aa9ddc!important;
+    margin-bottom: 20px;
 }
 
 .headerNav{
@@ -12,7 +13,7 @@
 }
 
 .linkClass{
-    color: black!important;
+    color: black;
 }
 
 .headerNav a:hover {
@@ -36,9 +37,8 @@
 }
 .footer, .push {
     height: 80px;
-    background: #444444;
+    background-color:#aa9ddc!important;
     font-size: 15px;
     font-family: 'Times New Roman', Times, serif;
-    background: #444444;
-    color: #FFFFFF;
+
 }

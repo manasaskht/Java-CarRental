@@ -3,13 +3,18 @@ package com.group4.carrental.service.implementation;
 import com.group4.carrental.dao.IBookCarDAO;
 import com.group4.carrental.model.Car;
 import com.group4.carrental.model.CarBooking;
+import com.group4.carrental.model.Email;
 import com.group4.carrental.model.User;
-import com.group4.carrental.service.IBookCarService;
-import com.group4.carrental.service.ICarRentService;
-import com.group4.carrental.service.IPaymentValidationService;
-import com.group4.carrental.service.IUserSignUpService;
+import com.group4.carrental.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Service("BookCarService")
 public class BookCarService implements IBookCarService {
@@ -18,15 +23,20 @@ public class BookCarService implements IBookCarService {
     private IPaymentValidationService iPaymentValidationService;
     private IBookCarDAO iBookCarDAO;
     private ICarRentService iCarRentService;
+    private ISendMailService iSendMailService;
+    @Autowired
+    private LoggerInstance log;
 
     public BookCarService(@Qualifier("BookCarDAO") IBookCarDAO bookCarDAO,
                           @Qualifier("UserSignUpService") IUserSignUpService userSignUpService,
                           @Qualifier("PaymentValidationService")IPaymentValidationService paymentValidationService,
+                          @Qualifier("SendMailService") ISendMailService sendMailService,
                           @Qualifier("CarRentService") ICarRentService carRentService)
     {
         this.iUserSignUpService=userSignUpService;
         this.iPaymentValidationService=paymentValidationService;
         this.iBookCarDAO=bookCarDAO;
+        this.iSendMailService = sendMailService;
         this.iCarRentService=carRentService;
     }
 
@@ -52,6 +62,49 @@ public class BookCarService implements IBookCarService {
     public Car getCarDetailsbyId(Integer carId) {
 
          return iCarRentService.getCarById(carId);
+
+    }
+
+    @Override
+    public double calculateTotalRent(String fromDate, String Todate, double carRate) {
+
+        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+        double totalRate=0;
+        try {
+            Date from = myFormat.parse(fromDate);
+            Date to = myFormat.parse(Todate);
+            long diff = to.getTime() - from.getTime();
+            double Days= TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            totalRate = Days * carRate;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return totalRate;
+    }
+
+    @Override
+    public void sendEmailNotification(Email email) {
+
+        email.setSubject("Car booking confirmation");
+        email.setEmailText("Hello,\n" +
+                "\n" +
+                "Your car booking is confirmed" +
+                "\n" +
+                "Thanks and Regards\n" +
+                "carrental037@gmail.com");
+        try{
+            iSendMailService.sendEmail(email);
+
+        }catch (MailException m)
+        {
+            log.log(2,"In service: Please provide all mail details");
+        }
+        catch(Exception e)
+        {
+            log.log(2,"In service: Please provide all mail details");
+        }
+
 
     }
 }
