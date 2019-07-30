@@ -5,9 +5,7 @@ import com.group4.carrental.model.AdminCar;
 import com.group4.carrental.model.Car;
 import com.group4.carrental.model.Email;
 import com.group4.carrental.model.User;
-import com.group4.carrental.service.IAdminBlacklistCarsService;
-import com.group4.carrental.service.ISendMailService;
-import com.group4.carrental.service.IUserSignUpService;
+import com.group4.carrental.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.MailException;
@@ -21,16 +19,18 @@ public class AdminBlacklistCarsService implements IAdminBlacklistCarsService {
 
     @Autowired
     private LoggerInstance log;
-
     private IAdminBlacklistCarsDAO  iAdminBlacklistCarsDAO;
-    private ISendMailService  iSendMailService;
+    private IObserver iObserver;
+    private IEmailsendingSubjcet iEmailsendingSubjcet;
     private IUserSignUpService  iUserSignUpService;
     public AdminBlacklistCarsService(@Qualifier("AdminBlacklistCarsDAO") IAdminBlacklistCarsDAO adminBlacklistCarsDAO,
-                                     @Qualifier("SendMailService") ISendMailService sendMailService,
+                                     @Qualifier("EmailSenderObserver") IObserver observer,
+                                     @Qualifier("EmailSenderSubject") IEmailsendingSubjcet emailsendingSubjcet,
                                      @Qualifier("UserSignUpService")IUserSignUpService userSignUpService){
         this.iAdminBlacklistCarsDAO = adminBlacklistCarsDAO;
-        this.iSendMailService = sendMailService;
+        this.iObserver = observer;
         this.iUserSignUpService=userSignUpService;
+        this.iEmailsendingSubjcet=emailsendingSubjcet;
     }
 
     @Override
@@ -53,7 +53,9 @@ public class AdminBlacklistCarsService implements IAdminBlacklistCarsService {
                 "Thanks and Regards\n" +
                 "carrental037@gmail.com");
         try{
-            iSendMailService.sendEmail(email);
+            iEmailsendingSubjcet.attach(iObserver);
+            iEmailsendingSubjcet.notifyAll();
+
 
         }catch (MailException m)
         {
