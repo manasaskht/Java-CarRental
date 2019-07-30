@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
+import com.group4.carrental.service.implementation.LoggerInstance;
 import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.IAdminResponseDAO;
 import com.group4.carrental.model.AdminCar;
@@ -16,9 +16,14 @@ import com.group4.carrental.model.AdminCar;
 @Repository("AdminResponseDAO")
 public class AdminResponseDAO implements IAdminResponseDAO{
 	
-	@Autowired
+
 	private IDatabaseConnection databaseConnection;
-	
+	private LoggerInstance loggerInstance;
+	@Autowired
+	public AdminResponseDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection, LoggerInstance loggerInstance) {
+		this.databaseConnection = databaseConnection;
+		this.loggerInstance = loggerInstance;
+	}
 	public void carApproval (int id)
 	{
 		Connection dbconnect;
@@ -33,12 +38,14 @@ public class AdminResponseDAO implements IAdminResponseDAO{
 			
 		}
 		catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			loggerInstance.log(2,"Admin DAO Approval requests Error: "+e.toString());
 			e.printStackTrace();
 		} finally {
 			try {
-				
+
 				st.close();
 			} catch (SQLException e) {
+				loggerInstance.log(2,"Admin DAO Approval requests Error: "+e.toString());
 				e.printStackTrace();
 			}
 
@@ -59,11 +66,13 @@ public class AdminResponseDAO implements IAdminResponseDAO{
 			
 		}
 		catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			loggerInstance.log(2,"Admin DAO reject requests Error: "+e.toString());
 			e.printStackTrace();
 		} finally {
 			try {
 				st.close();
 			} catch (SQLException e) {
+				loggerInstance.log(2,"Admin DAO reject requests Error: "+e.toString());
 				e.printStackTrace();
 			}
 
@@ -104,12 +113,14 @@ public class AdminResponseDAO implements IAdminResponseDAO{
 		}
 	}
             catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+				loggerInstance.log(2,"Admin DAO pending requests Error: "+e.toString());
     			e.printStackTrace();
     		} finally {
     			try {
     				rs.close();
     				st.close();
     			} catch (SQLException e) {
+					loggerInstance.log(2,"Admin DAO pending requests Error: "+e.toString());
     				e.printStackTrace();
     			}
 
@@ -135,6 +146,7 @@ public class AdminResponseDAO implements IAdminResponseDAO{
             }
 
         }catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			loggerInstance.log(2,"Admin DAO email response error: "+e.toString());
             e.printStackTrace();
         }finally {
             try {
@@ -146,9 +158,11 @@ public class AdminResponseDAO implements IAdminResponseDAO{
                     rs.close();
                 }
             } catch (SQLException e) {
+				loggerInstance.log(2,"Admin DAO email response Error: "+e.toString());
                 e.printStackTrace();
             }
         }
+		loggerInstance.log(0,"Admin DAO email success");
         return email;
     
 	}}

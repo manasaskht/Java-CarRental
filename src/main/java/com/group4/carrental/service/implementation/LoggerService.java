@@ -25,10 +25,9 @@ public abstract class LoggerService {
 	public static final int ERROR = 2;
 	public static final int FATAL = 3;
 	SimpleDateFormat formatter;
-	Date currentLoggerTime;
 	protected int logLevel;
 	protected LoggerService nextLogger;
-	protected static final String LOG_FORMAT = "%s\t%s\t%s\t%n";
+
 
 	public LoggerService(int level) {
 		nextLogger = null;
@@ -52,11 +51,6 @@ public abstract class LoggerService {
 	}
 
 	protected abstract void logMessage(String message);
-	protected void logInConsole(String logLevel, String msg) {
-		currentLoggerTime = new Date();
-		System.out.printf(LoggerService.LOG_FORMAT, currentLoggerTime, logLevel, msg);
-	}
-
 	protected void logInDatabase(String logLevel, String message) {
 		loggerDao.logInDatabase(logLevel, message);
 	}
