@@ -23,9 +23,7 @@
             </a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link linkClass" href="homePage">Home</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link linkClass" href="/admin/listAllCar">Cars List</a>
                     </li>
