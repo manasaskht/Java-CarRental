@@ -46,8 +46,18 @@ public class AdminListCarController {
         }catch(NullPointerException exception){
             return "redirect:/admin/login";
         }
-        this.adminService.blackListCar(id);
-        return "redirect:/admin/listAllCar";
+        if(this.adminService.isCarBooked(id)){
+            model.addAttribute("carBookedError","The car is booked");
+            ArrayList<AdminCar> carArrayList = this.adminService.getAllCars();
+            model.addAttribute("carList",carArrayList);
+            System.out.println("Car Booked");
+            return "adminListAllCar";
+        }else {
+            this.adminService.blackListCar(id);
+            System.out.println("Car Not Booked");
+            return "redirect:/admin/listAllCar";
+        }
+
     }
 
 }

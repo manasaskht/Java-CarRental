@@ -29,6 +29,9 @@
     </div>
 </nav>
 <div class="container" style="margin-top:10px">
+    <c:if test="${carBookedError != null}">
+        <center><p style="color: red">${carBookedError}</p></center>
+    </c:if>
     <div class="row">
         <div class="col-sm-8 offset-sm-2">
             <c:forEach items="${carList}" var="car">
