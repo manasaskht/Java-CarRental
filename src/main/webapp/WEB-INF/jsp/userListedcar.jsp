@@ -3,11 +3,38 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navClass w-100">
+    <a class="navbar-brand">Car Rent</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link linkClass active" href="/homePage">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link linkClass" href="carrent">Rent a Car</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">User Profile</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Listed Cars</a>
+                    <a class="dropdown-item" href="userBookedCars">Booked Cars </a>
+                    <a class="dropdown-item" href="userUpdateProfile">Update User Profile</a>
+                    <a class="dropdown-item" href="updatePassword">Update User Password</a>
+                </div>
+            </li>
+        </ul>
+        <br/>
+        <form class="form-inline" action="/logout" method="post">
+            <button class="btn btn-danger" type="submit">Logout</button>
+        </form>
+    </div>
+</nav>
 
-<br>
 <div class="container" style="margin-top:10px">
 
     <div class="row">
@@ -60,8 +87,8 @@
 </div>
 </div>
 </div>
-
-<br>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 </body>
 
