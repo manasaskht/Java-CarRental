@@ -24,7 +24,7 @@
 
         </ul>
         <br/>
-        <form class="form-inline" action="/logout" method="post">
+        <form class="form-inline" action="/admin/logout" method="post">
             <button class="btn btn-danger" type="submit">Logout</button>
         </form>
     </div>
