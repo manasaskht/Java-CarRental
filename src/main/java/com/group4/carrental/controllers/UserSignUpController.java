@@ -80,9 +80,9 @@ public class UserSignUpController
             model.addAttribute("pwdError","please enter Password");
             isDataValid=false;
         }
-        else if (iUserSignUpService.validPwd(user.getPassword()).length()>0)
+        else if (iUserSignUpService.passwordValidation(user.getPassword()).length()>0)
         {
-            model.addAttribute("pwdError",iUserSignUpService.validPwd(user.getPassword()));
+            model.addAttribute("pwdError",iUserSignUpService.passwordValidation(user.getPassword()));
             isDataValid=false;
         }
         if(iUserSignUpService.isConfirmPwdNull(user.getConfirmPassword()))

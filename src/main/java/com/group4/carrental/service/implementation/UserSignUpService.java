@@ -5,7 +5,6 @@ import com.group4.carrental.model.City;
 import com.group4.carrental.model.User;
 import com.group4.carrental.service.ISignUpformRuleService;
 import com.group4.carrental.service.IUserSignUpService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -140,7 +139,7 @@ public class UserSignUpService implements IUserSignUpService {
     }
 
     @Override
-    public String validPwd(String pwd) {
+    public String passwordValidation(String pwd) {
 
         String errorMessage="";
         boolean isValid;
@@ -230,5 +229,13 @@ public class UserSignUpService implements IUserSignUpService {
         log.log(0,"In service:get encodedString");
         String encodedString = Base64.getEncoder().encodeToString(originalString.getBytes("UTF-8"));
         return encodedString;
+    }
+
+    @Override
+    public boolean validPwd(String pwd) {
+
+        log.log(0,"In service:validate Password");
+        String password_patter = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@#$%!]).{8,40})";
+        return pwd.matches(password_patter);
     }
 }
