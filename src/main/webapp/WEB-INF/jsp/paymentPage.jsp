@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/css/navBar.css">
 </head>
 <body >
-    <div class="container-fluid">
+
         <nav class="navbar navbar-expand-lg navClass w-100">
             <a class="navbar-brand">
                 <img src="/img/websiteLogo.jpg" width="70" height="70" alt="">
@@ -139,7 +139,7 @@
             </div>
 
         </form>
-    </div>
+
 
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
