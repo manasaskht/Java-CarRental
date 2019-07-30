@@ -18,13 +18,11 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
     private IDatabaseConnection databaseConnection;
     private LoggerInstance loggerInstance;
 
-    private static final String GET_BOOKEDCAR_QUERY = "select  Car.*,Car_Type.*,City_Name.*,Booking.* from Car INNER JOIN Booking ON Car.car_id = Booking.car_id "+
-            "INNER  JOIN  City_Name ON Car.car_city = City_Name.city_id" +
-            " INNER JOIN Car_Type ON Car.car_type_id = Car_Type.car_type_id where Booking.customer_id = ? ";
+    private static final String GET_BOOKEDCAR_QUERY = "{call getBookedCars(?)}";
 
 
 
-    private static final String REMOVE_BOOKEDCAR_QUERY = "DELETE  from  Booking where car_id = ?";
+    private static final String REMOVE_BOOKEDCAR_QUERY = "{call removeBookedCarById(?)}";
 
     @Autowired
     public UserBookedCarsDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection,
@@ -36,14 +34,14 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
     public ArrayList<CarList> getBookedCars(int userId) {
         Connection connection = null;
         ResultSet resultSet = null;
-        PreparedStatement preparedStatement=null;
+        CallableStatement callableStatement=null;
         ArrayList<CarList> carArrayList =  new ArrayList<>();
 
         try {
             connection = databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(GET_BOOKEDCAR_QUERY);
-            preparedStatement.setInt(1,userId);
-            resultSet = preparedStatement.executeQuery();
+            callableStatement = connection.prepareCall(GET_BOOKEDCAR_QUERY);
+            callableStatement.setInt(1,userId);
+            resultSet = callableStatement.executeQuery();
 
 
 
@@ -58,9 +56,10 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
                 car.setDescription(resultSet.getString("car_description"));
                 car.setCarModel(resultSet.getString("car_model"));
                 car.setBookingId(resultSet.getInt("booking_id"));
-                car.setBookedDate(resultSet.getString("booked_date")+"");
                 car.setFromDate(resultSet.getString("from_date"));
                 car.setToDate(resultSet.getString("to_date"));
+
+                System.out.println("Booked date - "+car.getBookedDate());
 
                 Blob carImage = resultSet.getBlob("car_image");
                 String carImageData = null;
@@ -80,9 +79,9 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
                 if(resultSet != null){
                     resultSet.close();
                 }
-                if(preparedStatement!=null)
+                if(callableStatement!=null)
                 {
-                    preparedStatement.close();
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
@@ -100,13 +99,13 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
 
         Connection connection = null;
         ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
 
         try {
             connection = databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(REMOVE_BOOKEDCAR_QUERY);
-            preparedStatement.setInt(1, carId);
-            preparedStatement.executeUpdate();
+            callableStatement = connection.prepareCall(REMOVE_BOOKEDCAR_QUERY);
+            callableStatement.setInt(1, carId);
+            callableStatement.executeUpdate();
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             loggerInstance.log(2,"User Remove Bokked Car DAO Error: "+e.toString());
             e.printStackTrace();
@@ -115,8 +114,8 @@ public class UserBookedCarsDAO implements IUserBookedCarsDAO {
                 if (resultSet != null) {
                     resultSet.close();
                 }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
+                if (callableStatement != null) {
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {

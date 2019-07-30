@@ -7,8 +7,7 @@ import javax.servlet.http.HttpSession;
 
 public class Authentication implements IAuthentication {
 
-    private static  Authentication authentication = null;
-    private HttpSession session;
+    private static Authentication authentication = null;
     private int userId = 0;
     private int adminId = 0;
 
@@ -24,11 +23,11 @@ public class Authentication implements IAuthentication {
     }
     @Override
     public boolean isValidUserSession(HttpSession session) {
-        userId = 0;
+        this.userId = 0;
         boolean isValid = true;
 
         try {
-            userId = (int) session.getAttribute("user_id");
+            this.userId = (int) session.getAttribute("user_id");
         }catch (NullPointerException exception){
             isValid = false;
         }
@@ -36,12 +35,12 @@ public class Authentication implements IAuthentication {
     }
 
     @Override
-    public boolean isValidAdminSession() {
+    public boolean isValidAdminSession(HttpSession session) {
 
-         adminId = 0;
+         this.adminId = 0;
          boolean isValid =true;
         try{
-            adminId = (int) session.getAttribute("admin");
+            this.adminId = (int) session.getAttribute("admin");
         }catch(NullPointerException exception){
             isValid = false;
         }
