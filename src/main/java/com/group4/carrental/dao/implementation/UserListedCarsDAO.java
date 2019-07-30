@@ -170,14 +170,18 @@ public class UserListedCarsDAO implements IUserListedCarsDAO {
             callableStatement.setInt(1,carId);
             resultSet = callableStatement.executeQuery();
 
-            if(resultSet.next()){
+            while (resultSet.next()){
                 String dateString = resultSet.getString("from_date");
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
+
                 Date fromDate = format.parse(dateString);
                 Date currentDate = new Date();
+                System.out.println("from date - "+format.format(fromDate));
+                System.out.println("from date - "+format.format(currentDate));
                 if(fromDate.after(currentDate)){
                     isBooked = true;
+                    System.out.println("is Car booked -"+isBooked);
                 }
 
 

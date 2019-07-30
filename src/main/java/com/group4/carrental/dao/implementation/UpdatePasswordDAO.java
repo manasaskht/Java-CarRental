@@ -17,7 +17,7 @@ public class UpdatePasswordDAO implements IUpdatePasswordDAO {
     private LoggerInstance loggerInstance;
 
 
-    private final String GET_PASSWORD = "{call getUserPassword}";
+    private final String GET_PASSWORD = "{call getUserPassword(?)}";
     private static final String UPDATE_PASSWORD_QUERY = "update User SET password = ? where user_id = ?";
 
 

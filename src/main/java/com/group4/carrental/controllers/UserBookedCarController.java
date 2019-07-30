@@ -51,12 +51,12 @@ public class UserBookedCarController {
     }
 
     @PostMapping("/userBookedCars")
-    public String removeCarFromBookedCar(@RequestParam("carId") int carId, Model model, HttpSession session){
+    public String removeCarFromBookedCar(@RequestParam("bookingId") int bookingId, Model model, HttpSession session){
         loggerInstance.log(0,"User Removed Car From Booked Car: Called");
 
         if(authentication.isValidUserSession(session)){
             int userId = authentication.getUserId();
-            userBookedCarService.removeBookedCar(carId);
+            userBookedCarService.removeBookedCar(bookingId);
             ArrayList<CarList> bookedCars = userBookedCarService.getUserBookedCars(userId);
             model.addAttribute("bookedCars",bookedCars);
 

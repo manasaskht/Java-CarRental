@@ -24,13 +24,14 @@ public class CarEditController {
     private ICarEditService carEditService;
     private LoggerInstance loggerInstance;
 
+
     @Autowired
     public CarEditController(@Qualifier("CarEditService") ICarEditService carEditService,LoggerInstance loggerInstance){
         this.carEditService = carEditService;
         this.loggerInstance = loggerInstance;
     }
 
-    @PostMapping("edit-car-details")
+    @PostMapping("editCarDetails")
     public String editCarDetails(Model model, @ModelAttribute("car") Car car,
                                  @RequestParam("carImage") MultipartFile carImage,
                                  @RequestParam("carId") int carId, HttpSession session){
@@ -80,7 +81,7 @@ public class CarEditController {
             carEditService.updateCar(car);
             carEditService.updateCarImage(carId,carImage);
 
-            return "redirect:user-listed-cars";
+            return "redirect:userListedCars";
         }
     }
 
