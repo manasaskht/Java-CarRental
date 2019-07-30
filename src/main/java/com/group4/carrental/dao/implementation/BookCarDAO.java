@@ -3,6 +3,7 @@ package com.group4.carrental.dao.implementation;
 import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.IBookCarDAO;
 import com.group4.carrental.model.CarBooking;
+import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,8 @@ public class BookCarDAO implements IBookCarDAO {
     private IDatabaseConnection databaseConnection;
 
     @Autowired
+    private LoggerInstance log;
+    @Autowired
     public BookCarDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection)
     {
         this.databaseConnection = databaseConnection;
@@ -25,6 +28,7 @@ public class BookCarDAO implements IBookCarDAO {
     @Override
     public void saveCarBookingDetails(CarBooking carBooking) {
 
+        log.log(0,"In BookCarDAO:saveCarBookingDetails");
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement saveCarDetailsStmt=null;
@@ -61,7 +65,7 @@ public class BookCarDAO implements IBookCarDAO {
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
-
+                log.log(2,"In BookCarDAO: saveCarBookingDetails"+e.getMessage());
                 e.printStackTrace();
             }
         }
