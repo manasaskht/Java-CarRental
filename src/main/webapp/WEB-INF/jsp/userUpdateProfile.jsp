@@ -36,10 +36,10 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">User Profile</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="user-listed-cars">Listed Cars</a>
-                        <a class="dropdown-item" href="user-booked-cars">Booked Cars </a>
+                        <a class="dropdown-item" href="userListedCars">Listed Cars</a>
+                        <a class="dropdown-item" href="userBookedCars">Booked Cars </a>
                         <a class="dropdown-item" href="userUpdateProfile">Update User Profile</a>
-                        <a class="dropdown-item" href="update-password">Update User Password</a>
+                        <a class="dropdown-item" href="updatePassword">Update User Password</a>
                     </div>
                 </li>
             </ul>
