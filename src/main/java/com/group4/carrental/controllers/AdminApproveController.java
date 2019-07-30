@@ -33,6 +33,7 @@ public class AdminApproveController {
         try {
         	adminId = (int) httpSession.getAttribute("admin");
         }catch (NullPointerException exception){
+        	loggerInstance.log(0,"AdminApproveController Session error: Called"+exception.toString());
             return "adminLogin";
         }
 		  ArrayList<AdminCar> carArrayList = this.admincarapproveservice.getAllPendingRequests();
@@ -48,6 +49,7 @@ public class AdminApproveController {
         try {
         	adminId = (int) httpSession.getAttribute("admin");
         }catch (NullPointerException exception){
+        	loggerInstance.log(2,"AdminApproveController Session error: "+exception.toString());
             return "adminLogin";
         }
 		this.admincarapproveservice.carApproval(id);
@@ -61,6 +63,7 @@ public class AdminApproveController {
         try {
         	adminId = (int) httpSession.getAttribute("admin");
         }catch (NullPointerException exception){
+        	loggerInstance.log(2,"AdminApproveController Session error: "+exception.toString());
             return "adminLogin";
         }
 	
