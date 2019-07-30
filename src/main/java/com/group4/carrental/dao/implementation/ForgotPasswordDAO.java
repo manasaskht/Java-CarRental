@@ -46,6 +46,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
 			rs = st.executeQuery(query);
 			while (rs.next()) {
 				 emailDB = rs.getString("email");
+				 loggerInstance.log(0,"ForgotPassword DAO Success: ");
 			}
 		}catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
 			loggerInstance.log(2,"ForgotPassword DAO Error: "+e.toString());
@@ -76,6 +77,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
 		String query = ("update User SET Token_ID =? where email='" + Email + "';");
 		PreparedStatement st = null;
 		try {
+			loggerInstance.log(0,"ForgotPassword DAO Success: ");
 			dbconnect = databaseConnection.getDBConnection();
 			st = dbconnect.prepareStatement(query);
 			 st.setString(1, Token);
@@ -113,6 +115,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
 		String TokenDB=null;
 		
 		try {
+			loggerInstance.log(0,"ForgotPassword DAO Success: ");
 			dbconnect = databaseConnection.getDBConnection();
 			st = dbconnect.prepareStatement(query);
 			rs = st.executeQuery(query);
@@ -153,6 +156,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
 		String TokenDB=null;
 		
 		try {
+			loggerInstance.log(0,"ForgotPassword DAO Success: ");
 			dbconnect = databaseConnection.getDBConnection();
 			st = dbconnect.prepareStatement(query);
 			rs = st.executeQuery(query);
@@ -188,6 +192,7 @@ public class ForgotPasswordDAO implements IForgotPasswordDAO{
 		String query = ("update User SET password =? where email='" + email + "';");
 		PreparedStatement st = null;
 		try {
+			loggerInstance.log(0,"ForgotPassword DAO Success: ");
 			dbconnect = databaseConnection.getDBConnection();
 			st = dbconnect.prepareStatement(query);
 			 st.setString(1, password);

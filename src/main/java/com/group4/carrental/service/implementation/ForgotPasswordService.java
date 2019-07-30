@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.group4.carrental.dao.IForgotPasswordDAO;
-import com.group4.carrental.dao.implementation.ForgotPasswordDAO;
 import com.group4.carrental.model.User;
 import com.group4.carrental.service.IForgotPasswordService;
 import com.group4.carrental.service.IUserSignUpService;
@@ -40,6 +39,7 @@ public class ForgotPasswordService implements IForgotPasswordService {
 	public boolean findUserByEmail(User user) {
 		
 		if (null == user.getEmail() && user.getEmail().isEmpty()) {
+			log.log(1,"User with empty email "+user.getEmail()+ " trying to reset password");
 			return false; 
 	}else
 	{
@@ -55,10 +55,15 @@ public class ForgotPasswordService implements IForgotPasswordService {
 	@Override
 	public boolean findUserByResetToken(User user) {
 		 if (null == user.getTokenID() && user.getTokenID().isEmpty())
-			{return false; 
-			
+			{log.log(1,"User with empty token "+user.getEmail()+ " trying to reset password");
+			 return false; 
 			}
-		
+			
+			
+		 else if (null == user.getEmail() || user.getEmail().isEmpty()) {
+			 log.log(1,"User with empty mail "+user.getEmail()+ " trying to reset password");
+				return false;
+		 }
 		else
 		{
 			log.log(0,"  service to check token is valid or not : Called");
@@ -82,21 +87,24 @@ public class ForgotPasswordService implements IForgotPasswordService {
 	public boolean validate(User user) {
 		
 		if (null == user.getTokenID() && user.getTokenID().isEmpty())
-		{return false; 
+		{log.log(1,"User with empty token "+user.getEmail()+ " trying to reset password");
+			return false; 
 		
 		}
 	
 	else
 	{
+		log.log(0,"  service to validate user in database : Called");
 		String tokenParam=user.getTokenID();
 		String tokenDB=ForgotPasswordDAO.validate(user.getTokenID());
 		return tokenParam.equals(tokenDB);
+		
 		
 	}
 	}
 	 @Override
 	    public boolean isPasswordNull(String password) {
-
+		 log.log(0,"  Usersignup service to check if passwords is null or not  : Called");
 	        return  userSignUpService.ispwdNull(password);
 	    }
 	 @Override
@@ -111,7 +119,7 @@ public class ForgotPasswordService implements IForgotPasswordService {
 	
 	 @Override
 	    public boolean validatePassword(String password) {
-
+		 log.log(0,"  Usersignup service to check if passwords is valid  or not  : Called");
 	        return userSignUpService.validPwd(password);
 
 	    }
@@ -123,7 +131,7 @@ public class ForgotPasswordService implements IForgotPasswordService {
 	}
 	@Override
 	public boolean isConfirmPwdNull(String confirm_password) {
-
+		log.log(0,"  Usersignup service to check if confirmpwd is null or not  : Called");
 		return userSignUpService.isConfirmPwdNull(confirm_password);
 
 	}

@@ -52,7 +52,7 @@ public class LoginServiceTest {
     }
     @Test
     public void isUserValidTest()
-    { int userId = 1;
+    { 
         String userEmail="abc@gmail.com";
         String userPassword="Dec@0307";
         String getPassword= LoginDAO.getPassword(userEmail);
@@ -61,8 +61,7 @@ public class LoginServiceTest {
         userPassword="Mon@0306";
         getPassword= LoginDAO.getPassword(userEmail);
         assertFalse(getPassword.equals(userPassword));
-
-
+        
 
     }
 

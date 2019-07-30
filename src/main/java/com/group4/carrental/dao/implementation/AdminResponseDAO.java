@@ -32,6 +32,7 @@ public class AdminResponseDAO implements IAdminResponseDAO{
 		
 
 		try {
+			loggerInstance.log(0,"AdminResponse DAO Success: ");
 			dbconnect = databaseConnection.getDBConnection();
 			st = dbconnect.prepareStatement(query);
 			st.execute();
@@ -60,6 +61,7 @@ public class AdminResponseDAO implements IAdminResponseDAO{
 		
 
 		try {
+			loggerInstance.log(0,"AdminResponse DAO Success: ");
 			dbconnect = databaseConnection.getDBConnection();
 			st = dbconnect.prepareStatement(query);
 		st.execute();
@@ -88,6 +90,7 @@ public class AdminResponseDAO implements IAdminResponseDAO{
 		ResultSet rs = null;
 		
 		try {
+			loggerInstance.log(0,"AdminResponse DAO Success: ");
 			dbconnect = databaseConnection.getDBConnection();
 			st = dbconnect.prepareStatement(query);
 			rs = st.executeQuery(query);
@@ -134,6 +137,7 @@ public class AdminResponseDAO implements IAdminResponseDAO{
         ResultSet rs = null;
         String email="";
         try{
+        	loggerInstance.log(0,"AdminResponse DAO Email Success: ");
             connection = databaseConnection.getDBConnection();
             st = connection.prepareStatement(query);
             st.setInt(1,carId);
@@ -162,7 +166,6 @@ public class AdminResponseDAO implements IAdminResponseDAO{
                 e.printStackTrace();
             }
         }
-		loggerInstance.log(0,"Admin DAO email success");
         return email;
     
 	}}
