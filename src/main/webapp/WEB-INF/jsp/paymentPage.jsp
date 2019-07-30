@@ -9,9 +9,11 @@
     <link rel="stylesheet" href="/css/navBar.css">
 </head>
 <body >
-    <div class="container-fluid">
+
         <nav class="navbar navbar-expand-lg navClass w-100">
-            <a class="navbar-brand">Car Rent</a>
+            <a class="navbar-brand">
+                <img src="/img/websiteLogo.jpg" width="70" height="70" alt="">
+            </a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
@@ -24,10 +26,10 @@
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">User Profile</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="user-listed-cars">Listed Cars</a>
-                            <a class="dropdown-item" href="user-booked-cars">Booked Cars </a>
+                            <a class="dropdown-item" href="userListedCars">Listed Cars</a>
+                            <a class="dropdown-item" href="userBookedCars">Booked Cars </a>
                             <a class="dropdown-item" href="userUpdateProfile">Update User Profile</a>
-                            <a class="dropdown-item" href="update-password">Update User Password</a>
+                            <a class="dropdown-item" href="updatePassword">Update User Password</a>
                         </div>
                     </li>
                 </ul>
@@ -37,6 +39,7 @@
                 </form>
             </div>
         </nav>
+        <div class="container-fluid">
         <form name="paymentForm" action="bookCar" method="post">
             <input type="hidden" name="fromDate" value=${bookingData.fromDate}>
             <input type="hidden" name="toDate" value=${bookingData.toDate}>
@@ -137,13 +140,8 @@
             </div>
 
         </form>
-    </div>
-    <div class="footer tempClass" style="margin-top:65px;">
-        <h6 class="text-center">Car Rent</h6>
-        <div class="footer-copyright text-center py-3">© 2019 Copyright:
-            <a action="/homePage"> CarRent.com</a>
-        </div>
-    </div>
+
+
 <script src="/js/jquery-3.4.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript">

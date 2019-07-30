@@ -15,7 +15,6 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/signUpForm.css">
 
 </head>
 <body >
@@ -23,9 +22,8 @@
 <header class="header">
     <div class="container">
         <form name="signUpForm" action="userSignUp" method="post">
-            <div class="row align-items-center signUpform">
-                <div class="col-lg-12">
-                    <div class="col-lg-4">
+            <div class="row">
+                    <div class="col-sm-6 offset-sm-3 card">
                         <br/>
                         <div class="formTitle">
                             <h1 style="text-align: center"> SIGN UP</h1>
@@ -35,18 +33,18 @@
                         <br/>
                         <div class="form-group">
                             <label for="name">Name:</label>
-                            <input type="text" class="form-control field" id="name" name="name"  value="<%=user!=null?user.getName():""%>" required>
+                            <input type="text" class="form-control" id="name" name="name"  value="<%=user!=null?user.getName():""%>" required>
                             <p style="color: red">${nameError}</p>
                         </div>
 
                         <div class="form-group">
                             <label for="email">E-mail Address</label>
-                            <input type="email" name="email" id="email" class="form-control field"  value="<%=user!=null?user.getEmail():""%>" required>
+                            <input type="email" name="email" id="email" class="form-control"  value="<%=user!=null?user.getEmail():""%>" required>
                             <p style="color: red">${emailError}</p>
                         </div>
                         <div class="form-group">
                             <label for="city">City:</label>
-                            <select class="form-control field" name="city_id" id="city">
+                            <select class="form-control" name="city_id" id="city">
                                 <option value="0" selected>Select City</option>
                                 <%if(cityArrayList!=null)
                                 {
@@ -59,12 +57,12 @@
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input class="form-control field" id="password" type="password" name="password"  value="<%=user!=null?user.getPassword():""%>" required>
+                            <input class="form-control" id="password" type="password" name="password"  value="<%=user!=null?user.getPassword():""%>" required>
                             <p style="color: red">${pwdError}</p>
                         </div>
                         <div class="form-group">
                             <label for="confirmPassword">Confirm Password</label>
-                            <input class="form-control field" id="confirmPassword" type="password" name="confirmPassword" value="<%=user!=null?user.getConfirmPassword():""%>" required>
+                            <input class="form-control" id="confirmPassword" type="password" name="confirmPassword" value="<%=user!=null?user.getConfirmPassword():""%>" required>
                             <p style="color: red">${confirmPwdError}</p>
 
                         </div>
@@ -76,7 +74,7 @@
                         <br/>
                     </div>
                 </div>
-            </div>
+
         </form>
     </div>
 </header>

@@ -3,8 +3,32 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/navBar.css">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navClass w-100">
+    <a class="navbar-brand">
+        <img src="/img/websiteLogo.jpg" width="70" height="70" alt="">
+    </a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link linkClass" href="/admin/listAllCar">Cars List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link linkClass" href="/admin/ListPendingRequests">pending Request</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link linkClass active" href="/adminBlackListCars">Blacklist cars</a>
+            </li>
+
+        </ul>
+        <br/>
+        <form class="form-inline" action="/admin/logout" method="post">
+            <button class="btn btn-danger" type="submit">Logout</button>
+        </form>
+    </div>
+</nav>
 <div class="container" style="margin-top:10px">
     <div class="row">
         <div class="col-sm-8">
@@ -35,6 +59,7 @@
                     </div>
                 </c:forEach>
             </div>
+
         </div>
     </div>
 </div>
