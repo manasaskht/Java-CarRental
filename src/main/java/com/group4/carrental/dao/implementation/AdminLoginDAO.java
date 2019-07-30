@@ -52,13 +52,7 @@ public class AdminLoginDAO implements IAdminLoginDAO {
             e.printStackTrace();
         }finally {
             try {
-                databaseConnection.closeDBConnection(connection);
-                if(callableStatement != null) {
-                    callableStatement.close();
-                }
-                if(resultSet != null) {
-                    resultSet.close();
-                }
+                databaseConnection.closeStatementAndConnection(callableStatement,resultSet);
             } catch (SQLException e) {
                 loggerInstance.log(2,"Admin DAO Error: "+e.toString());
                 e.printStackTrace();

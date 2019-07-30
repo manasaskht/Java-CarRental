@@ -27,7 +27,6 @@ public class HomeDAO implements IHomeDAO {
 
     @Override
     public ArrayList<Car> getCarForRegion(int carType, int cityId, int userId) {
-        String query = "select * from Car where car_type_id = ? and car_city = ? and owner_id != ? and car_status_id = 2";
         Connection connection = null;
         CallableStatement callableStatement = null;
         ResultSet resultSet = null;
@@ -74,25 +73,18 @@ public class HomeDAO implements IHomeDAO {
             e.printStackTrace();
         }finally {
             try {
-                databaseConnection.closeDBConnection(connection);
-                if(callableStatement != null) {
-                    callableStatement.close();
-                }
-                if(resultSet != null) {
-                    resultSet.close();
-                }
+                databaseConnection.closeStatementAndConnection(callableStatement,resultSet);
             } catch (SQLException e) {
                 loggerInstance.log(2,"Home DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         }
-
+        loggerInstance.log(0,"Home DAO Get Car For Region: Called");
         return carArrayList;
     }
 
     @Override
     public ArrayList<CarBooking> getBookings(String from, String to) {
-        String query = "select * from CarBooking where from_date between ? and ? OR to_date between ? and ?";
         Connection connection = null;
         CallableStatement callableStatement = null;
         ResultSet resultSet = null;
@@ -126,19 +118,13 @@ public class HomeDAO implements IHomeDAO {
             e.printStackTrace();
         }finally {
             try {
-                databaseConnection.closeDBConnection(connection);
-                if(callableStatement != null) {
-                    callableStatement.close();
-                }
-                if(resultSet != null) {
-                    resultSet.close();
-                }
+                databaseConnection.closeStatementAndConnection(callableStatement,resultSet);
             } catch (SQLException e) {
                 loggerInstance.log(2,"Home DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         }
-
+        loggerInstance.log(0,"Home DAO Get Booking: Called");
         return carBookingArrayList;
     }
 }

@@ -35,6 +35,7 @@ public class HomeService implements IHomeService {
 
     @Override
     public ArrayList<Car> getAvailableCars(Search search, int userId) {
+        loggerInstance.log(0,"Home Service Get Available Car: Called");
         ArrayList<Car> allCars = new ArrayList<>();
         ArrayList<CarBooking> currentCarBooking = new ArrayList<>();
         ArrayList<Car> availableCars = new ArrayList<>();
@@ -64,12 +65,34 @@ public class HomeService implements IHomeService {
     }
 
     @Override
+    public boolean validDate(String date){
+        if(date.trim().length() == 0){
+            return false;
+        }else{
+            String patternForDate = "\\d{4}-\\d{2}-\\d{2}";
+            return date.matches(patternForDate);
+        }
+    }
+
+    @Override
+    public boolean validCarType(int carTypeId) {
+        return this.carRentService.validCarType(carTypeId);
+    }
+
+    @Override
+    public boolean validCarCity(int cityId) {
+        return this.carRentService.validCarCity(cityId);
+    }
+
+    @Override
     public ArrayList<CarType> getCarTypeList() {
+        loggerInstance.log(0,"Home Service Get Car Type List: Called");
         return carRentService.getCarTypeList();
     }
 
     @Override
     public ArrayList<City> getCityList() {
+        loggerInstance.log(0,"Home Service Get City List: Called");
         return userSignUpService.getCityList();
     }
 }
