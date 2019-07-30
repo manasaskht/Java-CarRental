@@ -5,6 +5,7 @@ import com.group4.carrental.dao.ICarRentDAO;
 import com.group4.carrental.model.Car;
 import com.group4.carrental.model.CarType;
 import com.group4.carrental.service.implementation.LoggerInstance;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -78,16 +79,25 @@ public class CarRentDAO implements ICarRentDAO {
 
             if (resultSet != null) {
                 while (resultSet.next()) {
+                    int carId = resultSet.getInt("car_id");
+                    car.setCarId(carId);
                     int ownerId = resultSet.getInt("owner_id");
                     car.setCarOwner(ownerId);
-                    int city = resultSet.getInt("city");
+                    int city = resultSet.getInt("car_city");
                     car.setCity(city);
-                    String description = resultSet.getString("description");
+                    String description = resultSet.getString("car_description");
                     car.setDescription(description);
-                    Blob carImage = resultSet.getBlob("image");
+                    double carRate = resultSet.getDouble("car_rate");
+                    car.setCarRate(carRate);
+                    Blob carImage = resultSet.getBlob("car_image");
                     String carImageData = null;
-                    carImageData = new String(carImage.getBytes(1l, (int) carImage.length()));
+                    byte[] imageBytes = carImage.getBytes(1, (int) carImage.length());
+                    carImageData = Base64.encodeBase64String(imageBytes);
                     car.setImageURL(carImageData);
+                    String carModel = resultSet.getString("car_model");
+                    car.setModel(carModel);
+                    int carTypeId = resultSet.getInt("car_type_id");
+                    car.setCarTypeId(carTypeId);
                 }
             }
 
