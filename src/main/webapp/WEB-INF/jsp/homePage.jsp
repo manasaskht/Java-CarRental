@@ -3,35 +3,39 @@
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link href="/css/datepicker.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/navBar.css">
 </head>
 <body>
 
-<div class="container">
-    <div class="row">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
-            <a class="navbar-brand">Car Rent</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="carrent">Rent a Car</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">User Profile</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="user-listed-cars">Listed Cars</a>
-                            <a class="dropdown-item" href="user-booked-cars">Booked Cars </a>
-                            <a class="dropdown-item" href="userUpdateProfile">Update User Profile</a>
-                            <a class="dropdown-item" href="update-password">Update User Password</a>
-                        </div>
-                    </li>
-                </ul>
-                <form class="form-inline" action="/logout" method="post">
-                    <button class="btn btn-danger" type="submit">Logout</button>
-                </form>
-            </div>
-        </nav>
+
+<nav class="navbar navbar-expand-lg navClass w-100">
+    <a class="navbar-brand">Car Rent</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link linkClass active" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link linkClass" href="carrent">Rent a Car</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">User Profile</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="userListedCars">Listed Cars</a>
+                    <a class="dropdown-item" href="userBookedCars">Booked Cars </a>
+                    <a class="dropdown-item" href="userUpdateProfile">Update User Profile</a>
+                    <a class="dropdown-item" href="updatePassword">Update User Password</a>
+                </div>
+            </li>
+        </ul>
+        <br/>
+        <form class="form-inline" action="/logout" method="post">
+            <button class="btn btn-danger" type="submit">Logout</button>
+        </form>
     </div>
+</nav>
+<div class="container">
     <div class="container card"
          style="margin-top:30px; padding-top:40px; padding-left: 40px; padding-right: 40px; padding-bottom: 20px">
         <form action="/homePage" id="form" method="post">
