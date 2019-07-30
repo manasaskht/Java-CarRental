@@ -80,11 +80,9 @@ public class UserSignUpController
             model.addAttribute("pwdError","please enter Password");
             isDataValid=false;
         }
-        else if (!iUserSignUpService.validPwd(user.getPassword()))
+        else if (iUserSignUpService.passwordValidation(user.getPassword()).length()>0)
         {
-            model.addAttribute("pwdError","Password must be atleast 8 characters long,\n" +
-                    "must include atleast 1 upperCase and 1 LowerCase character,\n" +
-                    "Password must include atleast one number and special character");
+            model.addAttribute("pwdError",iUserSignUpService.passwordValidation(user.getPassword()));
             isDataValid=false;
         }
         if(iUserSignUpService.isConfirmPwdNull(user.getConfirmPassword()))
