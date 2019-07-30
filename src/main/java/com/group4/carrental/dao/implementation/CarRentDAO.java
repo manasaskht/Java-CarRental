@@ -96,6 +96,8 @@ public class CarRentDAO implements ICarRentDAO {
                     car.setImageURL(carImageData);
                     String carModel = resultSet.getString("car_model");
                     car.setModel(carModel);
+                    int carTypeId = resultSet.getInt("car_type_id");
+                    car.setCarTypeId(carTypeId);
                 }
             }
 
