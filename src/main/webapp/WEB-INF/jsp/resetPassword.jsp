@@ -5,34 +5,35 @@
     <title>Reset Password page</title>
 </head>
 <body>
-<div class="container">
-    <div>
-
-        <h3 style="color:blue;" class="card-title">Reset Password</h3>
+<div class="container" style="margin-right:30px"> 
+   <div class="col-sm-8">
+        <h3 style="text-align: center;" class="card-title">Reset Password Page</h3>
+    <div class="card">
+                <div class="card-body">
     <form method="post"
           action="/reset-password" >
         <div >
-            <h5>Email address</h5>
-        <input type="text" name="email"  placeholder="Email address">
+            <label for="email">Email Address</label>
+        <input type="text" class="form-control" name="email"  placeholder="Email address">
 
         </div>
-
+<br>
      <div>
-            <h5>Password</h5>
-            <input type="password" name="password"  placeholder="password">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password"  placeholder="password">
      </div>
+     <br>
         <div>
-            <h5>Confirm Password</h5>
-            <input type="password" name="confirmPassword"  placeholder="confirmPassword">
+           <label for="confirmPassword">Confirm Password</label>
+            <input type="password" class="form-control" name="confirmPassword"  placeholder="confirmPassword">
         </div>
       
 <br>
     <div>
 
-        <button class="btn btn-sm btn-primary  text-uppercase" type="submit" value="reset">Reset</button>
+        <button class="btn btn-primary  text-uppercase" type="submit" value="reset">Reset</button>
     </div>
-    </form>
-        <c:if test="${Invalid_Email!= null}">
+    <c:if test="${Invalid_Email!= null}">
             <p style="color: red">${Invalid_Email}</p>
         </c:if>
         <c:if test="${Unregistered_Email!= null}">
@@ -42,7 +43,7 @@
         <p style="color: red">${error_confirm_password}</p>
     </c:if>
         <c:if test="${successMessage!= null}">
-            <p style="color: red">${successMessage}</p>
+            <p style="color: green">${successMessage}</p>
         </c:if>
      <c:if test="${error_password!= null}">
         <p style="color: red">${error_password}</p>
@@ -50,7 +51,8 @@
         <c:if test="${error!= null}">
             <p style="color: red">${error}</p>
         </c:if>
-    
+    </form>    
+</div></div>
 </div></div>
 
 <script src="/js/jquery-3.4.1.min.js"></script>

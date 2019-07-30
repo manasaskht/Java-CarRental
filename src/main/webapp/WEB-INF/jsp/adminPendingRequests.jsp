@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -6,14 +7,15 @@
 <body>
 <div class="container" style="margin-top:10px">
     <div class="row">
-        <div class="col">
+        <div class="col-sm-8">
             <div class="card-body">
                 <h5>PendingCarRequestsList</h5>
                 <c:forEach items="${pendingCarRequests}" var="car">
                     <div class="card" style="margin-top:10px">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-4">
+                  
+                                         <div class="col-sm-7">
                                     Model: <p> ${car.carModel}</p>
                                     Description: <p> ${car.carDescription}</p>
                                     Rate:  <p>${car.carRate}</p>

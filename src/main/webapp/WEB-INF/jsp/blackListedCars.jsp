@@ -36,7 +36,7 @@
                         <a class="nav-link linkClass" href="/admin/listAllCar">Cars List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link linkClass" href="/adminListPendingRequests">pending Request</a>
+                        <a class="nav-link linkClass" href="/admin/ListPendingRequests">pending Request</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link linkClass" href="/adminBlackListCars">Blacklist cars</a>
@@ -55,7 +55,9 @@
         <div class="row ">
             <div class="col-lg-12">
                 <div class="row ">
+
                     <div class="col align-self-center">
+
                         <%if(carArrayList!=null){
                         for(int i=0;i<carArrayList.size();i++)
                         { %>
