@@ -35,7 +35,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <form method="POST" action="/edit-car-details" enctype="multipart/form-data">
+            <form method="POST" action="/editCarDetails" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="model">Car Model</label>
                     <input type="text" class="form-control" id="model" name="model" value="${carDetails.carModel}"
