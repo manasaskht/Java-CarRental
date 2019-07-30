@@ -39,6 +39,7 @@
                 </form>
             </div>
         </nav>
+        <div class="container-fluid">
         <form name="paymentForm" action="bookCar" method="post">
             <input type="hidden" name="fromDate" value=${bookingData.fromDate}>
             <input type="hidden" name="toDate" value=${bookingData.toDate}>
