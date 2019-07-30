@@ -71,13 +71,7 @@ public class AdminListCarDAO implements IAdminListCarDAO {
             e.printStackTrace();
         }finally {
             try {
-                databaseConnection.closeDBConnection(connection);
-                if(callableStatement != null) {
-                    callableStatement.close();
-                }
-                if(resultSet != null) {
-                    resultSet.close();
-                }
+                databaseConnection.closeStatementAndConnection(callableStatement,resultSet);
             } catch (SQLException e) {
                 loggerInstance.log(2,"Admin DAO Error: "+e.toString());
                 e.printStackTrace();
@@ -105,10 +99,7 @@ public class AdminListCarDAO implements IAdminListCarDAO {
             e.printStackTrace();
         }finally {
             try {
-                databaseConnection.closeDBConnection(connection);
-                if(callableStatement != null) {
-                    callableStatement.close();
-                }
+                databaseConnection.closeStatementAndConnection(callableStatement,null);
             } catch (SQLException e) {
                 loggerInstance.log(2,"Admin DAO Error: "+e.toString());
                 e.printStackTrace();
@@ -140,13 +131,7 @@ public class AdminListCarDAO implements IAdminListCarDAO {
             e.printStackTrace();
         }finally {
             try {
-                databaseConnection.closeDBConnection(connection);
-                if(callableStatement != null) {
-                    callableStatement.close();
-                }
-                if(resultSet != null) {
-                    resultSet.close();
-                }
+                databaseConnection.closeStatementAndConnection(callableStatement,resultSet);
             } catch (SQLException e) {
                 loggerInstance.log(2,"Admin DAO Error: "+e.toString());
                 e.printStackTrace();

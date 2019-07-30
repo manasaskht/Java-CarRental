@@ -44,6 +44,9 @@
                             <option value="${city.cityId}">${city.cityName}</option>
                         </c:forEach>
                     </select>
+                    <c:if test="${cityError != null}">
+                        <p style="color: red">${cityError}</p>
+                    </c:if>
                 </div>
                 <div class="form-group col-sm-6">
                     <label for="carType">Select a vehicle</label>
@@ -52,6 +55,9 @@
                             <option value="${carType.carTypeId}">${carType.carTypeName}</option>
                         </c:forEach>
                     </select>
+                    <c:if test="${carError != null}">
+                        <p style="color: red">${carError}</p>
+                    </c:if>
                 </div>
             </div>
             <div class="row justify-content-md-center">
@@ -64,6 +70,13 @@
                     <input id="dateTo" name="dateTo" value="${toDate}" data-toggle="datepicker"/>
                 </div>
             </div>
+
+            <c:if test="${dateError != null}">
+                <div class="row justify-content-md-center">
+                    <p style="color: red">${dateError}</p>
+                </div>
+            </c:if>
+
             <div class="row justify-content-md-center">
                 <div class="col-sm-3">
                     <div class="form-group">

@@ -5,9 +5,7 @@ import com.group4.carrental.connection.IDatabaseConnection;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Repository("DatabaseConnection")
 @Component
@@ -38,5 +36,16 @@ public class DatabaseConnection implements IDatabaseConnection {
     public void closeDBConnection(Connection connection) throws SQLException {
         dbConnection.close();
         dbConnection = null;
+    }
+
+    @Override
+    public void closeStatementAndConnection(CallableStatement callableStatement, ResultSet resultSet) throws SQLException {
+        if(callableStatement != null) {
+            callableStatement.close();
+        }
+        if(resultSet != null) {
+            resultSet.close();
+        }
+        this.closeDBConnection(dbConnection);
     }
 }

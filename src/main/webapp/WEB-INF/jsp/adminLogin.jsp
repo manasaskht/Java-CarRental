@@ -4,9 +4,9 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container" style="margin-top:10px">
+<div class="container" style="margin-top:100px">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-6 offset-sm-3">
             <div class="card">
                 <div class="card-body">
                     <form action="/admin/login" method="post">

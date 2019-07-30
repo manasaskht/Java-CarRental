@@ -15,4 +15,10 @@ public interface IHomeService {
 
     public ArrayList<City> getCityList();
 
+    public boolean validDate(String date);
+
+    public boolean validCarType(int carTypeId);
+
+    public boolean validCarCity(int cityId);
+
 }
