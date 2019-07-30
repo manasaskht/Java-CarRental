@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="/css/navBar.css">
 </head>
 <body >
+
         <nav class="navbar navbar-expand-lg navClass">
             <a class="navbar-brand">
                 <img src="/img/webLogo.jpg" width="70" height="70" alt="">

@@ -14,17 +14,16 @@ import java.io.UnsupportedEncodingException;
 @Service("LoginService")
 public class LoginService implements ILoginService {
 
-	@Autowired
 	private ILoginDAO loginDAO;
-	
-	@Autowired
 	private IUserSignUpService signUpService;
-	
-	@Autowired
-	private LoggerInstance log;
+	private LoggerInstance LoggerInstance;
 
-	public LoginService(@Qualifier("LoginDAO") ILoginDAO loginDAO) {
+	@Autowired
+	public LoginService(@Qualifier("LoginDAO") ILoginDAO loginDAO,@Qualifier("UserSignUpService") IUserSignUpService signUpService,LoggerInstance LoggerInstance) {
+
 		this.loginDAO = loginDAO;
+		this.signUpService=signUpService;
+		this.LoggerInstance=LoggerInstance;
 	}
 	
 
@@ -39,7 +38,7 @@ public class LoginService implements ILoginService {
 		} else {
 			String passwordparam = signUpService.getEncodedString(user.getPassword());
 			String passwordDB = loginDAO.getPassword(user.getEmail());
-			log.log(2,"User with email "+user.getEmail()+ " has logged in successfully");
+			LoggerInstance.log(0,"User with email "+user.getEmail()+ " has logged in successfully");
 			return passwordparam.equals(passwordDB);
 		}
 	}
@@ -51,6 +50,7 @@ public class LoginService implements ILoginService {
 				return emailID.contains("@");
 			}
 		}
+
 		return false;
 	}
 
@@ -59,6 +59,7 @@ public class LoginService implements ILoginService {
 		if (null != password) {
 			return !password.trim().isEmpty();
 		}
+
 		return false;
 	}
 

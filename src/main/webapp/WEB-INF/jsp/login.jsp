@@ -26,6 +26,7 @@
 
         <button class="btn btn-sm btn-primary  text-uppercase" type="submit" value="login">Login</button>
         <button class="btn btn-sm btn-google  text-uppercase" onclick="location.href='/userSignUp'" type="button"> Sign Up </button>
+        <a href="/forgot-password">Forgot Password? Click Me</a>
     </div>
     </form>
     <c:if test="${Invalid_Email!= null}">
@@ -34,6 +35,7 @@
     <c:if test="${Invalid_Password!= null}">
         <p style="color: red">${Invalid_Password}</p>
     </c:if>
+    
 </div></div>
 
 <script src="/js/jquery-3.4.1.min.js"></script>
