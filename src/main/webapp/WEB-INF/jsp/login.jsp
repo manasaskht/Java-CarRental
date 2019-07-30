@@ -7,7 +7,7 @@
 <body>
 <div class="container" style="margin-right:30px">   
         <div class="col-sm-8">
-        <h3 style="text-align: center;" class="card-title">Login</h3>
+        <h3 style="text-align: center;" class="card-title">Login Page</h3>
         <div class="card">
                 <div class="card-body">
     <form method="post"
@@ -25,8 +25,8 @@
 <br>
     <div>
 
-        <button class="btn btn-sm btn-primary  text-uppercase" type="submit" value="login">Login</button>
-        <button class="btn btn-sm btn-google  text-uppercase" onclick="location.href='/userSignUp'" type="button"> Sign Up </button>
+        <button class="btn btn-md btn-primary  text-uppercase" type="submit" value="login">Login</button>
+        <button class="btn btn-md btn-google  text-uppercase" onclick="location.href='/userSignUp'" type="button"> Sign Up </button>
       <br> <br>  <a href="/forgot-password">Forgot Password? Click Me</a>
     </div>
     <c:if test="${Invalid_Email!= null}">
