@@ -53,7 +53,7 @@ public class AdminApproveController {
             return "adminLogin";
         }
 		this.admincarapproveservice.carApproval(id);
-		return "redirect:/adminListPendingRequests";
+		return "redirect:/admin/ListPendingRequests";
 	}
 	@RequestMapping(value = "/admin/Reject/{id}", method = RequestMethod.GET)
 	 public String rejectresponse(Model model,@PathVariable int id,HttpSession httpSession)
@@ -68,7 +68,7 @@ public class AdminApproveController {
         }
 	
 		this.admincarapproveservice.carReject(id);
-       return "redirect:/adminListPendingRequests";
+       return "redirect:/admin/ListPendingRequests";
 	}
 	
 
