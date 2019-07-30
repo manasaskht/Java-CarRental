@@ -43,14 +43,19 @@ public class LoginController {
 			session.setAttribute("user_id", userId);
 			return "redirect:homePage";
 		} else {
-			if (!LoginService.isValidUserEmail(user.getEmail())) {
+			if (!LoginService.isValidUserEmail(user.getEmail())&& !LoginService.isEmptyPassword(user.getPassword())) {
 				loggerInstance.log(1, "User trying to log in with invalid email: Called");
 				model.addAttribute("Invalid_Email", "Please enter a valid email");
 
 			}
-			if (LoginService.isEmptyPassword(user.getPassword())) {
+			if (!LoginService.isEmptyPassword(user.getPassword())&& LoginService.isValidUserEmail(user.getEmail()) ) {
 				loggerInstance.log(1, "User trying to log in with password as empty: Called");
-				model.addAttribute("Invalid_Password", "Username/Password incorrect!!");
+				model.addAttribute("Invalid_Password", "Please fill password");
+
+			}
+			if (LoginService.isEmptyPassword(user.getPassword())&& LoginService.isValidUserEmail(user.getEmail()) ) {
+				loggerInstance.log(1, "User trying to log in with invalid credentials: Called");
+				model.addAttribute("Invalid_Credentials", "Username/Password incorrect!!");
 
 			}
 			return "login";
