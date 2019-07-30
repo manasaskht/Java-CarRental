@@ -7,7 +7,9 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navClass w-100">
-    <a class="navbar-brand">Car Rent</a>
+    <a class="navbar-brand">
+        <img src="/img/websiteLogo.jpg" width="70" height="70" alt="">
+    </a>
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -98,6 +100,7 @@
     </div>
 </div>
 <script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <script src="/js/index.js"></script>
 </body>
 </html>

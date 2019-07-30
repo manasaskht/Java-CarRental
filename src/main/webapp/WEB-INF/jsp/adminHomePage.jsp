@@ -7,7 +7,7 @@
 
         <nav class="navbar navbar-expand-lg navClass">
             <a class="navbar-brand">
-                <img src="/img/webLogo.jpg" width="70" height="70" alt="">
+                <img src="/img/websiteLogo.jpg" width="70" height="70" alt="">
             </a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
