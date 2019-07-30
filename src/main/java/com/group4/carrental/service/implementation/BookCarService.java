@@ -24,6 +24,7 @@ public class BookCarService implements IBookCarService {
     private IBookCarDAO iBookCarDAO;
     private ICarRentService iCarRentService;
     private ISendMailService iSendMailService;
+
     @Autowired
     private LoggerInstance log;
 
@@ -42,25 +43,28 @@ public class BookCarService implements IBookCarService {
 
     @Override
     public User getUserDetails(Integer userId) {
-
+        log.log(0,"In BookCar service:getUserDetails");
         return iUserSignUpService.getUserDetails(userId);
     }
 
     @Override
     public boolean isValidCreditCardNumber(String number) {
 
+        log.log(0,"In BookCar service:isValidCreditCardNumber");
         return iPaymentValidationService.isValidCreditCardNumber(number);
     }
 
     @Override
     public void saveCarBookingDetails(CarBooking carBooking) {
 
+        log.log(0,"In BookCar service:saveCarBookingDetails");
         iBookCarDAO.saveCarBookingDetails(carBooking);
     }
 
     @Override
     public Car getCarDetailsbyId(Integer carId) {
 
+        log.log(0,"In BookCar service:getCarDetailsbyId");
          return iCarRentService.getCarById(carId);
 
     }
@@ -68,6 +72,7 @@ public class BookCarService implements IBookCarService {
     @Override
     public double calculateTotalRent(String fromDate, String Todate, double carRate) {
 
+        log.log(0,"In BookCar service:calculateTotalRent");
         SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
         double totalRate=0;
         try {
@@ -78,6 +83,7 @@ public class BookCarService implements IBookCarService {
             totalRate = Days * carRate;
 
         } catch (ParseException e) {
+            log.log(2,"In BookCar service:calculateTotalRent"+e.getMessage());
             e.printStackTrace();
         }
         return totalRate;
