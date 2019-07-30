@@ -32,6 +32,7 @@ public class LoginService implements ILoginService {
 	public boolean isUserValid(User user) throws UnsupportedEncodingException {
 		
 		if (null == user.getEmail() || null == user.getPassword()) {
+			LoggerInstance.log(1,"User with empty email/password "+user.getEmail()+ " trying to login:Login Service called");
 			return false;
 		} else if (user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
 			return false;
@@ -65,6 +66,7 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public int getUserId(User user) {
+		
 		return loginDAO.getUserId(user);
 	}
 }

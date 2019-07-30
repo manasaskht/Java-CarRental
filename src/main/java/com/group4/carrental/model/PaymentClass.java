@@ -7,6 +7,7 @@ public class PaymentClass {
     private String cardNumber;
     private int expiryMonth;
     private int expiryYear;
+    private double totalRent;
 
     public String getCustomerName() {
         return customerName;
@@ -46,5 +47,13 @@ public class PaymentClass {
 
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
+    }
+
+    public double getTotalRent() {
+        return totalRent;
+    }
+
+    public void setTotalRent(double totalRent) {
+        this.totalRent = totalRent;
     }
 }

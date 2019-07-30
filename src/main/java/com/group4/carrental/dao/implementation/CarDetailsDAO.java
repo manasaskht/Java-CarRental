@@ -16,14 +16,8 @@ public class CarDetailsDAO implements ICarDetailsDAO {
 
     private IDatabaseConnection databaseConnection;
     private LoggerInstance loggerInstance;
-    private static final String GET_CAR_DETAILS = "select Car.*,Car_Type.*,City_Name.* from Car " +
-            " INNER JOIN City_Name ON Car.car_city = City_Name.city_id"+
-            " INNER JOIN Car_Type ON Car.car_type_id = Car_Type.car_type_id where Car.car_id = ?";
 
-    public static final String GET_BOOKED_CAR_DETAILS = "select Car.*,Car_Type.*,City_Name.*,Booking.* from Car " +
-            " INNER JOIN City_Name ON Car.car_city = City_Name.city_id"+
-            " INNER JOIN Car_Type ON Car.car_type_id = Car_Type.car_type_id" +
-            " INNER JOIN  Booking ON Car.car_id = Booking.car_id where Car.car_id = ?";
+    private  final String GET_CAR_DETAILS = "{call getCarDetailById(?)}";
 
     @Autowired
     public CarDetailsDAO(@Qualifier("DatabaseConnection") IDatabaseConnection databaseConnection, LoggerInstance loggerInstance) {
@@ -32,20 +26,20 @@ public class CarDetailsDAO implements ICarDetailsDAO {
     }
 
     @Override
-    public CarList getCarById(int carId) {
+    public CarList getCarDetailsById(int carId) {
 
         Connection connection = null;
         ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
         CarList car = new CarList();
 
         try {
             connection = databaseConnection.getDBConnection();
 
 
-            preparedStatement = connection.prepareStatement(GET_CAR_DETAILS);
-            preparedStatement.setInt(1,carId);
-            resultSet = preparedStatement.executeQuery();
+            callableStatement = connection.prepareCall(GET_CAR_DETAILS);
+            callableStatement.setInt(1,carId);
+            resultSet = callableStatement.executeQuery();
 
             if(resultSet.next()){
                 car.setCarId(resultSet.getInt("car_id"));
@@ -67,90 +61,26 @@ public class CarDetailsDAO implements ICarDetailsDAO {
 
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            loggerInstance.log(2,"Car Update DAO Error: "+e.toString());
+            loggerInstance.log(2,"Car DETAILS BY ID DAO Error: "+e.toString());
             e.printStackTrace();
         } finally {
             try {
                 if (resultSet != null) {
                     resultSet.close();
                 }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
+                if (callableStatement != null) {
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
-                loggerInstance.log(2,"Car Update DAO Error: "+e.toString());
+                loggerInstance.log(2,"Car DETAILS BY ID DAO Error: "+e.toString());
                 e.printStackTrace();
             }
         }
 
-
+        loggerInstance.log(0,"Car DETAILS BY ID SUCCESS: ");
         return car;
     }
 
-    @Override
-    public CarList getBookedCarById(int carId) {
-        Connection connection = null;
-        ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
-        CarList car = new CarList();
-
-        try {
-            connection = databaseConnection.getDBConnection();
-
-
-            preparedStatement = connection.prepareStatement(GET_BOOKED_CAR_DETAILS);
-            preparedStatement.setInt(1,carId);
-            resultSet = preparedStatement.executeQuery();
-
-            if(resultSet.next()){
-
-                car.setCarId(resultSet.getInt("car_id"));
-                car.setCarOwner(resultSet.getInt("owner_id"));
-                car.setCarRate(resultSet.getDouble("car_rate"));
-                car.setCarTypeName(resultSet.getString("car_type_name"));
-                car.setCityName(resultSet.getString("city_name"));
-                car.setDescription(resultSet.getString("car_description"));
-                car.setCarModel(resultSet.getString("car_model"));
-                car.setCityId(resultSet.getInt("car_city"));
-                car.setCarTypeId(resultSet.getInt("car_type_id"));
-
-                car.setBookingId(resultSet.getInt("booking_id"));
-                car.setBookedDate(resultSet.getString("booked_date")+"");
-                car.setFromDate(resultSet.getString("from_date"));
-                car.setToDate(resultSet.getString("to_date"));
-
-                Blob carImage = resultSet.getBlob("car_image");
-                String carImageData = null;
-                byte[] imageBytes = carImage.getBytes(1, (int) carImage.length());
-                carImageData = Base64.encodeBase64String(imageBytes);
-                car.setImageURL(carImageData);
-
-
-
-            }
-
-
-        } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            loggerInstance.log(2,"Car Update DAO Error: "+e.toString());
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                databaseConnection.closeDBConnection(connection);
-            } catch (SQLException e) {
-                loggerInstance.log(2,"Car Update DAO Error: "+e.toString());
-                e.printStackTrace();
-            }
-        }
-
-
-        return car;
-    }
 
 }

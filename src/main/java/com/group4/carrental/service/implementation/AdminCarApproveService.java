@@ -36,7 +36,7 @@ public class AdminCarApproveService implements IAdminCarApproveService{
 		
 			@Override
 			public void carReject(int id) {
-				loggerInstance.log(0,"Admin email service with status as approved: Called");
+				loggerInstance.log(0,"Admin email service with status as rejected: Called");
 				adminresponsedao.carReject(id);
 				this.sendMail.sendRejectEmail(id);
 			}

@@ -76,7 +76,9 @@ public String ForgotPassword(Model model)
  }
  @RequestMapping(value = "/reset", method = RequestMethod.GET)
 	public String displayResetPasswordPage(Model model,@ModelAttribute("User") User user) {
-		if (ForgotPasswordService.validate(user)) { // Token found in DB
+		if (ForgotPasswordService.validate(user)) {
+			// Token found in DB
+			log.log(0,"User resetPasword page: Called");
 			return "resetPassword";
 		} else { // Token not found in DB
 			model.addAttribute("errorMessage"," This is an invalid password reset link.");
@@ -89,10 +91,12 @@ public String ForgotPassword(Model model)
  @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
 	public String setNewPassword(Model model,@ModelAttribute("User") User user) throws UnsupportedEncodingException {
 	 if (!ForgotPasswordService.isValidUserEmail(user.getEmail())) {
+		 log.log(1,"User trying to access forgot password with Invalid email: Called");
 		 model.addAttribute("Invalid_Email", "Please enter a valid email");
 
 
 	 } else if (!ForgotPasswordService.findUserByEmail(user)) {
+		 log.log(1,"User trying to access forgot password with Invalid email: Called");
 		 model.addAttribute("Unregistered_Email", "We didn't find an account for that e-mail address.");
 
 	 } else {
@@ -111,9 +115,11 @@ public String ForgotPassword(Model model)
 				 return "login";
 
 			 }
+			 log.log(1,"User trying to access forgot password with password mismatch: Called");
 			 model.addAttribute("error_confirm_password", "Password and confirm password doesn't match.  You may try again.");
 
 		 } else {
+			 log.log(1,"User trying to access forgot password with not validpwd combinations: Called");
 			 model.addAttribute("error_password", "Oops!  This is an invalid password ");
 
 		 }

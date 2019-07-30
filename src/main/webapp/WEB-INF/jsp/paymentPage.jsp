@@ -9,12 +9,14 @@
     <link rel="stylesheet" href="/css/navBar.css">
 </head>
 <body >
-
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary w-100">
+        <nav class="navbar navbar-expand-lg navClass w-100">
             <a class="navbar-brand">Car Rent</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link linkClass active" href="homePage">Home</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link linkClass" href="carrent">Rent a Car</a>
                     </li>
@@ -40,6 +42,7 @@
             <input type="hidden" name="toDate" value=${bookingData.toDate}>
             <input type="hidden" name="userId" value=${bookingData.userId}>
             <input type="hidden" name="carId" value=${bookingData.carId}>
+            <input type="hidden" name="totalRent" value=${totalRent}>
 
             <h1 style="text-align: center">Payment Page</h1><hr>
             <br/>
@@ -47,15 +50,17 @@
                 <div class="col-lg-12">
                     <div class="row ">
                         <div class="col-lg-4">
-                            <div class="card bg-light" style="width:350px">
-                                    <h4 class="card-title">User Details</h4>
+                            <div class="card bg-light" style="width:400px;">
+                                    <h5 class="card-title" style="color: blue;">User Details</h5>
                                     <p class="card-text"><b>Name:</b>${userData.name}</p>
                                     <p class="card-text"><b>Email:</b>${userData.email} </p>
                                 <hr>
-                                    <h4>Car Details</h4>
-                                    <p class="card-text"><b>Car model:</b>${carData.model} </p>
-                                    <p class="card-text"><b>Car description:</b>${carData.description}</p>
-                                    <p class="card-text"><b>Booking Date:</b>${bookingData.fromDate}</p> to ${bookingData.toDate}
+                                    <h5 style="color: blue;">Car Details</h5>
+                                    <p class="card-text"><b>Model:</b>${carData.model} </p>
+                                    <p class="card-text"><b>Description:</b>${carData.description}</p>
+                                    <p class="card-text"><b>Booking from:</b>${bookingData.fromDate}</p>
+                                    <p class="card-text"><b>Booking To:</b>${bookingData.toDate}</p>
+                                    <p clss="card-text"><b>Total Rent:</b>${totalRent}</p>
                                 </div>
 
                         </div>
@@ -133,7 +138,7 @@
 
         </form>
     </div>
-    <div class="footer tempClass" style="margin-top:190px;">
+    <div class="footer tempClass" style="margin-top:65px;">
         <h6 class="text-center">Car Rent</h6>
         <div class="footer-copyright text-center py-3">© 2019 Copyright:
             <a action="/homePage"> CarRent.com</a>

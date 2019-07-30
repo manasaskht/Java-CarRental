@@ -7,7 +7,7 @@
 
     <br><br>
     <div class="container">
-    <form action="/update-password" method="post" class="card p-3 bg-white">
+    <form action="/updatePassword" method="post" class="card p-3 bg-white">
 
         <label class="h2" >Update Password</label> <br>
         <div class="form-group">

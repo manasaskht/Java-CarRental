@@ -16,13 +16,9 @@ public class CarDetailsService implements ICarDetailsService {
         this.carDetailsDAO = carDetailsDAO;
     }
 
-    @Override
-    public CarList getCarById(int carId) {
-        return carDetailsDAO.getCarById(carId);
-    }
 
     @Override
-    public CarList getBookedCarById(int carId) {
-        return carDetailsDAO.getBookedCarById(carId);
+    public CarList getCarDetailsById(int carId) {
+        return carDetailsDAO.getCarDetailsById(carId);
     }
 }

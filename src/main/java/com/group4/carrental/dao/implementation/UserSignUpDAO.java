@@ -24,27 +24,30 @@ public class UserSignUpDAO implements IUserSignUpDAO {
         this.databaseConnection = databaseConnection;
     }
 
+    private final String save_user_details="{call saveUserSignUpDetails(?,?,?,?)}";
+    private final String user_details="{call getUserDetails(?)}";
+    private final String update_user_profile="{call updateUserProfileDetails(?,?,?)}";
+    private final String email_exist="{call isEmailExist(?)}";
+    private final String city_list="{call getCityList()}";
+
+
     @Override
     public void saveUserSignUpDetails(User user) {
         log.log(0,"In Dao:save user details in database");
 
         Connection connection = null;
         ResultSet resultSet = null;
-        PreparedStatement userDetailsSaveStatement=null;
+        CallableStatement callableStatement = null;
         try {
             connection = databaseConnection.getDBConnection();
+            callableStatement = connection.prepareCall(save_user_details);
 
-            String query = "insert into User (name, email, city_id, password)"
-                    + " values (?, ?, ?, ?)";
+            callableStatement.setString(1, user.getName());
+            callableStatement.setString(2, user.getEmail());
+            callableStatement.setInt(3, user.getCity_id());
+            callableStatement.setString(4, user.getPassword());
 
-
-            userDetailsSaveStatement = connection.prepareStatement(query);
-            userDetailsSaveStatement.setString(1, user.getName());
-            userDetailsSaveStatement.setString(2, user.getEmail());
-            userDetailsSaveStatement.setInt(3, user.getCity_id());
-            userDetailsSaveStatement.setString(4, user.getPassword());
-
-            userDetailsSaveStatement.execute();
+            callableStatement.execute();
 
         }
         catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
@@ -56,9 +59,9 @@ public class UserSignUpDAO implements IUserSignUpDAO {
                 if(resultSet != null){
                     resultSet.close();
                 }
-                if(userDetailsSaveStatement!=null)
+                if(callableStatement!=null)
                 {
-                    userDetailsSaveStatement.close();
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
@@ -76,14 +79,14 @@ public class UserSignUpDAO implements IUserSignUpDAO {
         User user = new User();
         Connection connection = null;
         ResultSet resultSet = null;
-        PreparedStatement getUserDeatailsStatement=null;
+        CallableStatement callableStatement = null;
 
         try {
             connection = databaseConnection.getDBConnection();
-            String getUserQuery = "select * from User WHERE user_id=?";
-            getUserDeatailsStatement = connection.prepareStatement(getUserQuery);
-            getUserDeatailsStatement.setInt(1,userId);
-            resultSet = getUserDeatailsStatement.executeQuery();
+            callableStatement = connection.prepareCall(user_details);
+
+            callableStatement.setInt(1,userId);
+            resultSet = callableStatement.executeQuery();
 
             while (resultSet.next()) {
                 String name = resultSet.getString("name");
@@ -108,9 +111,9 @@ public class UserSignUpDAO implements IUserSignUpDAO {
                 if(resultSet != null){
                     resultSet.close();
                 }
-                if(getUserDeatailsStatement!=null)
+                if(callableStatement!=null)
                 {
-                    getUserDeatailsStatement.close();
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
@@ -127,16 +130,15 @@ public class UserSignUpDAO implements IUserSignUpDAO {
 
 
         Connection connection=null;
-        PreparedStatement updateStatement=null;
+        CallableStatement callableStatement = null;
         try {
 
             connection = databaseConnection.getDBConnection();
-            String updateQuery = "UPDATE User SET name=?, city_id=? WHERE user_id=?";
-            updateStatement = connection.prepareStatement(updateQuery);
-            updateStatement.setString(1, user.getName());
-            updateStatement.setInt(2, user.getCity_id());
-            updateStatement.setInt(3,user.getUserId());
-            updateStatement.executeUpdate();
+            callableStatement = connection.prepareCall(update_user_profile);
+            callableStatement.setString(1, user.getName());
+            callableStatement.setInt(2, user.getCity_id());
+            callableStatement.setInt(3,user.getUserId());
+            callableStatement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             log.log(2,"In Dao:updateUserProfileDetails"+e.getMessage());
@@ -144,8 +146,8 @@ public class UserSignUpDAO implements IUserSignUpDAO {
         }
         finally {
             try {
-                if(updateStatement != null){
-                    updateStatement.close();
+                if(callableStatement != null){
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
@@ -160,15 +162,14 @@ public class UserSignUpDAO implements IUserSignUpDAO {
     public boolean isEmailExist(String email)
     {
         Connection connection=null;
-        PreparedStatement emailCheckStatement=null;
+        CallableStatement callableStatement = null;
         ResultSet resultSet=null;
         boolean isEmail=false;
         try {
             connection = databaseConnection.getDBConnection();
-            String queryCheck = "SELECT count(*) from User WHERE email = ?";
-            emailCheckStatement = connection.prepareStatement(queryCheck);
-            emailCheckStatement.setString(1, email);
-             resultSet = emailCheckStatement.executeQuery();
+            callableStatement = connection.prepareCall(email_exist);
+            callableStatement.setString(1, email);
+            resultSet = callableStatement.executeQuery();
             if (resultSet.next())
             {
                 final int count = resultSet.getInt(1);
@@ -189,9 +190,9 @@ public class UserSignUpDAO implements IUserSignUpDAO {
                 if(resultSet != null){
                     resultSet.close();
                 }
-                if(emailCheckStatement!=null)
+                if(callableStatement!=null)
                 {
-                    emailCheckStatement.close();
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
@@ -208,13 +209,12 @@ public class UserSignUpDAO implements IUserSignUpDAO {
         ArrayList<City> cityArrayList=new ArrayList<City>();
         Connection connection=null;
         ResultSet resultSet=null;
-        Statement getCityStatement=null;
+        CallableStatement callableStatement = null;
 
         try {
             connection = databaseConnection.getDBConnection();
-            String query = "SELECT * FROM  City_Name";
-            getCityStatement= connection.createStatement();
-            resultSet = getCityStatement.executeQuery(query);
+            callableStatement = connection.prepareCall(city_list);
+            resultSet = callableStatement.executeQuery();
 
             while (resultSet.next())
             {
@@ -237,9 +237,9 @@ public class UserSignUpDAO implements IUserSignUpDAO {
                 if(resultSet != null){
                     resultSet.close();
                 }
-                if(getCityStatement!=null)
+                if(callableStatement!=null)
                 {
-                    getCityStatement.close();
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {

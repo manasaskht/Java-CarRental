@@ -29,17 +29,13 @@
                             <div class="col-sm-7">
                                 <h4>${car.carModel}</h4>
                                 <p>Vehicle Type : ${car.carTypeName}</p>
-                                <%--<p>Car City : ${car.cityName}</p>
                                 <p>Car Rate : ${car.carRate}</p>
-                                <p>Car Description : ${car.description}</p>--%>
-
-                                <form action="/booked-car-details" method="get">
-
-                                    <button class ="btn btn-dark" id="carDetails" name="carDetails" value="${car.carId}" type="submit" >View more</button>
-                                </form>
+                                <p>Car Description : ${car.description}</p>
+                                <p>Booked From : ${car.fromDate}</p>
+                                <p>Booked To : ${car.toDate}</p>
 
 
-                                <form action="/user-booked-cars" method="post">
+                                <form action="/userBookedCars" method="post">
                                     <div>
                                     <button class ="btn btn-dark" id="carId" name="carId" value="${car.carId}" type="submit" >Remove</button>
                                 </div>

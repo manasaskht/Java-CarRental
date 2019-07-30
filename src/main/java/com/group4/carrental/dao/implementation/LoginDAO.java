@@ -32,6 +32,7 @@ public class LoginDAO implements ILoginDAO {
 		String passwordDB = null;
 
 		try {
+			loggerInstance.log(0,"Login DAO Error: ");
 			dbconnect = databaseConnection.getDBConnection();
 			st = dbconnect.prepareStatement(query);
 			rs = st.executeQuery(query);
@@ -69,6 +70,7 @@ public class LoginDAO implements ILoginDAO {
 		int userId = 0;
 
 		try {
+			loggerInstance.log(0,"Login DAO Error: ");
 			dbconnect = databaseConnection.getDBConnection();
 			st = dbconnect.prepareStatement(query);
 			rs = st.executeQuery(query);

@@ -31,13 +31,16 @@ public class UserBookedCarController {
     }
 
 
-    @GetMapping("/user-booked-cars")
+    @GetMapping("/userBookedCars")
     public String userBookedCars(Model model, HttpSession session){
         loggerInstance.log(0,"User Booked car: Called");
 
         if(authentication.isValidUserSession(session)){
             int userId = authentication.getUserId();
             ArrayList<CarList> bookedCars = userBookedCarService.getUserBookedCars(userId);
+            for(CarList carList : bookedCars){
+                System.out.println("book date -"+carList.getBookedDate());
+            }
             model.addAttribute("bookedCars",bookedCars);
 
             return "userBookedcar";
@@ -47,7 +50,7 @@ public class UserBookedCarController {
 
     }
 
-    @PostMapping("/user-booked-cars")
+    @PostMapping("/userBookedCars")
     public String removeCarFromBookedCar(@RequestParam("carId") int carId, Model model, HttpSession session){
         loggerInstance.log(0,"User Removed Car From Booked Car: Called");
 
