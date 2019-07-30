@@ -15,7 +15,7 @@
                 <a class="nav-link linkClass" href="#">Cars List</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link linkClass" href="/admin/ListPendingRequests">pending Request</a>
+                <a class="nav-link linkClass" href="/admin/ListPendingRequests">Pending Request</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link linkClass" href="/adminBlackListCars">Blacklist cars</a>
