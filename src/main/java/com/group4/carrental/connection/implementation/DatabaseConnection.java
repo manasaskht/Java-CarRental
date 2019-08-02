@@ -34,8 +34,10 @@ public class DatabaseConnection implements IDatabaseConnection {
 
     @Override
     public void closeDBConnection(Connection connection) throws SQLException {
-        dbConnection.close();
-        dbConnection = null;
+        if(dbConnection != null) {
+            dbConnection.close();
+            dbConnection = null;
+        }
     }
 
     @Override

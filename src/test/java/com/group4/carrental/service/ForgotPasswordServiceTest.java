@@ -3,10 +3,7 @@ package com.group4.carrental.service;
 import com.group4.carrental.dao.ForgotPasswordDAOMock;
 import com.group4.carrental.dao.IForgotPasswordDAO;
 import com.group4.carrental.model.User;
-import com.group4.carrental.service.implementation.ForgotPasswordService;
-import com.group4.carrental.service.implementation.LoggerInstance;
-import com.group4.carrental.service.implementation.LoginService;
-import com.group4.carrental.service.implementation.UserSignUpService;
+import com.group4.carrental.service.implementation.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +19,7 @@ public class ForgotPasswordServiceTest {
     @Before
     public void setUp(){
         this.ForgotPasswordDAO=new ForgotPasswordDAOMock();
-        this.ForgotPasswordService = new ForgotPasswordService(mock(UserSignUpService.class),ForgotPasswordDAO,mock(LoginService.class),mock(LoggerInstance.class));
+        this.ForgotPasswordService = new ForgotPasswordService(mock(UserSignUpService.class),ForgotPasswordDAO,mock(LoginService.class),mock(LoggerInstance.class),mock(SignUpformRuleService.class));
     }
     @Test
 

@@ -7,17 +7,15 @@ import com.group4.carrental.service.implementation.LoggerInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.*;
 
 @Repository("CarEditDAO")
 public class CarEditDAO implements ICarEditDAO {
 
-    private static final String UPDATE_CAR_QUERY = "update Car SET car_description = ?, car_city = ?, " +
-            "car_type_id = ?, car_rate= ?, car_model=? where car_id= ?";
+    private static final String UPDATE_CAR_QUERY = "{call updateCarQuery(?,?,?,?,?,?)}";
 
-    private static final String UPDATE_CAR_IMAGE = "update Car SET car_image = ? where car_id = ?";
+    private static final String UPDATE_CAR_IMAGE = "{call updateCarImage(?,?)}";
 
     private IDatabaseConnection databaseConnection;
     private LoggerInstance loggerInstance;
@@ -33,22 +31,21 @@ public class CarEditDAO implements ICarEditDAO {
 
         Connection connection = null;
         ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
 
         try {
             connection = databaseConnection.getDBConnection();
 
 
-                preparedStatement = connection.prepareStatement(UPDATE_CAR_QUERY);
+                callableStatement = connection.prepareCall(UPDATE_CAR_QUERY);
                 System.out.println("car description - "+car.getDescription());
-                preparedStatement.setString(1,car.getDescription());
-                preparedStatement.setInt(2,car.getCity());
-                preparedStatement.setInt(3,car.getCarTypeId());
-                preparedStatement.setDouble(4,car.getCarRate());
-                preparedStatement.setString(5,car.getModel());
-                System.out.println("car id - "+car.getCarId());
-                preparedStatement.setInt(6,car.getCarId());
-                preparedStatement.executeUpdate();
+                callableStatement.setString(1,car.getDescription());
+                callableStatement.setInt(2,car.getCity());
+                callableStatement.setInt(3,car.getCarTypeId());
+                callableStatement.setDouble(4,car.getCarRate());
+                callableStatement.setString(5,car.getModel());
+                callableStatement.setInt(6,car.getCarId());
+                callableStatement.executeUpdate();
 
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             loggerInstance.log(2,"Car Update DAO Error: "+e.toString());
@@ -58,8 +55,8 @@ public class CarEditDAO implements ICarEditDAO {
                 if (resultSet != null) {
                     resultSet.close();
                 }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
+                if (callableStatement != null) {
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
@@ -78,14 +75,14 @@ public class CarEditDAO implements ICarEditDAO {
 
         Connection connection = null;
         ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
 
         try {
             connection = databaseConnection.getDBConnection();
-            preparedStatement = connection.prepareStatement(UPDATE_CAR_IMAGE);
-            preparedStatement.setBinaryStream(1,carImage.getBinaryStream());
-            preparedStatement.setInt(2,carID);
-            preparedStatement.executeUpdate();
+            callableStatement = connection.prepareCall(UPDATE_CAR_IMAGE);
+            callableStatement.setBinaryStream(1,carImage.getBinaryStream());
+            callableStatement.setInt(2,carID);
+            callableStatement.executeUpdate();
         } catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             loggerInstance.log(2,"Car Image Update DAO Error: "+e.toString());
             e.printStackTrace();
@@ -94,8 +91,8 @@ public class CarEditDAO implements ICarEditDAO {
                 if (resultSet != null) {
                     resultSet.close();
                 }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
+                if (callableStatement != null) {
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {

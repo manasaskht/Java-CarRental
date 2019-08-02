@@ -5,21 +5,14 @@ import org.springframework.ui.Model;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface IUserSignUpService {
     public void saveUserSignUpDetails(User user);
     public User getUserDetails(Integer userId);
     public void updateUserProfileDetails(User user);
     public ArrayList<City> getCityList();
-    public boolean validUserName(String userName);
-    public boolean validUserCity(Integer city);
-    public boolean validUserEmail(String email);
-    public boolean isEmailExist(String email);
-    public boolean isEmailNull(String email);
-    public boolean ispwdNull(String pwd);
-    public boolean isPasswordMatch(String pwd,String confirmPwd);
-    public boolean validPwd(String pwd);
-    public String passwordValidation(String pwd);
-    public boolean isConfirmPwdNull(String confirmPwd);
+    public HashMap<String,String> updateProfileFormValidation(User userData);
     public String getEncodedString(String originalString) throws UnsupportedEncodingException;
+    public HashMap<String,String> signUpFormValidation(User userData);
 }

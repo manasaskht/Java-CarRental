@@ -7,13 +7,11 @@ import com.group4.carrental.service.ISignUpformRuleService;
 import com.group4.carrental.service.IUserSignUpService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.Map;
+
 
 @Service("UserSignUpService")
 public class UserSignUpService implements IUserSignUpService {
@@ -21,6 +19,7 @@ public class UserSignUpService implements IUserSignUpService {
     private LoggerInstance log;
     private IUserSignUpDAO iUserSignUpDAO;
     private ISignUpformRuleService iSignUpformRuleService;
+
 
     public UserSignUpService(@Qualifier("UserSignUpDAO") IUserSignUpDAO userSignUpDAO,
                              @Qualifier("SignUpformRuleService") ISignUpformRuleService signUpformRuleService,
@@ -61,167 +60,6 @@ public class UserSignUpService implements IUserSignUpService {
        return iUserSignUpDAO.getCityList();
     }
 
-    @Override
-    public boolean validUserName(String userName) {
-
-        log.log(0,"In service:validate userName");
-        if(userName!=null && !userName.trim().isEmpty())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
-
-    @Override
-    public boolean validUserCity(Integer cityId) {
-
-        log.log(0,"In service:validate city");
-
-        ArrayList<City> cityArrayList = this.getCityList();
-        for (City city : cityArrayList) {
-            if (city.getCityId()== cityId) {
-                return true;
-            }
-        }
-        return false;
-
-    }
-    @Override
-    public boolean isEmailNull(String email) {
-        log.log(0,"In service:validate email address");
-        if(email!=null && !email.trim().isEmpty())
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-
-    }
-    @Override
-    public boolean validUserEmail(String email)
-    {
-        String regexString = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-        return email.matches(regexString);
-    }
-
-    @Override
-    public boolean isEmailExist(String email) {
-
-        if(iUserSignUpDAO.isEmailExist(email))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
-
-    @Override
-    public boolean ispwdNull(String pwd)
-    {
-        if(pwd!=null && !pwd.trim().isEmpty())
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-
-    }
-
-    @Override
-    public String passwordValidation(String pwd) {
-
-        String errorMessage="";
-        boolean isValid;
-        HashMap<String,Integer> rulesList= iSignUpformRuleService.getRules();
-
-        for (Map.Entry<String, Integer> entry : rulesList.entrySet()) {
-            if(entry.getKey().equals("password_length"))
-            {
-                isValid=pwd.length()>=entry.getValue();
-                if(!isValid)
-                {
-                    errorMessage=errorMessage+"password length should atLeast 8 characters,";
-                }
-            }
-            if (entry.getKey().equals("special_character"))
-            {
-                if(entry.getValue()==1)
-                {
-                    String specialCharacter = "[a-zA-Z0-9 ]*";
-                    isValid =pwd.matches(specialCharacter);
-                    if(isValid)
-                    {
-                        errorMessage=errorMessage+"password should contain atLeast one special character,";
-                    }
-
-                }
-            }
-            if (entry.getKey().equals("capital_letter"))
-            {
-                if(entry.getValue()==1)
-                {
-                    String specialCharacter = ".*[A-Z].*";
-                    isValid =pwd.matches(specialCharacter);
-                    if(!isValid)
-                    {
-                        errorMessage=errorMessage+"password should contain atLeast one upperCase character,";
-                    }
-                }
-
-            }
-            if (entry.getKey().equals("small_letter"))
-            {
-                if(entry.getValue()==1)
-                {
-                    String specialCharacter = ".*[a-z].*";
-                    isValid =pwd.matches(specialCharacter);
-                    if(!isValid)
-                    {
-                        errorMessage=errorMessage+"password should contain atLeast one LowerCase character,";
-                    }
-                }
-            }
-        }
-        //log.log(0,"In service:validate Password");
-        //String password_patter = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@#$%!]).{8,40})";
-        return errorMessage;
-
-    }
-
-    @Override
-    public boolean isConfirmPwdNull(String confirmPwd) {
-        if(confirmPwd!=null && !confirmPwd.trim().isEmpty())
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-
-    }
-
-    @Override
-    public boolean isPasswordMatch(String pwd, String confirmPwd) {
-
-        if(pwd.equals(confirmPwd))
-        {
-            return true;
-        }
-        return false;
-    }
-
 
     @Override
     public String getEncodedString(String originalString) throws UnsupportedEncodingException {
@@ -232,10 +70,73 @@ public class UserSignUpService implements IUserSignUpService {
     }
 
     @Override
-    public boolean validPwd(String pwd) {
+    public HashMap<String, String> signUpFormValidation(User userData) {
 
-        log.log(0,"In service:validate Password");
-        String password_patter = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@#$%!]).{8,40})";
-        return pwd.matches(password_patter);
+        HashMap<String,String> errorMsg= new HashMap<String,String>();
+
+        if(!iSignUpformRuleService.validUserName(userData.getName()))
+        {
+            errorMsg.put("nameError","please enter name");
+        }
+        if(!iSignUpformRuleService.validUserCity(userData.getCity_id()))
+        {
+            errorMsg.put("cityError","please select city");
+
+        }
+        if(iSignUpformRuleService.isEmailNull(userData.getEmail()))
+        {
+            errorMsg.put("emailError","please enter email");
+
+        }
+        else
+        {
+            if(iSignUpformRuleService.isEmailExist(userData.getEmail()))
+            {
+                errorMsg.put("emailError","This email id is already exist");
+
+            }
+            else
+            {
+                if(!iSignUpformRuleService.validUserEmail(userData.getEmail()))
+                {
+                    errorMsg.put("emailError","please enter valid email");
+                }
+            }
+
+        }
+        if(iSignUpformRuleService.ispwdNull(userData.getPassword()))
+        {
+            errorMsg.put("pwdError","please enter Password");
+        }
+        else if (iSignUpformRuleService.passwordValidation(userData.getPassword()).length()>0)
+        {
+            errorMsg.put("pwdError",iSignUpformRuleService.passwordValidation(userData.getPassword()));
+        }
+        if(iSignUpformRuleService.isConfirmPwdNull(userData.getConfirmPassword()))
+        {
+            errorMsg.put("confirmPwdError","please enter confirm password");
+        }
+        else if(!iSignUpformRuleService.isPasswordMatch(userData.getPassword(),userData.getConfirmPassword()))
+        {
+            errorMsg.put("confirmPwdError","password does not match");
+        }
+
+        return errorMsg;
+    }
+
+    @Override
+    public HashMap<String, String> updateProfileFormValidation(User userData) {
+
+        HashMap<String,String> errorMsg= new HashMap<String,String>();
+        if(!iSignUpformRuleService.validUserName(userData.getName()))
+        {
+            errorMsg.put("nameUpdateError","please enter name");
+        }
+        if(!iSignUpformRuleService.validUserCity(userData.getCity_id()))
+        {
+            errorMsg.put("cityUpdateError","please select city");
+
+        }
+        return null;
     }
 }

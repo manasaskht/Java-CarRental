@@ -1,7 +1,7 @@
 package com.group4.carrental.dao.implementation;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -17,6 +17,9 @@ public class LoginDAO implements ILoginDAO {
 
 	private IDatabaseConnection databaseConnection;
 	private LoggerInstance loggerInstance;
+	
+	private final String GET_PASSWORD = "{call getPassword(?)}";
+	private final String GET_USERID = "{call getUserID(?)}";
 
 	@Autowired
 
@@ -25,17 +28,17 @@ public class LoginDAO implements ILoginDAO {
 			this.loggerInstance = loggerInstance;
 		}
 	public String getPassword(String email) {
-		Connection dbconnect;
-		String query = ("select password from User where email='" + email + "';");
-		PreparedStatement st = null;
+		Connection dbconnect=null;
+		CallableStatement callableStatement = null;
 		ResultSet rs = null;
 		String passwordDB = null;
 
 		try {
 			loggerInstance.log(0,"Login DAO Error: ");
 			dbconnect = databaseConnection.getDBConnection();
-			st = dbconnect.prepareStatement(query);
-			rs = st.executeQuery(query);
+			callableStatement = dbconnect.prepareCall(GET_PASSWORD);
+			callableStatement.setString(1,email);
+            rs = callableStatement.executeQuery();
 			while (rs.next()) {
 				passwordDB = rs.getString("password");
 
@@ -48,8 +51,13 @@ public class LoginDAO implements ILoginDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				rs.close();
-				st.close();
+				databaseConnection.closeDBConnection(dbconnect);
+                if(callableStatement != null) {
+                    callableStatement.close();
+                }
+                if(rs != null) {
+                    rs.close();
+                }
 			} catch (SQLException e) {
 				loggerInstance.log(2,"Login DAO Error: "+e.toString());
 				e.printStackTrace();
@@ -63,17 +71,17 @@ public class LoginDAO implements ILoginDAO {
 	@Override
 	public int getUserId(User user) {
 		// TODO Auto-generated method stub
-		Connection dbconnect;
-		String query = ("select user_id from User where email='" + user.getEmail() + "';");
-		PreparedStatement st = null;
+		Connection dbconnect=null;
+		CallableStatement callableStatement = null;
 		ResultSet rs = null;
 		int userId = 0;
 
 		try {
 			loggerInstance.log(0,"Login DAO Error: ");
 			dbconnect = databaseConnection.getDBConnection();
-			st = dbconnect.prepareStatement(query);
-			rs = st.executeQuery(query);
+			callableStatement = dbconnect.prepareCall(GET_USERID);
+			callableStatement.setString(1,user.getEmail());
+            rs = callableStatement.executeQuery();
 			while (rs.next()) {
 				userId = rs.getInt("user_id");
 
@@ -86,8 +94,13 @@ public class LoginDAO implements ILoginDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				rs.close();
-				st.close();
+				databaseConnection.closeDBConnection(dbconnect);
+                if(callableStatement != null) {
+                    callableStatement.close();
+                }
+                if(rs != null) {
+                    rs.close();
+			}
 			} catch (SQLException e) {
 				loggerInstance.log(2,"Login DAO Error: "+e.toString());
 				e.printStackTrace();

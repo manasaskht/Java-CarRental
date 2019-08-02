@@ -5,6 +5,7 @@ import com.group4.carrental.dao.UpdatePasswordDAOMock;
 import com.group4.carrental.model.Password;
 import com.group4.carrental.model.User;
 import com.group4.carrental.service.implementation.LoggerInstance;
+import com.group4.carrental.service.implementation.SignUpformRuleService;
 import com.group4.carrental.service.implementation.UpdatePasswordService;
 import com.group4.carrental.service.implementation.UserSignUpService;
 import org.junit.Before;
@@ -28,7 +29,7 @@ public class UpdatePasswordServiceTest {
     public void setUp(){
         this.updatePasswordDAO = new UpdatePasswordDAOMock();
         this.updatePasswordService = new UpdatePasswordService(updatePasswordDAO,
-                mock(UserSignUpService.class),mock(LoggerInstance.class));
+                mock(UserSignUpService.class),mock(LoggerInstance.class),mock(SignUpformRuleService.class));
 
     }
 

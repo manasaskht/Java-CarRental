@@ -2,7 +2,6 @@ package com.group4.carrental.service.implementation;
 
 import com.group4.carrental.dao.IAdminBlacklistCarsDAO;
 import com.group4.carrental.model.AdminCar;
-import com.group4.carrental.model.Car;
 import com.group4.carrental.model.Email;
 import com.group4.carrental.model.User;
 import com.group4.carrental.service.IAdminBlacklistCarsService;
