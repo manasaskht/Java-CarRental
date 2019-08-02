@@ -11,14 +11,17 @@ public class CarDetailsService implements ICarDetailsService {
 
 
     private ICarDetailsDAO carDetailsDAO;
+    private LoggerInstance loggerInstance;
 
-    public CarDetailsService(@Qualifier("CarDetailsDAO") ICarDetailsDAO carDetailsDAO){
+    public CarDetailsService(@Qualifier("CarDetailsDAO") ICarDetailsDAO carDetailsDAO, LoggerInstance loggerInstance){
         this.carDetailsDAO = carDetailsDAO;
+        this.loggerInstance = loggerInstance;
     }
 
 
     @Override
     public CarList getCarDetailsById(int carId) {
+        loggerInstance.log(0,"Car Details Service - Get Car Details by id - Called");
         return carDetailsDAO.getCarDetailsById(carId);
     }
 }
