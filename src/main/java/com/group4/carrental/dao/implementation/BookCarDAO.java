@@ -8,14 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Repository("BookCarDAO")
 public class BookCarDAO implements IBookCarDAO {
     private IDatabaseConnection databaseConnection;
+    private final String save_CarBooking_Details="{call saveCarBookingDetails(?,?,?,?)}";
 
     @Autowired
     private LoggerInstance log;
@@ -31,23 +29,18 @@ public class BookCarDAO implements IBookCarDAO {
         log.log(0,"In BookCarDAO:saveCarBookingDetails");
         Connection connection = null;
         ResultSet resultSet = null;
-        PreparedStatement saveCarDetailsStmt=null;
+        CallableStatement callableStatement = null;
 
         try {
             connection = databaseConnection.getDBConnection();
-
-            String query = "insert into Booking (customer_id, car_id, from_date, to_date)"
-                    + " values (?, ?, ?, ?)";
-
-
-            saveCarDetailsStmt = connection.prepareStatement(query);
-            saveCarDetailsStmt.setInt(1, carBooking.getUserId());
-            saveCarDetailsStmt.setInt(2, carBooking.getCarId());
-            saveCarDetailsStmt.setString(3, carBooking.getFromDate());
-            saveCarDetailsStmt.setString(4, carBooking.getToDate());
+            callableStatement = connection.prepareCall(save_CarBooking_Details);
+            callableStatement.setInt(1, carBooking.getUserId());
+            callableStatement.setInt(2, carBooking.getCarId());
+            callableStatement.setString(3, carBooking.getFromDate());
+            callableStatement.setString(4, carBooking.getToDate());
 
 
-            saveCarDetailsStmt.execute();
+            callableStatement.execute();
 
         }
         catch (SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
@@ -59,9 +52,9 @@ public class BookCarDAO implements IBookCarDAO {
                 if(resultSet != null){
                     resultSet.close();
                 }
-                if(saveCarDetailsStmt!=null)
+                if(callableStatement!=null)
                 {
-                    saveCarDetailsStmt.close();
+                    callableStatement.close();
                 }
                 databaseConnection.closeDBConnection(connection);
             } catch (SQLException e) {
