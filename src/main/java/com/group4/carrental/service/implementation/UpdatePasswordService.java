@@ -2,6 +2,7 @@ package com.group4.carrental.service.implementation;
 
 import com.group4.carrental.dao.IUpdatePasswordDAO;
 import com.group4.carrental.model.Password;
+import com.group4.carrental.service.ISignUpformRuleService;
 import com.group4.carrental.service.IUpdatePasswordService;
 import com.group4.carrental.service.IUserSignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,15 @@ public class UpdatePasswordService implements IUpdatePasswordService {
     private IUpdatePasswordDAO updatePasswordDAO;
     private IUserSignUpService userSignUpService;
     private LoggerInstance loggerInstance;
+    private ISignUpformRuleService iSignUpformRuleService;
 
     @Autowired
     public UpdatePasswordService(@Qualifier("UpdatePasswordDAO") IUpdatePasswordDAO updatePasswordDAO,
-                                 @Qualifier("UserSignUpService") IUserSignUpService userSignUpService,LoggerInstance loggerInstance){
+                                 @Qualifier("UserSignUpService") IUserSignUpService userSignUpService,LoggerInstance loggerInstance,
+                                 @Qualifier("SignUpformRuleService") ISignUpformRuleService signUpformRuleService){
         this.updatePasswordDAO = updatePasswordDAO;
         this.userSignUpService = userSignUpService;
+        this.iSignUpformRuleService=signUpformRuleService;
         this.loggerInstance = loggerInstance;
     }
 
@@ -36,14 +40,14 @@ public class UpdatePasswordService implements IUpdatePasswordService {
     @Override
     public boolean isPasswordNull(String password) {
         loggerInstance.log(0,"User Service Password Null Check: Called");
-        return  userSignUpService.ispwdNull(password);
+        return  iSignUpformRuleService.ispwdNull(password);
     }
 
 
     @Override
     public boolean isPasswordMatch(String password, String confirmPassword){
         loggerInstance.log(0,"User Service Password Match: Called");
-        return  userSignUpService.isPasswordMatch(password,confirmPassword);
+        return  iSignUpformRuleService.isPasswordMatch(password,confirmPassword);
 
     }
 
@@ -72,7 +76,7 @@ public class UpdatePasswordService implements IUpdatePasswordService {
     @Override
     public boolean validatePassword(String password) {
         loggerInstance.log(0,"User Service Password Validator: Called");
-        return userSignUpService.validPwd(password);
+        return iSignUpformRuleService.validPwd(password);
 
     }
 

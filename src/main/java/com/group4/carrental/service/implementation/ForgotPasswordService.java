@@ -3,6 +3,7 @@ package com.group4.carrental.service.implementation;
 import java.io.UnsupportedEncodingException;
 
 import com.group4.carrental.service.ILoginService;
+import com.group4.carrental.service.ISignUpformRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,19 @@ public class ForgotPasswordService implements IForgotPasswordService {
 	
 	private IUserSignUpService userSignUpService;
 	private IForgotPasswordDAO ForgotPasswordDAO;
+	private ISignUpformRuleService iSignUpformRuleService;
 	private ILoginService loginService;
 	private LoggerInstance log;
 	
 	@Autowired
-    public ForgotPasswordService(@Qualifier("UserSignUpService") IUserSignUpService userSignUpService,@Qualifier("ForgotPasswordDAO") IForgotPasswordDAO ForgotPasswordDAO,@Qualifier("LoginService") ILoginService loginService,LoggerInstance log){
+    public ForgotPasswordService(@Qualifier("UserSignUpService") IUserSignUpService userSignUpService,@Qualifier("ForgotPasswordDAO") IForgotPasswordDAO ForgotPasswordDAO,@Qualifier("LoginService") ILoginService loginService,LoggerInstance log, @Qualifier("SignUpformRuleService") ISignUpformRuleService signUpformRuleService){
         
         this.userSignUpService = userSignUpService;
         this.ForgotPasswordDAO=ForgotPasswordDAO;
         this.loginService=loginService;
         this.log=log;
+        this.iSignUpformRuleService=signUpformRuleService;
+
     }
 
 	@Override
@@ -105,7 +109,7 @@ public class ForgotPasswordService implements IForgotPasswordService {
 	 @Override
 	    public boolean isPasswordNull(String password) {
 		 log.log(0,"  Usersignup service to check if passwords is null or not  : Called");
-	        return  userSignUpService.ispwdNull(password);
+	        return  iSignUpformRuleService.ispwdNull(password);
 	    }
 	 @Override
 	    public String getEncodedString(String originalString) throws UnsupportedEncodingException {
@@ -120,19 +124,19 @@ public class ForgotPasswordService implements IForgotPasswordService {
 	 @Override
 	    public boolean validatePassword(String password) {
 		 log.log(0,"  Usersignup service to check if passwords is valid  or not  : Called");
-	        return userSignUpService.validPwd(password);
+	        return iSignUpformRuleService.validPwd(password);
 
 	    }
 	@Override
 	public boolean isPasswordMatch(String password,String confirm_password) {
 		log.log(0,"  Usersignup service to check if passwords matched or not  : Called");
-		return userSignUpService.isPasswordMatch(password,confirm_password);
+		return iSignUpformRuleService.isPasswordMatch(password,confirm_password);
 
 	}
 	@Override
 	public boolean isConfirmPwdNull(String confirm_password) {
 		log.log(0,"  Usersignup service to check if confirmpwd is null or not  : Called");
-		return userSignUpService.isConfirmPwdNull(confirm_password);
+		return iSignUpformRuleService.isConfirmPwdNull(confirm_password);
 
 	}
 }

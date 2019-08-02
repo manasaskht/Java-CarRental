@@ -34,13 +34,13 @@
                         <div class="form-group">
                             <label for="name">Name:</label>
                             <input type="text" class="form-control" id="name" name="name"  value="<%=user!=null?user.getName():""%>" required>
-                            <p style="color: red">${nameError}</p>
+                            <p style="color: red">${errorMsg.nameError}</p>
                         </div>
 
                         <div class="form-group">
                             <label for="email">E-mail Address</label>
                             <input type="email" name="email" id="email" class="form-control"  value="<%=user!=null?user.getEmail():""%>" required>
-                            <p style="color: red">${emailError}</p>
+                            <p style="color: red">${errorMsg.emailError}</p>
                         </div>
                         <div class="form-group">
                             <label for="city">City:</label>
@@ -52,18 +52,18 @@
                                 <option value="<%=cityArrayList.get(temp).getCityId()%>"><%=cityArrayList.get(temp).getCityName()%></option>
                                 <%}}%>
                             </select>
-                            <p style="color: red">${cityError}</p>
+                            <p style="color: red">${errorMsg.cityError}</p>
 
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input class="form-control" id="password" type="password" name="password"  value="<%=user!=null?user.getPassword():""%>" required>
-                            <p style="color: red">${pwdError}</p>
+                            <p style="color: red">${errorMsg.pwdError}</p>
                         </div>
                         <div class="form-group">
                             <label for="confirmPassword">Confirm Password</label>
                             <input class="form-control" id="confirmPassword" type="password" name="confirmPassword" value="<%=user!=null?user.getConfirmPassword():""%>" required>
-                            <p style="color: red">${confirmPwdError}</p>
+                            <p style="color: red">${errorMsg.confirmPwdError}</p>
 
                         </div>
 
