@@ -2,6 +2,7 @@ package com.group4.carrental.service.implementation;
 
 import org.springframework.stereotype.Service;
 
+/* reference: design patterns lecture samples */
 @Service
 public class LoggerInstance {
 
@@ -15,8 +16,6 @@ public class LoggerInstance {
 		logger.setNextLogger(errorLogger);
 		WarningLogger warnLogger = new WarningLogger();
 		errorLogger.setNextLogger(warnLogger);
-		FatalLogger fatalLogger = new FatalLogger();
-		warnLogger.setNextLogger(fatalLogger);
 	}
 	
 	public static LoggerInstance getInstance() {
