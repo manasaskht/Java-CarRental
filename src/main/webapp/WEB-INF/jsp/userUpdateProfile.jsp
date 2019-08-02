@@ -6,7 +6,7 @@
 %>
 <%@ page import="com.group4.carrental.model.City" %>
 
-<% User user = new User();
+<% User user;
    user=request.getAttribute("userData")!=null?(User) request.getAttribute("userData"):null;
     ArrayList<City> cityArrayList= new ArrayList<City>();
     if (request!=null) {
@@ -63,7 +63,7 @@
                         <div class="form-group">
                             <label for="name">Name:</label>
                             <input type="text" class="form-control" id="name" name="name"  value="<%=user.getName()%>">
-                            <p style="color: red">${nameUpdateError}</p>
+                            <p style="color: red">${errorMsg.nameUpdateError}</p>
                         </div>
 
                         <div class="form-group">
@@ -76,7 +76,7 @@
                                 <option value="<%=cityArrayList.get(temp).getCityId()%>"><%=cityArrayList.get(temp).getCityName()%></option>
                                 <%}}%>
                             </select>
-                            <p style="color: red">${cityUpdateError}</p>
+                            <p style="color: red">${errorMsg.cityUpdateError}</p>
 
                         </div>
                         <br/>

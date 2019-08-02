@@ -1,5 +1,6 @@
 package com.group4.carrental.controllers;
 
+import com.group4.carrental.authentication.Authentication;
 import com.group4.carrental.model.*;
 import com.group4.carrental.service.IBookCarService;
 import com.group4.carrental.service.implementation.LoggerInstance;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpSession;
 public class PaymentController {
 
     private IBookCarService iBookCarService;
+    private Authentication authentication = Authentication.getInstance();
+
     @Autowired
     private LoggerInstance log;
     @Autowired
@@ -28,24 +31,23 @@ public class PaymentController {
     @PostMapping("/paymentPage")
     public String paymentPage(HttpSession httpSession, Model model,@ModelAttribute("CarBooking") CarBooking carBooking)
     {
-        log.log(0,"In controller:load PaymentPage");
-        int user_id = 0;
-        try {
-            user_id = (int) httpSession.getAttribute("user_id");
-        }catch (NullPointerException exception){
 
+        if(authentication.isValidUserSession(httpSession)) {
+            int user_id = (int) httpSession.getAttribute("user_id");
+            User userData = iBookCarService.getUserDetails(user_id);
+            Car carData = iBookCarService.getCarDetailsbyId(carBooking.getCarId());
+            double totalRent = iBookCarService.calculateTotalRent(carBooking.getFromDate(), carBooking.getToDate(), carData.getCarRate());
+            carBooking.setUserId(user_id);
+            model.addAttribute("totalRent", totalRent);
+            model.addAttribute("userData", userData);
+            model.addAttribute("carData", carData);
+            model.addAttribute("bookingData", carBooking);
+            return "paymentPage";
+        }
+        else
+        {
             return "redirect:login";
         }
-
-        User userData= iBookCarService.getUserDetails(user_id);
-        Car carData= iBookCarService.getCarDetailsbyId(carBooking.getCarId());
-        double totalRent=iBookCarService.calculateTotalRent(carBooking.getFromDate(),carBooking.getToDate(),carData.getCarRate());
-        carBooking.setUserId(user_id);
-        model.addAttribute("totalRent",totalRent);
-        model.addAttribute("userData",userData);
-        model.addAttribute("carData",carData);
-        model.addAttribute("bookingData",carBooking);
-        return "paymentPage";
     }
 
     @PostMapping("/bookCar")

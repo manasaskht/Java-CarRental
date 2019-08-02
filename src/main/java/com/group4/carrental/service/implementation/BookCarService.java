@@ -32,11 +32,13 @@ public class BookCarService implements IBookCarService {
                           @Qualifier("UserSignUpService") IUserSignUpService userSignUpService,
                           @Qualifier("PaymentValidationService")IPaymentValidationService paymentValidationService,
                           @Qualifier("SendMailService") ISendMailService sendMailService,
-                          @Qualifier("CarRentService") ICarRentService carRentService)
+                          @Qualifier("CarRentService") ICarRentService carRentService,LoggerInstance loggerInstance)
+
     {
         this.iUserSignUpService=userSignUpService;
         this.iPaymentValidationService=paymentValidationService;
         this.iBookCarDAO=bookCarDAO;
+        this.log=loggerInstance;
         this.iSendMailService = sendMailService;
         this.iCarRentService=carRentService;
     }
