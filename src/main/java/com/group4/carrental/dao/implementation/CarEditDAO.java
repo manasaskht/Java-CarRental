@@ -4,11 +4,9 @@ import com.group4.carrental.connection.IDatabaseConnection;
 import com.group4.carrental.dao.ICarEditDAO;
 import com.group4.carrental.model.Car;
 import com.group4.carrental.service.implementation.LoggerInstance;
-import jdk.vm.ci.code.site.Call;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.*;
 
