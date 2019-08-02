@@ -96,9 +96,6 @@ public class UserSignUpController
             int user_id = (int) httpSession.getAttribute("user_id");
             user.setUserId(user_id);
             HashMap<String, String> errorMsgMap = iUserSignUpService.updateProfileFormValidation(user);
-            if(errorMsgMap == null){
-                System.out.println("thi is null");
-            }
             model.addAttribute("userData", user);
 
             if (errorMsgMap == null) {
