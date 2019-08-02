@@ -1,9 +1,7 @@
 package com.group4.carrental.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;	
-import java.util.Date;
 import com.group4.carrental.dao.implementation.LoggerDao;
 
 /* ref: design patterns lecture samples */
@@ -11,19 +9,10 @@ import com.group4.carrental.dao.implementation.LoggerDao;
 public abstract class LoggerService {
 	LoggerDao loggerDao = new LoggerDao();
 
-	/*
-	 * private LoggerDao loggerDao ;
-	 * 
-	 * @Autowired public LoggerService(@Qualifier("LoggerDao")LoggerDao loggerDao ){
-	 * this.loggerDao = loggerDao;
-	 * 
-	 * }
-	 */
-
 	public static final int INFO = 0;
 	public static final int WARN = 1;
 	public static final int ERROR = 2;
-	public static final int FATAL = 3;
+	
 	SimpleDateFormat formatter;
 	protected int logLevel;
 	protected LoggerService nextLogger;
