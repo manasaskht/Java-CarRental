@@ -1,13 +1,15 @@
 package com.group4.carrental.service.implementation;
 
 import org.springframework.stereotype.Service;
-import java.text.SimpleDateFormat;	
+import java.text.SimpleDateFormat;
+import com.group4.carrental.dao.ILoggerDAO;
 import com.group4.carrental.dao.implementation.LoggerDao;
 
-/* ref: design patterns lecture samples */
+/* reference: design patterns lecture samples */
+
 @Service("LoggerService")
 public abstract class LoggerService {
-	LoggerDao loggerDao = new LoggerDao();
+	ILoggerDAO loggerDao = new LoggerDao();
 
 	public static final int INFO = 0;
 	public static final int WARN = 1;

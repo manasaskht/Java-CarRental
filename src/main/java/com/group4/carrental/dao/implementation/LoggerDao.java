@@ -7,9 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.stereotype.Repository;
 import com.group4.carrental.connection.implementation.DatabaseConnection;
+import com.group4.carrental.dao.ILoggerDAO;
 
 @Repository("LoggerDao")
-public class LoggerDao {
+public class LoggerDao implements ILoggerDAO {
 	 DatabaseConnection databaseConnection = new DatabaseConnection() ;
 	 private final String Logging="{call Logging(?,?,?)}";
 	Date currentLoggerTime;
