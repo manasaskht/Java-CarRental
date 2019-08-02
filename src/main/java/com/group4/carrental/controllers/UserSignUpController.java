@@ -98,7 +98,7 @@ public class UserSignUpController
             HashMap<String, String> errorMsgMap = iUserSignUpService.updateProfileFormValidation(user);
             model.addAttribute("userData", user);
 
-            if (errorMsgMap.size() == 0) {
+            if (errorMsgMap == null) {
                 iUserSignUpService.updateUserProfileDetails(user);
                 model.addAttribute("errorMsg", errorMsgMap);
                 return "redirect:/homePage";
